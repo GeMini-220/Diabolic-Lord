@@ -1,0 +1,178 @@
+[gd_resource type="Resource" load_steps=27 format=3 uid="uid://djig52rnheww4"]
+
+[ext_resource type="Texture2D" uid="uid://bwu5ye0vatx75" path="res://Image/Healer-A2-Sheet.png" id="1_7yfkm"]
+[ext_resource type="AudioStream" uid="uid://doe0tqmnjxids" path="res://audio/Cure1.wav" id="2_1fa0y"]
+[ext_resource type="Script" path="res://src/BaseEnemy.gd" id="2_57ylr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lifet"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxxrw"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmqg1"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtgk1"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sxoge"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tn0k7"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enx3y"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehyvu"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y83nm"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(128, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vk438"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(144, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugvgt"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(160, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6alo"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(176, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ny7o7"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(192, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcb3y"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(208, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbsna"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(224, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dorfi"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(240, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_id01h"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(256, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yk01w"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(272, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmtbd"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(288, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oni8p"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(304, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psu23"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(320, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nveug"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(336, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8svcj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lifet")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxxrw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mmqg1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qtgk1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sxoge")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tn0k7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enx3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ehyvu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y83nm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vk438")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugvgt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6alo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ny7o7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcb3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbsna")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dorfi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_id01h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yk01w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmtbd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oni8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_psu23")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nveug")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 12.0
+}]
+
+[resource]
+script = ExtResource("2_57ylr")
+name = "Cleric"
+animation = SubResource("SpriteFrames_8svcj")
+health = 20
+current_health = 20
+damage = 10
+speed = 40
+actions = ["attack", "heal"]
+audio = ExtResource("2_1fa0y")

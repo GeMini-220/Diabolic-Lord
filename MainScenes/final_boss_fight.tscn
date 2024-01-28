@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtopbwc4ydvo0"]
+
+[ext_resource type="Texture2D" uid="uid://c4og50dgejriu" path="res://icon.svg" id="1_25gni"]
+[ext_resource type="Texture2D" uid="uid://bq5wcowlx4v6" path="res://Image/glorp.webp" id="2_o68ge"]
+
+[node name="FinalBossFight" type="Node2D"]
+
+[node name="Noles" type="Sprite2D" parent="."]
+position = Vector2(1006.75, 113.25)
+scale = Vector2(1.01172, 1.02734)
+texture = ExtResource("2_o68ge")
+
+[node name="Jacks" type="Sprite2D" parent="."]
+position = Vector2(234, 129)
+scale = Vector2(1.01144, 1.03205)
+texture = ExtResource("1_25gni")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Jacks"]
+offset_left = 143.36
+offset_top = 194.758
+offset_right = 236.36
+offset_bottom = 218.758
+text = "aM gLoRp"
+
+[node name="Glorp" type="Sprite2D" parent="."]
+position = Vector2(196, 437)
+scale = Vector2(2.82813, 2.71875)
+texture = ExtResource("2_o68ge")
