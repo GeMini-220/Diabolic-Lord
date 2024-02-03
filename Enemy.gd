@@ -14,10 +14,6 @@ var DOT = 0
 func _ready():
 	self.visible = false
 
-func _physics_process(delta):
-	# Add the gravity.
-	pass
-
 func get_ready():
 	self.visible = true
 	battle.set_health($ProgressBar, enemy.health, enemy.health)
@@ -56,7 +52,6 @@ func play_animation():
 	$AnimatedSprite2D.play("attack")
 	await $AnimatedSprite2D.animation_finished
 	$AudioStreamPlayer2D.play()
-
 
 func _on_button_pressed():
 	battle.target = self

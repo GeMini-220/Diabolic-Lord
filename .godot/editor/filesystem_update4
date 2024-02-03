@@ -7,3 +7,6 @@ res://src/Cleric.tres
 res://src/Mage.tres
 res://src/enemy.tscn
 res://src/battle.gd
+res://src/State.gd
+res://DemonLordGame.gd
+res://new_script.gd
