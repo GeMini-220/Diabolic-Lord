@@ -4,7 +4,7 @@ signal action_taken
 signal target_selected
 @export var characters = {}
 var all_enemies
-var num_of_enemies = 5
+var num_of_enemies = 4
 var enemies
 var all_characters
 var is_defending = false
@@ -30,7 +30,7 @@ func _ready():
 	for i in len(enemies):
 		enemies[i].get_ready()
 		enemies[i].position = Vector2(screen_resolution.x / (num_of_enemies + 1) * (i + 1), screen_resolution.y / 2)
-	print(enemies[0].scale)
+		# temporary alignment of enemies
 	
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()

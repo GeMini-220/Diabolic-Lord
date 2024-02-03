@@ -4,6 +4,10 @@
 [ext_resource type="AudioStream" uid="uid://doe0tqmnjxids" path="res://audio/Cure1.wav" id="2_1fa0y"]
 [ext_resource type="Script" path="res://src/BaseEnemy.gd" id="2_57ylr"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_lifet"]
+atlas = ExtResource("1_7yfkm")
+region = Rect2(0, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_lxxrw"]
 atlas = ExtResource("1_7yfkm")
 region = Rect2(16, 0, 16, 16)
@@ -11,10 +15,6 @@ region = Rect2(16, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_mmqg1"]
 atlas = ExtResource("1_7yfkm")
 region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lifet"]
-atlas = ExtResource("1_7yfkm")
-region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qtgk1"]
 atlas = ExtResource("1_7yfkm")
@@ -96,13 +96,13 @@ region = Rect2(336, 0, 16, 16)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_lifet")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_lxxrw")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mmqg1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lifet")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qtgk1")
