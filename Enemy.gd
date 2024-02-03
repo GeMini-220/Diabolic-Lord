@@ -10,11 +10,16 @@ var actions
 var current_action
 var audio
 var DOT = 0
+
+func _ready():
+	self.visible = false
+
 func _physics_process(delta):
 	# Add the gravity.
 	pass
 
 func get_ready():
+	self.visible = true
 	battle.set_health($ProgressBar, enemy.health, enemy.health)
 	$AnimatedSprite2D.sprite_frames = enemy.animation
 	$AudioStreamPlayer2D.stream = enemy.audio

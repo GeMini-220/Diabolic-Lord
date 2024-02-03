@@ -3,6 +3,8 @@ signal textbox_closed
 signal action_taken
 signal target_selected
 @export var characters = {}
+var all_enemies
+var num_of_enemies = 5
 var enemies
 var all_characters
 var is_defending = false
@@ -18,12 +20,17 @@ func _ready():
 	$DemonLord.play("idle")
 	$BGMusic.play()
 	
-	enemies = $Enemies.get_children()
+	all_enemies = $Enemies.get_children()
+	enemies = choose_random_enemies(all_enemies, num_of_enemies)
+	
 	all_characters = enemies.duplicate()
 	all_characters.append($DemonLord)
 	
-	for enemy in enemies:
-		enemy.get_ready()
+	var screen_resolution = get_tree().root.content_scale_size # (1152, 648)
+	for i in len(enemies):
+		enemies[i].get_ready()
+		enemies[i].position = Vector2(screen_resolution.x / (num_of_enemies + 1) * (i + 1), screen_resolution.y / 2)
+	print(enemies[0].scale)
 	
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
@@ -39,6 +46,10 @@ func set_health(progress_bar, health, max_health):
 	progress_bar.value = health
 	progress_bar.max_value = max_health
 	progress_bar.get_node("Label").text = "HP: %d/%d" % [health, max_health]
+
+func choose_random_enemies(enem, num):
+	enem.shuffle()
+	return enem.slice(0, num)
 
 func check_win():
 	for enemy in enemies:
@@ -163,7 +174,7 @@ func process():
 				await enemy_turn(character)
 			else:
 				var next = i + 1
-				while next < turn_order.size() and turn_order[next].current_health == 0:
+				while next < turn_order.size() and turn_order[next].name != 'DemonLord' and turn_order[next].current_health == 0:
 					next = next + 1
 				if next < turn_order.size():
 					display_text("The next character taking action is %s" % turn_order[next].name)
