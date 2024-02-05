@@ -478,6 +478,8 @@ enemy = ExtResource("6_3x1co")
 position = Vector2(998, 429)
 enemy = ExtResource("7_p8u0v")
 
+[node name="CurrentEnemies" type="Node" parent="."]
+
 [node name="DemonLord" type="AnimatedSprite2D" parent="."]
 position = Vector2(576, 343)
 scale = Vector2(14, 14)

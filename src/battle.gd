@@ -4,7 +4,7 @@ signal action_taken
 signal target_selected
 @export var characters = {}
 var all_enemies
-var num_of_enemies = 4
+var num_of_enemies = 5
 var enemies
 var all_characters
 var is_defending = false
@@ -15,14 +15,14 @@ var second_phase = false
 var target = null
 
 func _ready():
+	randomize()
 	set_health($PlayerPanel/ProgressBar, State.max_health, State.max_health)
 	
 	$DemonLord.play("idle")
 	$BGMusic.play()
 	
-	all_enemies = $Enemies.get_children()
+	all_enemies = $Enemies.get_children()	
 	enemies = choose_random_enemies(all_enemies, num_of_enemies)
-	
 	all_characters = enemies.duplicate()
 	all_characters.append($DemonLord)
 	
@@ -48,8 +48,14 @@ func set_health(progress_bar, health, max_health):
 	progress_bar.get_node("Label").text = "HP: %d/%d" % [health, max_health]
 
 func choose_random_enemies(enem, num):
-	enem.shuffle()
-	return enem.slice(0, num)
+	for e in $CurrentEnemies.get_children():
+		e.queue_free()
+	var new_enemies = []
+	for i in num:
+		var new_enemy = enem[randi() % enem.size()].duplicate()
+		$CurrentEnemies.add_child(new_enemy, true)
+		new_enemies.append(new_enemy)
+	return new_enemies
 
 func check_win():
 	for enemy in enemies:
