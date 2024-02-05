@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://cmm365jef52ho"]
+[gd_scene load_steps=69 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_054st"]
 [ext_resource type="Resource" uid="uid://ijiac1r710yp" path="res://src/Fighter.tres" id="2_ke75m"]
@@ -6,7 +6,6 @@
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="3_yhprg"]
 [ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="4_5xv3o"]
 [ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://src/enemy.tscn" id="5_aboou"]
-[ext_resource type="Resource" uid="uid://bl8lqjm2q317l" path="res://src/Rogue.tres" id="6_3x1co"]
 [ext_resource type="Resource" uid="uid://djig52rnheww4" path="res://src/Cleric.tres" id="7_4kpph"]
 [ext_resource type="Resource" uid="uid://dywgcsu2hj36k" path="res://src/Mage.tres" id="7_p8u0v"]
 [ext_resource type="Texture2D" uid="uid://bqgttrqxpwnl4" path="res://Image/Demon-Animated-1-Sheet.png" id="8_fa8s8"]
@@ -463,19 +462,18 @@ texture = ExtResource("3_fuxh1")
 [node name="Enemies" type="Node" parent="."]
 
 [node name="Fighter" parent="Enemies" instance=ExtResource("5_aboou")]
-position = Vector2(170, 424)
+position = Vector2(168, 246)
 enemy = ExtResource("2_ke75m")
 
 [node name="Cleric" parent="Enemies" instance=ExtResource("5_aboou")]
-position = Vector2(168, 252)
+position = Vector2(168, 429)
 enemy = ExtResource("7_4kpph")
 
 [node name="Rogue" parent="Enemies" instance=ExtResource("5_aboou")]
-position = Vector2(1000, 252)
-enemy = ExtResource("6_3x1co")
+position = Vector2(1000, 246)
 
 [node name="Mage" parent="Enemies" instance=ExtResource("5_aboou")]
-position = Vector2(998, 429)
+position = Vector2(1000, 429)
 enemy = ExtResource("7_p8u0v")
 
 [node name="DemonLord" type="AnimatedSprite2D" parent="."]

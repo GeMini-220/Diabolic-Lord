@@ -1,10 +1,9 @@
-res://src/battle.gd
-res://src/battle.tscn
+res://MainScenes/final_boss_fight.tscn
 res://src/BaseEnemy.gd
 res://Enemy.gd
 res://src/Fighter.tres
 res://src/Rogue.tres
 res://src/Cleric.tres
 res://src/Mage.tres
-res://MainScenes/final_boss_fight.tscn
+res://src/battle.tscn
 res://src/enemy.tscn
