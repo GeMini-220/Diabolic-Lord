@@ -7,3 +7,4 @@ res://src/Cleric.tres
 res://src/Mage.tres
 res://src/battle.tscn
 res://src/enemy.tscn
+res://src/battle.gd

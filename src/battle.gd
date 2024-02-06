@@ -199,6 +199,7 @@ func enemy_stun(enemy):
 			await self.textbox_closed
 
 #func enemy_shield(enemy):
+	# couldn't get this to work in a satisfying way
 	#display_text("The %s casts magical wards!" % enemy.name)
 	#await self.textbox_closed
 	#var shielding = floor(randf_range(0.5, 1.5) * enemy.magic)
@@ -325,14 +326,6 @@ func select_enemy():
 	for enemy in enemies:
 		if not enemy.is_hiding:
 			enemy.get_node("Button").show()
-	#await get_tree().create_timer(5.0).timeout
-	#if target == null:
-		#var target_number = randi() % enemies.size()
-		#target = enemies[target_number]
-		#display_text("You took too long to decide.")
-		#await self.textbox_closed
-		#display_text("A demon lord should not hesitate!")
-		#await self.textbox_closed
 	await self.target_selected
 	
 func stop_selecting():
