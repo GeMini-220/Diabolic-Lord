@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="OneBossLeft"
-run/main_scene="res://src/battle.tscn"
+run/main_scene="res://MainScenes/start_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 

@@ -1,6 +1,14 @@
 CollisionShape2D
 AudioStreamPlayer2D
+VBoxContainer
+HBoxContainer
 Button
+Label
+ConfirmationDialog
+Control
+MarginContainer
+TextureRect
+AudioStreamPlayer2D
 AudioListener2D
 CharacterBody2D
 AnimatedSprite2D
