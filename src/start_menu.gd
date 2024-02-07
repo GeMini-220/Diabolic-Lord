@@ -1,6 +1,6 @@
 extends Control
 
-@onready var battle_scene = preload("res://src/battle.tscn") as PackedScene
+@onready var battle_scene = preload("res://MainScenes/battle.tscn") as PackedScene
 @onready var confirmation_dialog = $ConfirmationDialog
 
 func _on_start_new_game_pressed():

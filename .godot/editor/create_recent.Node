@@ -1,3 +1,4 @@
+TextureButton
 VBoxContainer
 HBoxContainer
 Button
@@ -11,4 +12,3 @@ AudioListener2D
 CharacterBody2D
 AnimatedSprite2D
 Node
-AnimationPlayer

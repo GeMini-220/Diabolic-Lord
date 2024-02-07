@@ -13,7 +13,7 @@ var second_phase = false
 var target = null
 
 func _ready():
-	set_health($PlayerPanel/ProgressBar, State.max_health, State.max_health)
+	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 	
 	$DemonLord.play("idle")
 	$BGMusic.play()
@@ -200,7 +200,7 @@ func end_game():
 		await self.textbox_closed
 		display_text("The End.")
 		await self.textbox_closed
-	#get_tree().quit()
+	get_tree().change_scene_to_file("res://MainScenes/campfire.tscn")
 
 func display_text(text):
 	if $ActionsPanel.visible:

@@ -1,186 +1,186 @@
 [gd_scene load_steps=70 format=3 uid="uid://cmm365jef52ho"]
 
-[ext_resource type="Script" path="res://src/battle.gd" id="1_054st"]
-[ext_resource type="Resource" uid="uid://ijiac1r710yp" path="res://src/Fighter.tres" id="2_ke75m"]
-[ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="3_fuxh1"]
-[ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="3_yhprg"]
-[ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="4_5xv3o"]
-[ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://src/enemy.tscn" id="5_aboou"]
-[ext_resource type="Resource" uid="uid://bl8lqjm2q317l" path="res://src/Rogue.tres" id="6_3x1co"]
-[ext_resource type="Resource" uid="uid://djig52rnheww4" path="res://src/Cleric.tres" id="7_4kpph"]
-[ext_resource type="Resource" uid="uid://dywgcsu2hj36k" path="res://src/Mage.tres" id="7_p8u0v"]
-[ext_resource type="Texture2D" uid="uid://bqgttrqxpwnl4" path="res://Image/Demon-Animated-1-Sheet.png" id="8_fa8s8"]
-[ext_resource type="AudioStream" uid="uid://dlf1lmjy4bg3x" path="res://audio/Blackmoor_Colossus_Loop.wav" id="11_yhcha"]
-[ext_resource type="AudioStream" uid="uid://cais5n0j5tw3m" path="res://audio/fout-01.wav" id="12_hr4s8"]
-[ext_resource type="AudioStream" uid="uid://b2yvtc61ct3p4" path="res://audio/fout-02.wav" id="13_fc86f"]
-[ext_resource type="AudioStream" uid="uid://bvwrth2sp64uj" path="res://audio/fout-03.wav" id="14_3jhtn"]
+[ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
+[ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
+[ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://MainScenes/enemy.tscn" id="3_bsfho"]
+[ext_resource type="Resource" uid="uid://ijiac1r710yp" path="res://src/Fighter.tres" id="4_ky74l"]
+[ext_resource type="Resource" uid="uid://djig52rnheww4" path="res://src/Cleric.tres" id="5_avpfh"]
+[ext_resource type="Resource" uid="uid://bl8lqjm2q317l" path="res://src/Rogue.tres" id="6_0r1s1"]
+[ext_resource type="Resource" uid="uid://dywgcsu2hj36k" path="res://src/Mage.tres" id="7_luad1"]
+[ext_resource type="Texture2D" uid="uid://bqgttrqxpwnl4" path="res://Image/Demon-Animated-1-Sheet.png" id="8_axo2t"]
+[ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="9_5fkrt"]
+[ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="10_o7qsd"]
+[ext_resource type="AudioStream" uid="uid://dlf1lmjy4bg3x" path="res://audio/Blackmoor_Colossus_Loop.wav" id="11_qbwgk"]
+[ext_resource type="AudioStream" uid="uid://cais5n0j5tw3m" path="res://audio/fout-01.wav" id="12_hjm0n"]
+[ext_resource type="AudioStream" uid="uid://b2yvtc61ct3p4" path="res://audio/fout-02.wav" id="13_810fw"]
+[ext_resource type="AudioStream" uid="uid://bvwrth2sp64uj" path="res://audio/fout-03.wav" id="14_i752q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xcjfb"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_brsas"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sbof2"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2eblu"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8fbr1"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fn5kq"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ghdn8"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m2txc"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(224, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a3uek"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(256, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nc7sh"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(288, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q4pid"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(320, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v0mxd"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(352, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sg0x8"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(384, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_53njo"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(416, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b36kl"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(448, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_niv0a"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(480, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1rwmm"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(512, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3mtr0"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(544, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fp11w"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(576, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kxvvp"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(608, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5c46a"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(640, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_evs2h"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(672, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ne4o2"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(704, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i87jw"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(736, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_igu1l"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(768, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w48sy"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(800, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ln1u1"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(832, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fhe20"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(864, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tffh2"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(896, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0d4re"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(928, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aqxjr"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(960, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ror3c"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(992, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ns1g4"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(1024, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0eg3v"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(1056, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xq1ie"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(1088, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a8u0u"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(1120, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_st8q4"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(1152, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vxegv"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(1184, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6u2qv"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(1216, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_louen"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(1248, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ue76a"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(1280, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7l0u1"]
-atlas = ExtResource("8_fa8s8")
+atlas = ExtResource("8_axo2t")
 region = Rect2(1312, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_o3t5s"]
@@ -451,32 +451,32 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_054st")
+script = ExtResource("1_xbk6v")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 0
 offset_top = 1.0
 offset_right = 1152.0
 offset_bottom = 649.0
-texture = ExtResource("3_fuxh1")
+texture = ExtResource("2_i5jaq")
 
 [node name="Enemies" type="Node" parent="."]
 
-[node name="Fighter" parent="Enemies" instance=ExtResource("5_aboou")]
+[node name="Fighter" parent="Enemies" instance=ExtResource("3_bsfho")]
 position = Vector2(170, 424)
-enemy = ExtResource("2_ke75m")
+enemy = ExtResource("4_ky74l")
 
-[node name="Cleric" parent="Enemies" instance=ExtResource("5_aboou")]
+[node name="Cleric" parent="Enemies" instance=ExtResource("3_bsfho")]
 position = Vector2(168, 252)
-enemy = ExtResource("7_4kpph")
+enemy = ExtResource("5_avpfh")
 
-[node name="Rogue" parent="Enemies" instance=ExtResource("5_aboou")]
+[node name="Rogue" parent="Enemies" instance=ExtResource("3_bsfho")]
 position = Vector2(1000, 252)
-enemy = ExtResource("6_3x1co")
+enemy = ExtResource("6_0r1s1")
 
-[node name="Mage" parent="Enemies" instance=ExtResource("5_aboou")]
+[node name="Mage" parent="Enemies" instance=ExtResource("3_bsfho")]
 position = Vector2(998, 429)
-enemy = ExtResource("7_p8u0v")
+enemy = ExtResource("7_luad1")
 
 [node name="DemonLord" type="AnimatedSprite2D" parent="."]
 position = Vector2(576, 343)
@@ -512,7 +512,7 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_yhprg")
+theme_override_fonts/font = ExtResource("9_5fkrt")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
@@ -527,7 +527,7 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_yhprg")
+theme_override_fonts/font = ExtResource("9_5fkrt")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
@@ -542,7 +542,7 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_yhprg")
+theme_override_fonts/font = ExtResource("9_5fkrt")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
@@ -578,7 +578,7 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_yhprg")
+theme_override_fonts/font = ExtResource("9_5fkrt")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
@@ -593,7 +593,7 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_yhprg")
+theme_override_fonts/font = ExtResource("9_5fkrt")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
@@ -608,7 +608,7 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_yhprg")
+theme_override_fonts/font = ExtResource("9_5fkrt")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
@@ -623,7 +623,7 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_yhprg")
+theme_override_fonts/font = ExtResource("9_5fkrt")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
@@ -653,7 +653,7 @@ offset_right = -26.0
 offset_bottom = -26.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("4_5xv3o")
+theme_override_fonts/font = ExtResource("10_o7qsd")
 theme_override_font_sizes/font_size = 32
 text = "The KNIGHT approaches!"
 autowrap_mode = 3
@@ -671,7 +671,7 @@ offset_right = -17.0
 offset_bottom = -9.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("3_yhprg")
+theme_override_fonts/font = ExtResource("9_5fkrt")
 theme_override_font_sizes/font_size = 32
 text = ">"
 
@@ -701,7 +701,7 @@ alignment = 1
 [node name="Label" type="Label" parent="PlayerPanel/PlayerData"]
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_fonts/font = ExtResource("3_yhprg")
+theme_override_fonts/font = ExtResource("9_5fkrt")
 theme_override_font_sizes/font_size = 52
 text = "DEMON LORD"
 vertical_alignment = 1
@@ -729,7 +729,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_yhprg")
+theme_override_fonts/font = ExtResource("9_5fkrt")
 theme_override_font_sizes/font_size = 33
 text = "HP: 25/50"
 horizontal_alignment = 1
@@ -744,16 +744,16 @@ libraries = {
 anchor_mode = 0
 
 [node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("11_yhcha")
+stream = ExtResource("11_qbwgk")
 
 [node name="SpellSound1" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("12_hr4s8")
+stream = ExtResource("12_hjm0n")
 
 [node name="SpellSound2" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("13_fc86f")
+stream = ExtResource("13_810fw")
 
 [node name="SpellSound3" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("14_3jhtn")
+stream = ExtResource("14_i752q")
 
 [connection signal="pressed" from="ActionsPanel/Actions/Spells" to="." method="_on_spells_pressed"]
 [connection signal="pressed" from="ActionsPanel/Actions/Defend" to="." method="_on_defend_pressed"]

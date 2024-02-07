@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://4hjr3fcl6odq"]
+
+[ext_resource type="Script" path="res://src/Campfire.gd" id="1_32l6o"]
+[ext_resource type="Texture2D" uid="uid://bq5wcowlx4v6" path="res://Image/glorp.webp" id="2_41n1c"]
+
+[node name="Campfire" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_32l6o")
+
+[node name="Embark" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 754.0
+offset_top = 147.0
+offset_right = 930.0
+offset_bottom = 303.0
+tooltip_text = "Embark and face any who dare challenge you"
+texture_normal = ExtResource("2_41n1c")
+
+[node name="MainMenu" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 228.0
+offset_top = 193.0
+offset_right = 344.0
+offset_bottom = 324.0
+tooltip_text = "Return to the main menu"
+texture_normal = ExtResource("2_41n1c")
+
+[connection signal="pressed" from="Embark" to="." method="_on_embark_pressed"]
+[connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]

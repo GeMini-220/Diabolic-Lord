@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://dv2ejdyrw8bpk"]
 
-[ext_resource type="Script" path="res://Enemy.gd" id="1_ix17e"]
-[ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="3_we2sv"]
+[ext_resource type="Script" path="res://src/Enemy.gd" id="1_spwfs"]
+[ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="2_3bq10"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vvd32"]
 
@@ -76,7 +76,7 @@ _data = {
 }
 
 [node name="Enemy" type="CharacterBody2D"]
-script = ExtResource("1_ix17e")
+script = ExtResource("1_spwfs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(8.14286, 3.57143)
@@ -114,7 +114,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_we2sv")
+theme_override_fonts/font = ExtResource("2_3bq10")
 theme_override_font_sizes/font_size = 24
 text = "HP: 25/50"
 horizontal_alignment = 1
