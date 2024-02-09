@@ -6,4 +6,7 @@ res://src/Rogue.tres
 res://src/Cleric.tres
 res://src/Mage.tres
 res://src/battle.gd
+res://MainScenes/start_menu.tscn
+res://MainScenes/final_boss_fight.tscn
 res://src/enemy.tscn
+res://src/start_menu.gd
