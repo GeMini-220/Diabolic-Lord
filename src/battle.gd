@@ -13,8 +13,8 @@ var second_phase = false
 var target = null
 
 func _ready():
+	#If not level 1 then set_health using load_player_data
 	set_health($PlayerPanel/ProgressBar, State.max_health, State.max_health)
-	
 	$DemonLord.play("idle")
 	$BGMusic.play()
 	
@@ -200,6 +200,8 @@ func end_game():
 		await self.textbox_closed
 		display_text("The End.")
 		await self.textbox_closed
+		#CALL SAVE AT END OF WINNING GAME
+		State.save_player_data()
 	#get_tree().quit()
 
 func display_text(text):
@@ -306,3 +308,6 @@ func _on_infernal_affliction_pressed():
 func _on_back_pressed():
 	$ActionsPanel.show()
 	$SpellsPanel.hide()
+
+
+
