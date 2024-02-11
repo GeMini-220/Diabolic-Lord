@@ -157,7 +157,7 @@ func enemy_help(enemy):
 	if help_target == null:
 		await enemy_attack(enemy)
 	else:
-		help_target.DOT = max(0, help_target.DOT - 2)
+		help_target.DOT = max(0, help_target.DOT - 5)
 		display_text("The %s is saving %s from their infernal prison!" % [enemy.name, help_target.name])
 		await self.textbox_closed
 		await enemy.play_animation("attack")
@@ -188,7 +188,7 @@ func enemy_stun(enemy):
 		display_text("Your minion took the attack for you!")
 		await self.textbox_closed
 	else:
-		if randi() % 20 <= enemy.magic:
+		if randi() % 60 <= enemy.magic:
 			stunned = true
 			$AnimationPlayer.play("shake")
 			display_text("You're stunned!")
