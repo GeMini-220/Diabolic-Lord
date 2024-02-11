@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cggfbn8j8eug1"
-path="res://.godot/imported/08.png-38ce64835737f7e3c953828396a4f0e8.ctex"
+uid="uid://b4ctmxfb1rrh7"
+path="res://.godot/imported/SaveLoad-Hover.png-46cc58b9db67e85718afe3f045833924.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Image/08.png"
-dest_files=["res://.godot/imported/08.png-38ce64835737f7e3c953828396a4f0e8.ctex"]
+source_file="res://Image/campfire/SaveLoad-Hover.png"
+dest_files=["res://.godot/imported/SaveLoad-Hover.png-46cc58b9db67e85718afe3f045833924.ctex"]
 
 [params]
 

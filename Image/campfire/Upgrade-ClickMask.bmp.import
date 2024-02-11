@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://dcyygrqnawjmu"
+path="res://.godot/imported/Upgrade-ClickMask.bmp-3073ead9db088d7276c3241e717fc3fb.res"
+
+[deps]
+
+source_file="res://Image/campfire/Upgrade-ClickMask.bmp"
+dest_files=["res://.godot/imported/Upgrade-ClickMask.bmp-3073ead9db088d7276c3241e717fc3fb.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

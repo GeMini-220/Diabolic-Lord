@@ -19,5 +19,6 @@ var Characters ={
 }
 var current_health = 666
 var max_health = 666
-var damage = 100
+var damage = 10
 var speed = 25
+var currentBattle = 0

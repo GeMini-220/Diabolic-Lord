@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://bi3elswmvcwu5"
+path="res://.godot/imported/SaveLoad-ClickMask.bmp-950746891ff4ee023b5ef21c5e5d5f05.res"
+
+[deps]
+
+source_file="res://Image/campfire/SaveLoad-ClickMask.bmp"
+dest_files=["res://.godot/imported/SaveLoad-ClickMask.bmp-950746891ff4ee023b5ef21c5e5d5f05.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

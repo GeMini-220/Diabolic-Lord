@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://bgg88kmnjbt53"
+path="res://.godot/imported/Embark-ClickMask.bmp-e434d0e438c0c7a966a14095f7515e53.res"
+
+[deps]
+
+source_file="res://Image/campfire/Embark-ClickMask.bmp"
+dest_files=["res://.godot/imported/Embark-ClickMask.bmp-e434d0e438c0c7a966a14095f7515e53.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

@@ -1,7 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://4hjr3fcl6odq"]
+[gd_scene load_steps=12 format=3 uid="uid://4hjr3fcl6odq"]
 
 [ext_resource type="Script" path="res://src/Campfire.gd" id="1_32l6o"]
-[ext_resource type="Texture2D" uid="uid://bq5wcowlx4v6" path="res://Image/glorp.webp" id="2_41n1c"]
+[ext_resource type="Texture2D" uid="uid://dyp8gqxrnk6ll" path="res://Image/campfire/BG-static.png" id="2_vqedm"]
+[ext_resource type="Texture2D" uid="uid://ddlaaurvyor1o" path="res://Image/campfire/Embark.png" id="3_shs40"]
+[ext_resource type="Texture2D" uid="uid://d1bvrbqwotu74" path="res://Image/campfire/Embark-Hover.png" id="4_jrjvi"]
+[ext_resource type="BitMap" uid="uid://bgg88kmnjbt53" path="res://Image/campfire/Embark-ClickMask.bmp" id="4_picgc"]
+[ext_resource type="Texture2D" uid="uid://dye4u5pdsmifs" path="res://Image/campfire/SaveLoad.png" id="5_rlh2e"]
+[ext_resource type="Texture2D" uid="uid://b4ctmxfb1rrh7" path="res://Image/campfire/SaveLoad-Hover.png" id="6_gje46"]
+[ext_resource type="BitMap" uid="uid://bi3elswmvcwu5" path="res://Image/campfire/SaveLoad-ClickMask.bmp" id="6_h4rq7"]
+[ext_resource type="Texture2D" uid="uid://dt5ru7n7du5yi" path="res://Image/campfire/Upgrade.png" id="7_alfhd"]
+[ext_resource type="Texture2D" uid="uid://cjwf6oqv1k4ce" path="res://Image/campfire/Upgrade-Hover.png" id="8_1p5o3"]
+[ext_resource type="BitMap" uid="uid://dcyygrqnawjmu" path="res://Image/campfire/Upgrade-ClickMask.bmp" id="8_kcuar"]
 
 [node name="Campfire" type="Control"]
 layout_mode = 3
@@ -12,23 +21,41 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_32l6o")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("2_vqedm")
+expand_mode = 2
+
 [node name="Embark" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 754.0
-offset_top = 147.0
-offset_right = 930.0
-offset_bottom = 303.0
+offset_right = 1152.0
+offset_bottom = 648.0
 tooltip_text = "Embark and face any who dare challenge you"
-texture_normal = ExtResource("2_41n1c")
+texture_normal = ExtResource("3_shs40")
+texture_hover = ExtResource("4_jrjvi")
+texture_click_mask = ExtResource("4_picgc")
+stretch_mode = 5
 
 [node name="MainMenu" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 228.0
-offset_top = 193.0
-offset_right = 344.0
-offset_bottom = 324.0
+offset_right = 1152.0
+offset_bottom = 648.0
 tooltip_text = "Return to the main menu"
-texture_normal = ExtResource("2_41n1c")
+texture_normal = ExtResource("5_rlh2e")
+texture_hover = ExtResource("6_gje46")
+texture_click_mask = ExtResource("6_h4rq7")
+stretch_mode = 5
+
+[node name="Upgrade" type="TextureButton" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+texture_normal = ExtResource("7_alfhd")
+texture_hover = ExtResource("8_1p5o3")
+texture_click_mask = ExtResource("8_kcuar")
+stretch_mode = 4
 
 [connection signal="pressed" from="Embark" to="." method="_on_embark_pressed"]
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
