@@ -13,8 +13,8 @@ var stunned = false
 var Boss_damage = State.damage
 
 func _ready():
-	set_health($PlayerPanel/ProgressBar, State.max_health, State.max_health)
-	
+	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
+	State.currentBattle += 1
 	$DemonLord.play("idle")
 	$BGMusic.play()
 	
@@ -232,7 +232,7 @@ func player_turn(player):
 	# Implement the player's turn logic here
 	if not stunned:
 		update_tooltip()
-		print("my turn! draw!")
+		# print("my turn! draw!")
 		$ActionsPanel.show()
 		await self.action_taken
 	else:
@@ -308,18 +308,22 @@ func end_game():
 		await self.textbox_closed
 		display_text("For now.")
 		await self.textbox_closed
+		get_tree().change_scene_to_file("res://MainScenes/start_menu.tscn")
 	else:
 		display_text("Against your unstoppable might, the heroes have lost.")
 		await self.textbox_closed
-		display_text("The world will see a dark age under your rule.")
-		await self.textbox_closed
-		display_text("The living will suffer, and the dead will rise.")
-		await self.textbox_closed
-		display_text("And that is...")
-		await self.textbox_closed
-		display_text("The End.")
-		await self.textbox_closed
-	get_tree().quit()
+		if State.currentBattle >= 15:
+			display_text("The world will see a dark age under your rule.")
+			await self.textbox_closed
+			display_text("The living will suffer, and the dead will rise.")
+			await self.textbox_closed
+			display_text("And that is...")
+			await self.textbox_closed
+			display_text("The End.")
+			await self.textbox_closed
+			get_tree().change_scene_to_file("res://MainScenes/start_menu.tscn")
+		else:
+			get_tree().change_scene_to_file("res://MainScenes/campfire.tscn")
 
 func display_text(text):
 	if $ActionsPanel.visible:

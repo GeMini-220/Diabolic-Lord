@@ -1,6 +1,6 @@
 [gd_scene load_steps=120 format=3 uid="uid://dv2ejdyrw8bpk"]
 
-[ext_resource type="Script" path="res://Enemy.gd" id="1_ix17e"]
+[ext_resource type="Script" path="res://src/Enemy.gd" id="1_ix17e"]
 [ext_resource type="Resource" uid="uid://bl8lqjm2q317l" path="res://src/Rogue.tres" id="2_fuon7"]
 [ext_resource type="Texture2D" uid="uid://boxxhq1y7l886" path="res://Image/Rogue-A2-Sheet.png" id="3_mnfxh"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="3_we2sv"]
