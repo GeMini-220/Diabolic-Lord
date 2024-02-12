@@ -434,3 +434,6 @@ func _on_infernal_affliction_pressed():
 func _on_back_pressed():
 	$ActionsPanel.show()
 	$SpellsPanel.hide()
+
+
+
