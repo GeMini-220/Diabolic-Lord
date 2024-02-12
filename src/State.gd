@@ -1,6 +1,5 @@
 extends Node
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -10,12 +9,12 @@ func _ready():
 func _process(delta):
 	pass
 
-var current_health = 666
-var max_health = 666
-var damage = 30
-var speed = 25
-var magic = 25
-var currentBattle = 0
+var current_health
+var max_health
+var damage
+var speed
+var magic
+var currentBattle
 
 # SAVE/ LOAD information
 var FILE_PATH = "user://player_save_data.save"
@@ -26,10 +25,21 @@ func get_player_save_data() -> Dictionary:
 		"current_health": current_health,
 		"max_health": max_health,
 		"damage": damage,
-		"speed": speed
-    "magic": magic
-    "currentBattle": currentBattle
+		"speed": speed,
+		"magic": magic,
+		"currentBattle": currentBattle,
 	}
+
+func initialize_player_data() -> void:
+	var new_player_data = {
+		"current_health": 666,
+		"max_health": 666,
+		"damage": 30,
+		"speed": 25,
+		"magic": 25,
+		"currentBattle": 0,
+	}
+	apply_player_data(new_player_data)
 
 #Saving: Call save_player_data() at appropriate moments, such as after completing a level or during specific autosave points.
 func save_player_data() -> void:
@@ -43,8 +53,6 @@ func save_player_data() -> void:
 	else:
 		print("Failed to save player data.")
 
-
-
 #Loading: Call load_player_data() when the game starts, when a new level is loaded, or when the player loads a saved game.
 func load_player_data() -> void:
 	var file = FileAccess.open_encrypted_with_pass(FILE_PATH, FileAccess.READ, PASSKEY)
@@ -55,12 +63,12 @@ func load_player_data() -> void:
 		var json = JSON.new()
 		var result = json.parse(json_string)  # Parse the JSON string back into a Dictionary
 		
-		if result.error == 0:
-			var player_data = result.result  # The parsed Dictionary
+		if result == 0:
+			var player_data = json.data  # The parsed Dictionary
 			print("Player data loaded successfully.")
 			apply_player_data(player_data)
 		else:
-			print("Failed to parse player data: ", result.error)
+			print("Failed to parse player data: ", result)
 	else:
 		print("Failed to open encrypted player data file.")
 
@@ -70,6 +78,6 @@ func apply_player_data(player_data: Dictionary) -> void:
 	max_health = player_data["max_health"]
 	damage = player_data["damage"]
 	speed = player_data["speed"]
-  magic = player_data["magic"]
-  currentBattle = player_data[currentBattle]
+	magic = player_data["magic"]
+	currentBattle = player_data["currentBattle"]
 	# Update any other player state or UI elements as necessary

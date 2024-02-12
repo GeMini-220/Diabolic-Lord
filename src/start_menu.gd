@@ -4,8 +4,12 @@ extends Control
 @onready var confirmation_dialog = $ConfirmationDialog
 
 func _on_start_new_game_pressed():
+	State.initialize_player_data()
 	get_tree().change_scene_to_packed(battle_scene)
 
+func _on_load_game_pressed():
+	State.load_player_data()
+	get_tree().change_scene_to_file("res://MainScenes/campfire.tscn")
 
 func _on_quit_game_pressed():
 	confirmation_dialog.popup()  
