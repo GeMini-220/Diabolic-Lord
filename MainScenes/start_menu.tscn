@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bt0p0f1doph00"]
 
-[ext_resource type="Script" path="res://start_menu1.gd" id="1_d83p7"]
 [ext_resource type="Texture2D" uid="uid://u06ai6t8fqc2" path="res://Image/battleback1.png" id="1_l2ec1"]
+[ext_resource type="Script" path="res://src/start_menu.gd" id="1_yf0g8"]
 [ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="2_wgoxx"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="3_7t56n"]
 
@@ -12,7 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_d83p7")
+script = ExtResource("1_yf0g8")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
