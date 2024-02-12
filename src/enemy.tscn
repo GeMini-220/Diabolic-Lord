@@ -861,7 +861,16 @@ scale = Vector2(14, 14)
 sprite_frames = SubResource("SpriteFrames_vvd32")
 animation = &"new_animation"
 
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -70.0
+offset_top = -84.0
+offset_right = 70.0
+offset_bottom = 56.0
+
 [node name="Button" type="Button" parent="."]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

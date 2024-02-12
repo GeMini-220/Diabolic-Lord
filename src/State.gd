@@ -13,3 +13,4 @@ var current_health = 666
 var max_health = 666
 var damage = 30
 var speed = 25
+var magic = 25

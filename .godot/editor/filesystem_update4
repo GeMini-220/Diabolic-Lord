@@ -1,12 +1,12 @@
-res://MainScenes/start_menu.tscn
+res://src/battle.tscn
 res://src/BaseEnemy.gd
-res://src/Fighter.tres
 res://Enemy.gd
+res://src/Fighter.tres
 res://src/Rogue.tres
 res://src/Cleric.tres
 res://src/Mage.tres
-res://src/State.gd
 res://src/battle.gd
 res://MainScenes/final_boss_fight.tscn
-res://src/battle.tscn
 res://src/enemy.tscn
+res://MainScenes/start_menu.tscn
+res://src/State.gd

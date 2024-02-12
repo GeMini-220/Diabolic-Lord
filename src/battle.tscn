@@ -483,6 +483,7 @@ sprite_frames = SubResource("SpriteFrames_o3t5s")
 animation = &"idle"
 
 [node name="ActionsPanel" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -572,6 +573,7 @@ alignment = 1
 [node name="Attack" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Basic attack, deals %s damage to one target."
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -587,6 +589,7 @@ Fury"
 [node name="dreadforge" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Increases your damage by 50% for the remainder of the battle."
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -602,6 +605,7 @@ Empowerment"
 [node name="InfernalAffliction" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns."
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -629,6 +633,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
 text = "Back"
 
 [node name="Textbox" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5

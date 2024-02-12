@@ -34,6 +34,11 @@ func _ready():
 	display_text("This is the final battle!")
 	await self.textbox_closed
 	await process()
+	
+func update_tooltip():
+	$SpellsPanel/Spells/Attack.tooltip_text = "Basic attack, deals %s damage to one target." % floor(Boss_damage)
+	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increases your damage by %s%% for the remainder of the battle." % State.magic
+	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
 
 func set_health(progress_bar, health, max_health):
 	progress_bar.value = health
@@ -171,11 +176,12 @@ func enemy_help(enemy):
 func enemy_rally(enemy):
 	var target_number = randi() % enemies.size()
 	var rally_target = enemies[target_number]
-	rally_target.damage += floor(enemy.magic / 2)
+	rally_target.damage += floor(rally_target.damage * (enemy.magic / 100.0))
 	display_text("The %s is rallying and encouraging its allies!" % enemy.name)
 	await self.textbox_closed
 	display_text("The %s's damage has increased!" % rally_target.name)
 	await self.textbox_closed
+	rally_target.create_tooltip()
 	
 func enemy_stun(enemy):
 	display_text("The %s tries to concuss you!" % enemy.name)
@@ -225,6 +231,7 @@ func enemy_hide(enemy):
 func player_turn(player):
 	# Implement the player's turn logic here
 	if not stunned:
+		update_tooltip()
 		print("my turn! draw!")
 		$ActionsPanel.show()
 		await self.action_taken
