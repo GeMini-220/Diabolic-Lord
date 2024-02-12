@@ -1,3 +1,5 @@
+TextureButton
+TextureRect
 VBoxContainer
 HBoxContainer
 Button
@@ -5,10 +7,8 @@ Label
 ConfirmationDialog
 Control
 MarginContainer
-TextureRect
 AudioStreamPlayer2D
 AudioListener2D
 CharacterBody2D
 AnimatedSprite2D
 Node
-AnimationPlayer
