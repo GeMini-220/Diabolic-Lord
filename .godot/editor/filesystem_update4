@@ -1,14 +1,11 @@
-res://MainScenes/final_boss_fight.tscn
+res://MainScenes/campfire.tscn
 res://src/BaseEnemy.gd
 res://src/Fighter.tres
 res://src/Cleric.tres
 res://src/Rogue.tres
 res://src/Mage.tres
+res://src/State.gd
+res://MainScenes/final_boss_fight.tscn
 res://MainScenes/battle.tscn
 res://MainScenes/enemy.tscn
 res://MainScenes/start_menu.tscn
-res://MainScenes/campfire.tscn
-res://MainScenes/scence_changer.tscn
-res://src/start_menu.gd
-res://start_menu1.gd
-res://Scence_Changer.gd

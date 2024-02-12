@@ -1,6 +1,3 @@
-AnimationPlayer
-ColorRect
-CanvasLayer
 TextureButton
 TextureRect
 VBoxContainer
@@ -13,3 +10,5 @@ MarginContainer
 AudioStreamPlayer2D
 AudioListener2D
 CharacterBody2D
+AnimatedSprite2D
+Node
