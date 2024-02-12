@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://cmm365jef52ho"]
+[gd_scene load_steps=69 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
@@ -463,19 +463,19 @@ texture = ExtResource("2_i5jaq")
 [node name="Enemies" type="Node" parent="."]
 
 [node name="Fighter" parent="Enemies" instance=ExtResource("3_bsfho")]
-position = Vector2(170, 424)
+position = Vector2(168, 246)
 enemy = ExtResource("4_ky74l")
 
 [node name="Cleric" parent="Enemies" instance=ExtResource("3_bsfho")]
-position = Vector2(168, 252)
+position = Vector2(168, 429)
 enemy = ExtResource("5_avpfh")
 
 [node name="Rogue" parent="Enemies" instance=ExtResource("3_bsfho")]
-position = Vector2(1000, 252)
+position = Vector2(1000, 246)
 enemy = ExtResource("6_0r1s1")
 
 [node name="Mage" parent="Enemies" instance=ExtResource("3_bsfho")]
-position = Vector2(998, 429)
+position = Vector2(1000, 429)
 enemy = ExtResource("7_luad1")
 
 [node name="DemonLord" type="AnimatedSprite2D" parent="."]
@@ -485,6 +485,7 @@ sprite_frames = SubResource("SpriteFrames_o3t5s")
 animation = &"idle"
 
 [node name="ActionsPanel" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -574,6 +575,7 @@ alignment = 1
 [node name="Attack" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Basic attack, deals %s damage to one target."
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -589,6 +591,7 @@ Fury"
 [node name="dreadforge" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Increases your damage by 50% for the remainder of the battle."
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -604,6 +607,7 @@ Empowerment"
 [node name="InfernalAffliction" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns."
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -631,6 +635,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
 text = "Back"
 
 [node name="Textbox" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -716,9 +721,9 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_fnmc7")
 theme_override_styles/fill = SubResource("StyleBoxFlat_gqvec")
-max_value = 750.0
+max_value = 1000.0
 step = 1.0
-value = 750.0
+value = 1000.0
 show_percentage = false
 
 [node name="Label" type="Label" parent="PlayerPanel/ProgressBar"]

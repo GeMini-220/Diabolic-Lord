@@ -6,11 +6,11 @@ signal target_selected
 var enemies
 var all_characters
 var is_defending = false
-var in_action = false
-var Boss_damage = State.damage
 var game_over = false
 var second_phase = false
 var target = null
+var stunned = false
+var Boss_damage = State.damage
 
 func _ready():
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
@@ -34,6 +34,11 @@ func _ready():
 	display_text("This is the final battle!")
 	await self.textbox_closed
 	await process()
+	
+func update_tooltip():
+	$SpellsPanel/Spells/Attack.tooltip_text = "Basic attack, deals %s damage to one target." % floor(Boss_damage)
+	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increases your damage by %s%% for the remainder of the battle." % State.magic
+	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
 
 func set_health(progress_bar, health, max_health):
 	progress_bar.value = health
@@ -51,13 +56,13 @@ func check_win():
 
 func enemy_turn(enemy):
 	await enemy.turn()
-	
 	if enemy.DOT > 0:
 		await enemy.took_damage(enemy.DOT)
 	if enemy.dead:
 		display_text("The %s burned to death!" % enemy.name)
 		await self.textbox_closed
 		enemies.erase(enemy)
+		target = null
 		await check_win()
 	else:
 		match enemy.current_action:
@@ -65,19 +70,37 @@ func enemy_turn(enemy):
 				await enemy_attack(enemy)
 			"heal":
 				await enemy_heal(enemy)
+			"help":
+				await enemy_help(enemy)
+			"block":
+				await enemy_block(enemy)
+			"rally":
+				await enemy_rally(enemy)
+			"stun":
+				await enemy_stun(enemy)
+			#"shield":
+				#await enemy_shield(enemy)
+			"hide":
+				await enemy_hide(enemy)
 
 func enemy_attack(enemy):
+	if enemy.is_hiding:
+		display_text("The %s reveals themselves!" % enemy.name)
+		await self.textbox_closed
+		await enemy.play_animation_player("reveal")
+		enemy.modifier += 1
+		enemy.is_hiding = false
 	display_text("The %s attacks!" % enemy.name)
 	await self.textbox_closed
-	await enemy.play_animation()
-			
+	await enemy.play_animation("attack")
+	
 	if is_defending:
 		is_defending = false
 		$AnimationPlayer.play("mini_shake")
 		display_text("Your minion took the attack for you!")
 		await self.textbox_closed
 	else:
-		var final_damage = floor(randf_range(0.5, 1.5) * enemy.damage)
+		var final_damage = floor(randf_range(0.5 + enemy.modifier, 1.5 + enemy.modifier) * enemy.damage)
 		State.current_health = max(0, State.current_health - final_damage)
 		set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 		
@@ -98,6 +121,7 @@ func enemy_attack(enemy):
 			await self.textbox_closed
 			display_text("Your damage has increased!")
 			await self.textbox_closed
+	enemy.modifier = 0
 
 func enemy_heal(enemy):
 	var lowest_health = 100
@@ -112,19 +136,109 @@ func enemy_heal(enemy):
 		display_text("The %s is healing the %s!" % [enemy.name, heal_target.name])
 		await self.textbox_closed
 		
-		await enemy.play_animation()
+		await enemy.play_animation("attack")
 		
-		var healing = floor(randf_range(0.5, 1.5) * enemy.damage)
+		var healing = floor(randf_range(0.5, 1.5) * enemy.magic)
 		heal_target.recieve_healing(healing)
 		
 		display_text("The %s healed the %s for %s!" % [enemy.name, heal_target.name, healing])
 		await self.textbox_closed
 
+func enemy_block(enemy):
+	target = enemy
+	display_text("The %s is defending their allies!" % enemy.name)
+	await self.textbox_closed
+	await enemy.play_animation("attack")
+	display_text("The %s is going to take the next attack!" % enemy.name)
+	await self.textbox_closed
+	
+func enemy_help(enemy):
+	var highest_dot = 0
+	var help_target
+	for ally in enemies:
+		if (not ally.dead) and (ally.DOT > highest_dot):
+			highest_dot = ally.DOT
+			help_target = ally
+	if help_target == null:
+		await enemy_attack(enemy)
+	else:
+		help_target.DOT = max(0, help_target.DOT - 5)
+		display_text("The %s is saving %s from their infernal prison!" % [enemy.name, help_target.name])
+		await self.textbox_closed
+		await enemy.play_animation("attack")
+		if help_target.DOT == 0:
+			display_text("The %s won't take damage on its turns anymore!" % help_target.name)
+			await self.textbox_closed
+		else:
+			display_text("The %s will only take %s damage on each of its turns!" % [help_target.name, help_target.DOT])
+			await self.textbox_closed
+
+func enemy_rally(enemy):
+	var target_number = randi() % enemies.size()
+	var rally_target = enemies[target_number]
+	rally_target.damage += floor(rally_target.damage * (enemy.magic / 100.0))
+	display_text("The %s is rallying and encouraging its allies!" % enemy.name)
+	await self.textbox_closed
+	display_text("The %s's damage has increased!" % rally_target.name)
+	await self.textbox_closed
+	rally_target.create_tooltip()
+	
+func enemy_stun(enemy):
+	display_text("The %s tries to concuss you!" % enemy.name)
+	await self.textbox_closed
+	await enemy.play_animation("attack")
+	
+	if is_defending:
+		is_defending = false
+		$AnimationPlayer.play("mini_shake")
+		display_text("Your minion took the attack for you!")
+		await self.textbox_closed
+	else:
+		if randi() % 60 <= enemy.magic:
+			stunned = true
+			$AnimationPlayer.play("shake")
+			display_text("You're stunned!")
+			await self.textbox_closed
+		else:
+			$AnimationPlayer.play("mini_shake")
+			display_text("You resist the stun!")
+			await self.textbox_closed
+
+#func enemy_shield(enemy):
+	# couldn't get this to work in a satisfying way
+	#display_text("The %s casts magical wards!" % enemy.name)
+	#await self.textbox_closed
+	#var shielding = floor(randf_range(0.5, 1.5) * enemy.magic)
+	#for ally in enemies:
+		#if not ally.dead:
+			#ally.recieve_shielding(shielding)
+	#display_text("Everyone is now shielded!")
+	#await self.textbox_closed
+	
+func enemy_hide(enemy):
+	if enemy.is_hiding == false:
+		enemy.is_hiding = true
+		display_text("The %s is hiding!" % enemy.name)
+		await self.textbox_closed
+		enemy.play_animation_player("hide")
+		display_text("The %s can no longer be targetted!" % enemy.name)
+		await self.textbox_closed
+	else:
+		display_text("The %s is biding their time!" % enemy.name)
+		await self.textbox_closed
+		enemy.modifier +=1
+
 func player_turn(player):
 	# Implement the player's turn logic here
-	# print("my turn! draw!")
-	$ActionsPanel.show()
-	await self.action_taken
+	if not stunned:
+		update_tooltip()
+		# print("my turn! draw!")
+		$ActionsPanel.show()
+		await self.action_taken
+	else:
+		display_text("You're stunned! Your turn will be skipped.")
+		await self.textbox_closed
+		stunned = false
 	# Wait for the player to press the attack button
 	# Player attacks adventurers
 	# Add any other actions the player should take during their turn
@@ -163,12 +277,17 @@ func process():
 				await enemy_turn(character)
 			else:
 				var next = i + 1
-				while next < turn_order.size() and turn_order[next].current_health == 0:
+				var current_health
+				if next < turn_order.size():
+					if turn_order[next].name == 'DemonLord':
+						current_health = State.current_health
+					else:
+						current_health = turn_order[next].current_health
+				while next < turn_order.size() and current_health == 0:
 					next = next + 1
 				if next < turn_order.size():
 					display_text("The next character taking action is %s" % turn_order[next].name)
 					await self.textbox_closed
-				
 				$ActionsPanel.show()
 				await player_turn(character)
 			if game_over:
@@ -179,7 +298,7 @@ func process():
 		end_game()
 
 func end_game():
-	$PlayerPanel.hide()
+	$PlayerPanel.visible = false
 	if State.current_health == 0:
 		display_text("Against all odds, the heroes have won.")
 		await self.textbox_closed
@@ -216,15 +335,8 @@ func select_enemy():
 	display_text("Select a target.")
 	await self.textbox_closed
 	for enemy in enemies:
-		enemy.get_node("Button").show()
-	#await get_tree().create_timer(5.0).timeout
-	#if target == null:
-		#var target_number = randi() % enemies.size()
-		#target = enemies[target_number]
-		#display_text("You took too long to decide.")
-		#await self.textbox_closed
-		#display_text("A demon lord should not hesitate!")
-		#await self.textbox_closed
+		if not enemy.is_hiding:
+			enemy.get_node("Button").show()
 	await self.target_selected
 	
 func stop_selecting():
@@ -258,13 +370,22 @@ func _on_dread_forge_pressed():
 func _on_attack_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
+	var enemy_defending = false
+	if target == null:
+		await select_enemy()
+	else:
+		display_text("The %s rushed in to defend their allies!" % target.name)
+		await self.textbox_closed
+		enemy_defending = true
 	
+	#var final_damage = State.damage
 	var final_damage = randf_range(0.5, 1.5) * Boss_damage
 	if is_defending == true:
 		final_damage *= 0.5
+	if enemy_defending == true:
+		final_damage *= 0.75
 	final_damage = floor(final_damage)
 	
-	await select_enemy()
 	$SpellSound1.play()
 	await target.took_damage(final_damage)
 	display_text("You shoot out a dark magical blast!")
@@ -276,7 +397,6 @@ func _on_attack_pressed():
 	if target.dead:
 		display_text("You killed the %s!" % target.name)
 		await self.textbox_closed
-		#enemies.remove_at(target_number)
 		enemies.erase(target)
 		await check_win()
 	target = null
@@ -296,7 +416,11 @@ func _on_infernal_affliction_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 	
-	await select_enemy()
+	if target == null:
+		await select_enemy()
+	else:
+		display_text("The %s rushed in to defend its allies!" % target.name)
+		await self.textbox_closed
 	
 	target.DOT += floor(Boss_damage / 3)
 	$SpellSound3.play()

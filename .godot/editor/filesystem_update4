@@ -1,11 +1,5 @@
-res://MainScenes/campfire.tscn
-res://src/BaseEnemy.gd
-res://src/Fighter.tres
-res://src/Cleric.tres
-res://src/Rogue.tres
-res://src/Mage.tres
-res://src/State.gd
+res://src/enemy.tscn
 res://MainScenes/final_boss_fight.tscn
-res://MainScenes/battle.tscn
-res://MainScenes/enemy.tscn
+res://src/BaseEnemy.gd
+res://src/Rogue.tres
 res://MainScenes/start_menu.tscn
