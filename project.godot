@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-State="*res://src/State.gd"
+ScenceChanger="*res://MainScenes/scence_changer.tscn"
 
 [display]
 
