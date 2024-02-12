@@ -323,6 +323,7 @@ func end_game():
 			await self.textbox_closed
 			get_tree().change_scene_to_file("res://MainScenes/start_menu.tscn")
 		else:
+			State.save_player_data()
 			get_tree().change_scene_to_file("res://MainScenes/campfire.tscn")
 
 func display_text(text):
