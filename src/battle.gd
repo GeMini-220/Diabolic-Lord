@@ -11,6 +11,7 @@ var second_phase = false
 var target = null
 var stunned = false
 var Boss_damage = State.damage
+var household_passive_active = true
 
 func _ready():
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
@@ -290,6 +291,7 @@ func process():
 					await self.textbox_closed
 				$ActionsPanel.show()
 				await player_turn(character)
+				await household_passive()
 			if game_over:
 				break
 		display_text("End of round")
@@ -332,6 +334,8 @@ func display_text(text):
 	$Textbox.show()
 	$Textbox/Label.text = text
 	
+
+
 func select_enemy():
 	display_text("Select a target.")
 	await self.textbox_closed
@@ -352,6 +356,16 @@ func _input(event):
 
 	# Player attcks adventurers
 	# Add any other actions the player should take during their turn
+	
+	#VAMP LORD SKILLS 356-398pending
+func life_steal(damage: int):
+	State.current_health += damage
+	if State.current_health > State.max_health:
+		State.current_health = State.max_health
+	
+	# Assuming 'player_health_bar' is a reference to the ProgressBar node for the player's health
+	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
+	
 func _on_blood_siphon_pressed():
 	var LowDamageRange = 0.8
 	var HighDamageRange = 1.2
@@ -372,28 +386,45 @@ func _on_blood_siphon_pressed():
 	await self.textbox_closed
 	
 	# Ensure healing does not exceed max health
-	var potential_new_health = State.current_health + blood_siphon_damage
-	var actual_heal_amount = 0
-	
-	# Calculate the actual heal amount without exceeding max health
-	if potential_new_health > State.max_health:
-		actual_heal_amount = State.max_health - State.current_health
-		State.current_health = State.max_health # Set to max because adding actual_heal_amount would exceed it
-	else:
-		actual_heal_amount = blood_siphon_damage
-		State.current_health += actual_heal_amount
+	var life_steal = life_steal(blood_siphon_damage)
 	
 	# Update the player's health bar
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 	
-	display_text("You healed for %d health by siphoning the blood of your enemy." % actual_heal_amount)
+	display_text("You healed for %d health by siphoning the blood of your enemy." % life_steal)
 	await self.textbox_closed
 	
 	display_text("Blood Siphon dealt %d damage to the %s." % [blood_siphon_damage, target.name])
 	await self.textbox_closed
 	emit_signal("action_taken")
 
-
+func household_passive():
+	if not household_passive_active:
+		return
+	var LowDamageRange = 0.4
+	var HighDamageRange = 0.8
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	display_text("Household has activated choose a sacraficial target.")
+	await self.textbox_closed
+	if target == null:
+		await select_enemy()
+	else:
+		display_text("Household passive activated, but no target was selected.")
+		await self.textbox_closed
+	
+	var HP_dmg = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange))
+	
+	await target.took_damage(HP_dmg)
+	display_text("You bat has been summuned and flew at %s" %target.name)
+	await self.textbox_closed
+	
+	var life_steal = life_steal(HP_dmg)
+	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
+	
+	display_text("Youre bat sacriced itself so you could fight on, gain %s health" %life_steal)
+	await self.textbox_closed
+	
 func _on_defend_pressed():
 	is_defending = true
 	display_text("You summon a minion to defend you! However, you'll do less damage this turn.")
