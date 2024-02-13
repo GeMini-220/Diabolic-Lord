@@ -352,6 +352,47 @@ func _input(event):
 
 	# Player attcks adventurers
 	# Add any other actions the player should take during their turn
+func _on_blood_siphon_pressed():
+	var LowDamageRange = 0.8
+	var HighDamageRange = 1.2
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	
+	if target == null:
+		await select_enemy()
+	else:
+		display_text("The %s senses the impending danger and prepares to counter!" % target.name)
+		await self.textbox_closed
+	
+	# Calculate Blood Siphon damage within a low to medium range
+	var blood_siphon_damage = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange)) # Adjust the range based on desired spell power
+	
+	await target.took_damage(blood_siphon_damage)
+	display_text("You cast Blood Siphon, draining life from your foe.")
+	await self.textbox_closed
+	
+	# Ensure healing does not exceed max health
+	var potential_new_health = State.current_health + blood_siphon_damage
+	var actual_heal_amount = 0
+	
+	# Calculate the actual heal amount without exceeding max health
+	if potential_new_health > State.max_health:
+		actual_heal_amount = State.max_health - State.current_health
+		State.current_health = State.max_health # Set to max because adding actual_heal_amount would exceed it
+	else:
+		actual_heal_amount = blood_siphon_damage
+		State.current_health += actual_heal_amount
+	
+	# Update the player's health bar
+	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
+	
+	display_text("You healed for %d health by siphoning the blood of your enemy." % actual_heal_amount)
+	await self.textbox_closed
+	
+	display_text("Blood Siphon dealt %d damage to the %s." % [blood_siphon_damage, target.name])
+	await self.textbox_closed
+	emit_signal("action_taken")
+
 
 func _on_defend_pressed():
 	is_defending = true
@@ -435,6 +476,7 @@ func _on_infernal_affliction_pressed():
 func _on_back_pressed():
 	$ActionsPanel.show()
 	$SpellsPanel.hide()
+
 
 
 
