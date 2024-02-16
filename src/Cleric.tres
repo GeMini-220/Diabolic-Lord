@@ -169,6 +169,7 @@ animations = [{
 [resource]
 script = ExtResource("2_57ylr")
 name = "Cleric"
+type = "Supporter"
 animation = SubResource("SpriteFrames_8svcj")
 health = 75
 current_health = 75
