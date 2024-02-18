@@ -461,20 +461,28 @@ texture = ExtResource("2_i5jaq")
 
 [node name="Enemies" type="Node" parent="."]
 
-[node name="Fighter" parent="Enemies" instance=ExtResource("3_bsfho")]
+[node name="Defender" type="Node" parent="Enemies"]
+
+[node name="Fighter" parent="Enemies/Defender" instance=ExtResource("3_bsfho")]
 position = Vector2(168, 246)
 enemy = ExtResource("4_ky74l")
 
-[node name="Cleric" parent="Enemies" instance=ExtResource("3_bsfho")]
+[node name="Striker" type="Node" parent="Enemies"]
+
+[node name="Rogue" parent="Enemies/Striker" instance=ExtResource("3_bsfho")]
+position = Vector2(1000, 246)
+
+[node name="Mage" parent="Enemies/Striker" instance=ExtResource("3_bsfho")]
+position = Vector2(1000, 429)
+enemy = ExtResource("7_luad1")
+
+[node name="Supporter" type="Node" parent="Enemies"]
+
+[node name="Cleric" parent="Enemies/Supporter" instance=ExtResource("3_bsfho")]
 position = Vector2(168, 429)
 enemy = ExtResource("5_avpfh")
 
-[node name="Rogue" parent="Enemies" instance=ExtResource("3_bsfho")]
-position = Vector2(1000, 246)
-
-[node name="Mage" parent="Enemies" instance=ExtResource("3_bsfho")]
-position = Vector2(1000, 429)
-enemy = ExtResource("7_luad1")
+[node name="CurrentEnemies" type="Node" parent="."]
 
 [node name="DemonLord" type="AnimatedSprite2D" parent="."]
 position = Vector2(576, 343)
