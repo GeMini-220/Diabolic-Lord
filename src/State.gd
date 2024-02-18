@@ -17,14 +17,10 @@ var magic
 var currentBattle
 
 # Player progression variables
-var player_level = 1
-var upgrade_points = 0
-var tier_unlocked = 1
-var spells_unlocked = {
-	"Inferno": [],
-	"Demon Knight": [],
-	"Vampire Lord": []
-}
+var player_level
+var upgrade_points
+var tier_unlocked
+var spells_unlocked
 
 # SAVE/ LOAD information
 var FILE_PATH = "user://player_save_data.save"
@@ -51,18 +47,14 @@ func initialize_player_data() -> void:
 	var new_player_data = {
 		"current_health": 666,
 		"max_health": 666,
-		"damage": 30,
-		"speed": 25,
+		"damage": 300,
+		"speed": 10,
 		"magic": 25,
 		"currentBattle": 0,
-		"player_level": 1,
+		"player_level": 0,
 		"upgrade_points": 0,
-		"tier_unlocked": 1,
-		"spells_unlocked": {
-			"Inferno": [],
-			"Demon Knight": [],
-			"Vampire Lord": []
-		},
+		"tier_unlocked": 0,
+		"spells_unlocked": ['', '', '', ''],
 	}
 	apply_player_data(new_player_data)
 

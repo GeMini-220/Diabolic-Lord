@@ -1,0 +1,265 @@
+[gd_scene load_steps=11 format=3 uid="uid://dub0g5t4go5dt"]
+
+[ext_resource type="Script" path="res://Skill_Tree.gd" id="1_culyc"]
+[ext_resource type="Texture2D" uid="uid://dr8jo5fx2ot2h" path="res://Image/skilltree/demonknight/Counter.png" id="2_2uve7"]
+[ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="2_gvh82"]
+[ext_resource type="Texture2D" uid="uid://5r4v80pux258" path="res://Image/skilltree/inferno/Fireball-V2.png" id="3_yvy8a"]
+[ext_resource type="Texture2D" uid="uid://b7nnxrqlvommv" path="res://Image/skilltree/demonknight/FireStrike.png" id="4_6o348"]
+[ext_resource type="Texture2D" uid="uid://djf650hxviro0" path="res://Image/skilltree/inferno/Fire_Rain.png" id="5_oncqo"]
+[ext_resource type="Texture2D" uid="uid://3leg1crhyyjn" path="res://Image/skilltree/demonknight/Guillotine.png" id="6_fdsjl"]
+[ext_resource type="Texture2D" uid="uid://bay7s7odlwe42" path="res://Image/skilltree/inferno/Meteor.png" id="7_rqjsk"]
+[ext_resource type="Texture2D" uid="uid://y4wurtq66r8p" path="res://Image/skilltree/demonknight/TrueForm.png" id="8_72td3"]
+[ext_resource type="Texture2D" uid="uid://bqjjtd02m1a73" path="res://Image/skilltree/inferno/HELLonEARTH-B.png" id="9_orqo6"]
+
+[node name="Skill Tree" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_culyc")
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 0
+offset_right = 117.0
+offset_bottom = 69.0
+theme_override_fonts/font = ExtResource("2_gvh82")
+theme_override_font_sizes/font_size = 32
+text = "Back"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -440.0
+offset_top = -320.0
+offset_right = 440.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Tree Levels" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 40
+
+[node name="Level 1" type="HBoxContainer" parent="ScrollContainer/Tree Levels"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Damage" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 1"]
+layout_mode = 2
+texture_normal = ExtResource("4_6o348")
+
+[node name="Speed" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 1"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Magic" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 1"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Health" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 1"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Level 2" type="HBoxContainer" parent="ScrollContainer/Tree Levels"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Counter" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 2"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("2_2uve7")
+
+[node name="Fireball" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 2"]
+layout_mode = 2
+texture_normal = ExtResource("3_yvy8a")
+
+[node name="Blood Siphon" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 2"]
+layout_mode = 2
+texture_normal = ExtResource("2_2uve7")
+
+[node name="Level 3" type="HBoxContainer" parent="ScrollContainer/Tree Levels"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Damage" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 3"]
+layout_mode = 2
+texture_normal = ExtResource("4_6o348")
+
+[node name="Speed" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 3"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Magic" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 3"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Health" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 3"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Level 4" type="HBoxContainer" parent="ScrollContainer/Tree Levels"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Shattering Strike" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 4"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("4_6o348")
+
+[node name="Fire Rain" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 4"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Red Rush" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 4"]
+layout_mode = 2
+texture_normal = ExtResource("2_2uve7")
+
+[node name="Level 5" type="HBoxContainer" parent="ScrollContainer/Tree Levels"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Damage" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 5"]
+layout_mode = 2
+texture_normal = ExtResource("4_6o348")
+
+[node name="Speed" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 5"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Magic" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 5"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Health" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 5"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Level 6" type="HBoxContainer" parent="ScrollContainer/Tree Levels"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Guillotine" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 6"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("6_fdsjl")
+
+[node name="Meteor" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 6"]
+layout_mode = 2
+texture_normal = ExtResource("7_rqjsk")
+
+[node name="Noble Charm" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 6"]
+layout_mode = 2
+texture_normal = ExtResource("2_2uve7")
+
+[node name="Level 7" type="HBoxContainer" parent="ScrollContainer/Tree Levels"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Damage" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 7"]
+layout_mode = 2
+texture_normal = ExtResource("4_6o348")
+
+[node name="Speed" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 7"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Magic" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 7"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Health" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 7"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Level 8" type="HBoxContainer" parent="ScrollContainer/Tree Levels"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="True Form" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 8"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("8_72td3")
+
+[node name="Hell on Earth" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 8"]
+layout_mode = 2
+texture_normal = ExtResource("9_orqo6")
+
+[node name="Vampiric Frenzy" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 8"]
+layout_mode = 2
+texture_normal = ExtResource("2_2uve7")
+
+[node name="Level 9" type="HBoxContainer" parent="ScrollContainer/Tree Levels"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Damage" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 9"]
+layout_mode = 2
+texture_normal = ExtResource("4_6o348")
+
+[node name="Speed" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 9"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Magic" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 9"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[node name="Health" type="TextureButton" parent="ScrollContainer/Tree Levels/Level 9"]
+layout_mode = 2
+texture_normal = ExtResource("5_oncqo")
+
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 1/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 1/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 1/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 1/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 2/Counter" to="." method="_on_tier_pressed" binds= ["Demon Knight", 1]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 2/Fireball" to="." method="_on_tier_pressed" binds= ["Inferno", 1]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 2/Blood Siphon" to="." method="_on_tier_pressed" binds= ["Vampire", 1]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 3/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 3/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 3/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 3/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 4/Shattering Strike" to="." method="_on_tier_pressed" binds= ["Demon Knight", 2]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 4/Fire Rain" to="." method="_on_tier_pressed" binds= ["Inferno", 2]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 4/Red Rush" to="." method="_on_tier_pressed" binds= ["Vampire", 2]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 5/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 5/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 5/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 5/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 6/Guillotine" to="." method="_on_tier_pressed" binds= ["Demon Knight", 3]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 6/Meteor" to="." method="_on_tier_pressed" binds= ["Inferno", 3]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 6/Noble Charm" to="." method="_on_tier_pressed" binds= ["Vampire", 3]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 7/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 7/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 7/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 7/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 8/True Form" to="." method="_on_tier_pressed" binds= ["Demon Knight", 4]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 8/Hell on Earth" to="." method="_on_tier_pressed" binds= ["Inferno", 4]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 8/Vampiric Frenzy" to="." method="_on_tier_pressed" binds= ["Vampire", 4]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 9/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 9/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 9/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
+[connection signal="pressed" from="ScrollContainer/Tree Levels/Level 9/Health" to="." method="_on_generic_pressed" binds= ["Health"]]

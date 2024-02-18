@@ -52,6 +52,7 @@ stretch_mode = 5
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
+tooltip_text = "Upgrade your stats and learn new spells."
 texture_normal = ExtResource("7_alfhd")
 texture_hover = ExtResource("8_1p5o3")
 texture_click_mask = ExtResource("8_kcuar")
@@ -59,3 +60,4 @@ stretch_mode = 4
 
 [connection signal="pressed" from="Embark" to="." method="_on_embark_pressed"]
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="Upgrade" to="." method="_on_upgrade_pressed"]
