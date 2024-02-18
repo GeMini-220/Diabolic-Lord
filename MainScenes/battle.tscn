@@ -2,10 +2,9 @@
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
-[ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://MainScenes/enemy.tscn" id="3_bsfho"]
+[ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://src/enemy.tscn" id="3_bsfho"]
 [ext_resource type="Resource" uid="uid://ijiac1r710yp" path="res://src/Fighter.tres" id="4_ky74l"]
 [ext_resource type="Resource" uid="uid://djig52rnheww4" path="res://src/Cleric.tres" id="5_avpfh"]
-[ext_resource type="Resource" uid="uid://bl8lqjm2q317l" path="res://src/Rogue.tres" id="6_0r1s1"]
 [ext_resource type="Resource" uid="uid://dywgcsu2hj36k" path="res://src/Mage.tres" id="7_luad1"]
 [ext_resource type="Texture2D" uid="uid://bqgttrqxpwnl4" path="res://Image/Demon-Animated-1-Sheet.png" id="8_axo2t"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="9_5fkrt"]
@@ -472,7 +471,6 @@ enemy = ExtResource("5_avpfh")
 
 [node name="Rogue" parent="Enemies" instance=ExtResource("3_bsfho")]
 position = Vector2(1000, 246)
-enemy = ExtResource("6_0r1s1")
 
 [node name="Mage" parent="Enemies" instance=ExtResource("3_bsfho")]
 position = Vector2(1000, 429)
@@ -569,7 +567,7 @@ offset_right = -26.0
 offset_bottom = -26.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 26
+theme_override_constants/separation = 13
 alignment = 1
 
 [node name="Attack" type="Button" parent="SpellsPanel/Spells"]
@@ -619,6 +617,22 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
 text = "Infernal
 Affliction"
+
+[node name="ShatteringStrike" type="Button" parent="SpellsPanel/Spells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Deals %s damage to one target and stun them for 1 turn."
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Shattering
+Strike"
 
 [node name="Back" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
@@ -766,4 +780,5 @@ stream = ExtResource("14_i752q")
 [connection signal="pressed" from="SpellsPanel/Spells/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/dreadforge" to="." method="_on_dread_forge_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/InfernalAffliction" to="." method="_on_infernal_affliction_pressed"]
+[connection signal="pressed" from="SpellsPanel/Spells/ShatteringStrike" to="." method="_on_shattering_strike_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/Back" to="." method="_on_back_pressed"]

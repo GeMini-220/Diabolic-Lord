@@ -39,6 +39,7 @@ func update_tooltip():
 	$SpellsPanel/Spells/Attack.tooltip_text = "Basic attack, deals %s damage to one target." % floor(Boss_damage)
 	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increases your damage by %s%% for the remainder of the battle." % State.magic
 	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
+	$SpellsPanel/Spells/ShatteringStrike.tooltip_text = "Deals %s damage to one target and stun them for 1 turn." % floor(Boss_damage * 0.75)
 
 func set_health(progress_bar, health, max_health):
 	progress_bar.value = health
@@ -65,6 +66,11 @@ func enemy_turn(enemy):
 		target = null
 		await check_win()
 	else:
+		if enemy.is_stunned:
+			enemy.is_stunned = false
+			display_text("The %s is stunned! Their turn will be skipped." % enemy.name)
+			await self.textbox_closed
+			return
 		match enemy.current_action:
 			"attack":
 				await enemy_attack(enemy)
@@ -431,6 +437,48 @@ func _on_infernal_affliction_pressed():
 	await self.textbox_closed
 	target = null
 	emit_signal("action_taken")
+	
+func _on_shattering_strike_pressed():
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	
+	var enemy_defending = false
+	if target == null:
+		await select_enemy()
+	else:
+		display_text("The %s rushed in to defend their allies!" % target.name)
+		await self.textbox_closed
+		enemy_defending = true
+		
+	var final_damage = randf_range(0.5, 1.0) * Boss_damage
+	if is_defending == true:
+		final_damage *= 0.5
+	if enemy_defending == true:
+		final_damage *= 0.75
+	final_damage = floor(final_damage)
+	
+	$SpellSound1.play() # TODO: same sound as common attack or a new sound?
+	await target.took_damage(final_damage)
+	
+	display_text("You delivered a heavy blow to %s!" % target.name)
+	await self.textbox_closed
+	
+	display_text("You dealt %d damage to the %s!" % [final_damage, target.name])
+	await self.textbox_closed
+	
+	if target.dead:
+		display_text("You killed the %s!" % target.name)
+		await self.textbox_closed
+		enemies.erase(target)
+		await check_win()
+	else:
+		target.is_stunned = true
+		display_text("%s is stunned!" % target.name)
+		await self.textbox_closed
+		
+	target = null
+	emit_signal("action_taken")
+	
 
 func _on_back_pressed():
 	$ActionsPanel.show()
