@@ -75,7 +75,10 @@ func update_tooltip():
 	$SpellsPanel/Spells/Attack.tooltip_text = "Basic attack, deals %s damage to one target." % floor(Boss_damage)
 	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increases your damage by %s%% for the remainder of the battle." % State.magic
 	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
-	$SpellsPanel/Spells/ShatteringStrike.tooltip_text = "Deals %s damage to one target and stun them for 1 turn." % floor(Boss_damage * 0.75)
+	$SpellsPanel/Spells/ShatteringStrike.tooltip_text = "Deals %s damage to one target and stun them for one turn." % floor(Boss_damage * 0.75)
+	# $SpellsPanel/Spells/Counter.tooltip_text = "Guard for one turn. Return 2x the pre-mitigation damage dealt to you."
+	# $SpellsPanel/Spells/Guillotine.tooltip_text = "Deals %s damage to one target. If the target is below 25% hp, they take double damage from this ability. If they die, recast on a random target." % floor(Boss_damage)
+	# $SpellsPanel/Spells/TrueForm.tooltip_text = "All your stats by 50% for the rest of the fight. Gain 20% lifesteal. Shattering Strike and Counter buff/debuff increases by one turn. Guillotine 25% → 35%."
 
 func set_health(progress_bar, health, max_health):
 	progress_bar.value = health
@@ -493,7 +496,7 @@ func _on_shattering_strike_pressed():
 		final_damage *= 0.75
 	final_damage = floor(final_damage)
 	
-	$SpellSound1.play() # TODO: same sound as common attack or a new sound?
+	$SpellSound1.play() # TODO: use Bryan's sound in GDD?
 	await target.took_damage(final_damage)
 	
 	display_text("You delivered a heavy blow to %s!" % target.name)
@@ -515,6 +518,14 @@ func _on_shattering_strike_pressed():
 	target = null
 	emit_signal("action_taken")
 	
+func _on_counter_pressed():
+	pass
+	
+func _on_guillotine_pressed():
+	pass
+	
+func _on_true_form_pressed():
+	pass
 
 func _on_back_pressed():
 	$ActionsPanel.show()
