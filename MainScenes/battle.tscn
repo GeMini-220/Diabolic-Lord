@@ -2,10 +2,9 @@
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
-[ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://MainScenes/enemy.tscn" id="3_bsfho"]
+[ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://src/enemy.tscn" id="3_bsfho"]
 [ext_resource type="Resource" uid="uid://ijiac1r710yp" path="res://src/Fighter.tres" id="4_ky74l"]
 [ext_resource type="Resource" uid="uid://djig52rnheww4" path="res://src/Cleric.tres" id="5_avpfh"]
-[ext_resource type="Resource" uid="uid://bl8lqjm2q317l" path="res://src/Rogue.tres" id="6_0r1s1"]
 [ext_resource type="Resource" uid="uid://dywgcsu2hj36k" path="res://src/Mage.tres" id="7_luad1"]
 [ext_resource type="Texture2D" uid="uid://bqgttrqxpwnl4" path="res://Image/Demon-Animated-1-Sheet.png" id="8_axo2t"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="9_5fkrt"]
@@ -462,21 +461,28 @@ texture = ExtResource("2_i5jaq")
 
 [node name="Enemies" type="Node" parent="."]
 
-[node name="Fighter" parent="Enemies" instance=ExtResource("3_bsfho")]
+[node name="Defender" type="Node" parent="Enemies"]
+
+[node name="Fighter" parent="Enemies/Defender" instance=ExtResource("3_bsfho")]
 position = Vector2(168, 246)
 enemy = ExtResource("4_ky74l")
 
-[node name="Cleric" parent="Enemies" instance=ExtResource("3_bsfho")]
+[node name="Striker" type="Node" parent="Enemies"]
+
+[node name="Rogue" parent="Enemies/Striker" instance=ExtResource("3_bsfho")]
+position = Vector2(1000, 246)
+
+[node name="Mage" parent="Enemies/Striker" instance=ExtResource("3_bsfho")]
+position = Vector2(1000, 429)
+enemy = ExtResource("7_luad1")
+
+[node name="Supporter" type="Node" parent="Enemies"]
+
+[node name="Cleric" parent="Enemies/Supporter" instance=ExtResource("3_bsfho")]
 position = Vector2(168, 429)
 enemy = ExtResource("5_avpfh")
 
-[node name="Rogue" parent="Enemies" instance=ExtResource("3_bsfho")]
-position = Vector2(1000, 246)
-enemy = ExtResource("6_0r1s1")
-
-[node name="Mage" parent="Enemies" instance=ExtResource("3_bsfho")]
-position = Vector2(1000, 429)
-enemy = ExtResource("7_luad1")
+[node name="CurrentEnemies" type="Node" parent="."]
 
 [node name="DemonLord" type="AnimatedSprite2D" parent="."]
 position = Vector2(576, 343)
