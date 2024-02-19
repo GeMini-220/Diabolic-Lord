@@ -48,7 +48,7 @@ func initialize_player_data() -> void:
 		"current_health": 666,
 		"max_health": 666,
 		"damage": 300,
-		"speed": 10,
+		"speed": 10, #25,
 		"magic": 25,
 		"currentBattle": 0,
 		"player_level": 0,

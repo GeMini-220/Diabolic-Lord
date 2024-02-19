@@ -20,10 +20,13 @@ var skill_tree = {
 }
 
 var upgrade_available = false
+var explanation_text = "You don't have any upgrades available. If you have any spells, you can switch them out for a spell of the same tier."
 
 func _ready():
 	if State.player_level < State.currentBattle:
 		level_up()
+	check_for_upgrades()
+	$TextBoxes/Upgrade.text = "Current spell tier: %s" % State.tier_unlocked
 
 # Function to handle leveling up, I'm not sure if this is how we want to do leveling
 func level_up():
@@ -32,43 +35,51 @@ func level_up():
 	upgrade_available = true
 	if int(State.player_level) % 2 == 0:
 		State.tier_unlocked += 1
-	else:
-		show_generic_upgrade_options()  #function to show upgrade options
-	check_for_upgrades()
+	# var level_label = get_node("Tree/HBoxContainer/Labels/Label%s" % State.player_level)
 
 # Function to check and handle upgrades
 func check_for_upgrades():
 	if upgrade_available: # State.upgrade_points > 0:
 		# This is a placeholder for the UI logic I haven't implment because im a bit confused on how to do it
-		print("Player has upgrade points to spend. Current unlocked tier: ", State.tier_unlocked)
+		$TextBoxes/Explanation.text = "You have an upgrade available! Choose an upgrade from level %s." % State.player_level
+		for upgrade in get_node("Tree/HBoxContainer/Tree Levels/Level %s" % State.player_level).get_children():
+			upgrade.disabled = false
+	else:
+		$TextBoxes/Explanation.text = explanation_text
+
+func get_upgrade():
+	upgrade_available = false
+	$TextBoxes/Explanation.text = explanation_text
 
 # Function for the player to choose a spell from a specific path and tier
 func _on_tier_pressed(path, tier):
-	print(path, tier)
 	if path in [INFERNO, DEMON_KNIGHT, VAMPIRE_LORD] and tier <= State.tier_unlocked:
 		var spell_name = skill_tree[path][tier]
 		State.spells_unlocked[tier-1] = spell_name
 		# State.upgrade_points -= 1
-		upgrade_available = false
-		print("Player has chosen spell: ", spell_name, " from path: ", path)
+		get_upgrade()
+		$TextBoxes/Upgrade.text = "You have chosen the \"%s\" spell from the \"%s\" path." % [spell_name.capitalize(), path.capitalize()]
 		print(State.spells_unlocked)
 	else:
-		print("Invalid tier selected or no upgrade points left.")
-
-func show_generic_upgrade_options():
-	# This is also a placeholder for the UI
-	print("Please choose a generic upgrade: Damage, Speed, Magic, Health")
+		$TextBoxes/Upgrade.text = "An error has occurred!"
 
 func _on_generic_pressed(upgrade_choice):
-	match upgrade_choice:
-		"Damage":
-			State.damage += GENERIC_UPGRADES["Damage"]
-		"Speed":
-			State.speed += GENERIC_UPGRADES["Speed"]
-		"Magic":
-			State.magic += GENERIC_UPGRADES["Magic"]
-		"Health":
-			State.current_health += GENERIC_UPGRADES["Health"]
+	if upgrade_available:
+		match upgrade_choice:
+			"Damage":
+				State.damage += GENERIC_UPGRADES["Damage"]
+				get_upgrade()
+			"Speed":
+				State.speed += GENERIC_UPGRADES["Speed"]
+				get_upgrade()
+			"Magic":
+				State.magic += GENERIC_UPGRADES["Magic"]
+				get_upgrade()
+			"Health":
+				State.current_health += GENERIC_UPGRADES["Health"]
+				get_upgrade()
+	else:
+		$TextBoxes/Upgrade.text = "You can't choose that!"
 
 func _on_back_pressed():
 	get_tree().change_scene_to_file("res://MainScenes/campfire.tscn")
