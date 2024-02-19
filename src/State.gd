@@ -15,7 +15,7 @@ var damage
 var speed
 var magic
 var currentBattle
-
+var household_passive_active = true
 # SAVE/ LOAD information
 var FILE_PATH = "user://player_save_data.save"
 var PASSKEY = "YouCanDoBetter"
@@ -28,6 +28,7 @@ func get_player_save_data() -> Dictionary:
 		"speed": speed,
 		"magic": magic,
 		"currentBattle": currentBattle,
+		"household_passive_active": household_passive_active
 	}
 
 func initialize_player_data() -> void:

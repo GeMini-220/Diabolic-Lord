@@ -13,6 +13,7 @@ var audio
 var DOT = 0
 var is_hiding = false
 var modifier = 0
+var debuffs = {}
 
 func _physics_process(_delta):
 	# Add the gravity.
@@ -68,3 +69,18 @@ func play_animation_player(animation):
 func _on_button_pressed():
 	battle.target = self
 	battle.stop_selecting()
+
+func apply_debuff(name: String, duration: int):
+	debuffs[name] = duration
+
+func reduce_debuff_duration(debuff_name: String):
+	var keys_to_delete = []
+	for debuff in debuffs.keys():
+		debuffs[debuff] -= 1
+		if debuffs[debuff] <= 0:
+			keys_to_delete.append(debuff)
+	for key in keys_to_delete:
+		debuffs.erase(key)
+
+func has_debuff(debuff_name: String) -> bool:
+	return debuff_name in debuffs and debuffs[debuff_name] > 0
