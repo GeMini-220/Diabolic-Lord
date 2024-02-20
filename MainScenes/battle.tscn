@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
-[ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://src/enemy.tscn" id="3_bsfho"]
+[ext_resource type="PackedScene" uid="uid://bdw07crdfevye" path="res://src/enemy.tscn" id="3_bsfho"]
 [ext_resource type="Resource" uid="uid://ijiac1r710yp" path="res://src/Fighter.tres" id="4_ky74l"]
 [ext_resource type="Resource" uid="uid://djig52rnheww4" path="res://src/Cleric.tres" id="5_avpfh"]
 [ext_resource type="Resource" uid="uid://dywgcsu2hj36k" path="res://src/Mage.tres" id="7_luad1"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bt0p0f1doph00"]
+[gd_scene load_steps=12 format=3 uid="uid://bt0p0f1doph00"]
 
 [ext_resource type="Script" path="res://src/start_menu.gd" id="1_yf0g8"]
 [ext_resource type="Texture2D" uid="uid://c71gg1jag5br4" path="res://Image/Mausoleum_Background.png" id="2_37vsj"]
 [ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="2_wgoxx"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="3_7t56n"]
+[ext_resource type="Theme" uid="uid://bnteruy8vbr4b" path="res://src/main_menu_button.tres" id="4_tvqsd"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5c30k"]
 
@@ -66,6 +67,7 @@ offset_left = 31.0
 offset_top = 382.0
 offset_right = 271.0
 offset_bottom = 444.0
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxEmpty_5c30k")
@@ -81,6 +83,7 @@ offset_left = 269.0
 offset_top = 460.0
 offset_right = 424.0
 offset_bottom = 514.0
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxEmpty_411go")
@@ -95,6 +98,7 @@ offset_left = 688.0
 offset_top = 462.0
 offset_right = 851.0
 offset_bottom = 524.0
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ayfon")
