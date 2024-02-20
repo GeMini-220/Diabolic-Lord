@@ -1,6 +1,6 @@
 extends Control
 
-@onready var battle_scene = preload("res://MainScenes/battle.tscn") as PackedScene
+@onready var battle_scene = preload("res://MainScenes/campfire.tscn") as PackedScene
 @onready var confirmation_dialog = $ConfirmationDialog
 @onready var load_game = $load_game
 

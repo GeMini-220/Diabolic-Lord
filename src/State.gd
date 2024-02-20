@@ -17,14 +17,9 @@ var magic
 var currentBattle
 
 # Player progression variables
-var player_level = 1
-var upgrade_points = 0
-var tier_unlocked = 1
-var spells_unlocked = {
-	"Inferno": [],
-	"Demon Knight": [],
-	"Vampire Lord": []
-}
+var player_level
+var tier_unlocked
+var spells_unlocked
 
 # SAVE/ LOAD information
 var FILE_PATH = "user://player_save_data.save"
@@ -40,7 +35,6 @@ func get_player_save_data() -> Dictionary:
 		"magic": magic,
 		"currentBattle": currentBattle,
 		"player_level": player_level,
-		"upgrade_points": upgrade_points,
 		"tier_unlocked": tier_unlocked,
 		"spells_unlocked": spells_unlocked,
 		
@@ -55,14 +49,9 @@ func initialize_player_data() -> void:
 		"speed": 2,
 		"magic": 25,
 		"currentBattle": 0,
-		"player_level": 1,
-		"upgrade_points": 0,
-		"tier_unlocked": 1,
-		"spells_unlocked": {
-			"Inferno": [],
-			"Demon Knight": [],
-			"Vampire Lord": []
-		},
+		"player_level": 0,
+		"tier_unlocked": 0,
+		"spells_unlocked": ['', '', '', ''],
 	}
 	apply_player_data(new_player_data)
 
@@ -107,7 +96,6 @@ func apply_player_data(player_data: Dictionary) -> void:
 	magic = player_data["magic"]
 	currentBattle = player_data["currentBattle"]
 	player_level = player_data["player_level"]
-	upgrade_points = player_data["upgrade_points"]
 	tier_unlocked = player_data["tier_unlocked"]
 	spells_unlocked = player_data["spells_unlocked"]
 	# Update any other player state or UI elements as necessary

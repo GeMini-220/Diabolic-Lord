@@ -1,42 +1,34 @@
-[gd_scene load_steps=30 format=3 uid="uid://cmlodickgc3bu"]
+[gd_scene load_steps=30 format=3 uid="uid://ycbqvltmppkh"]
 
 [ext_resource type="Script" path="res://src/Skill_Tree.gd" id="1_culyc"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/demonknight/Counter.png" id="2_2uve7"]
+[ext_resource type="Texture2D" uid="uid://dr8jo5fx2ot2h" path="res://Image/skilltree/demonknight/Counter.png" id="2_2uve7"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="2_gvh82"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/skills_page.png" id="3_fo6xe"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/inferno/Fireball-V2.png" id="3_yvy8a"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/demonknight/FireStrike.png" id="4_6o348"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/demonknight-locked/Counter.png" id="5_dnau8"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/generic-locked/Strength.png" id="5_ngw3d"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/inferno/Fire_Rain.png" id="5_oncqo"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/demonknight/Guillotine.png" id="6_fdsjl"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/generic-locked/Agility.png" id="7_1ly5m"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/inferno-locked/Fireball-V2.png" id="7_7mik7"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/inferno/Meteor.png" id="7_rqjsk"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/demonknight/TrueForm.png" id="8_72td3"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/inferno/HELLonEARTH-B.png" id="9_orqo6"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/generic-locked/Wisdom.png" id="9_wquwx"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/demonknight-locked/FireStrike.png" id="10_fpb5p"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/demonknight/TrueForm-B.png" id="10_ryahl"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/generic-locked/Constitution.png" id="11_ltef1"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/inferno-locked/Fire_Rain.png" id="11_m3i6t"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/demonknight-locked/Guillotine.png" id="13_52jj6"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/inferno-locked/Meteor.png" id="15_0nmsp"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/demonknight-locked/TrueForm-B.png" id="17_k4pg6"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/demonknight-locked/TrueForm.png" id="17_sha8l"]
-[ext_resource type="Texture2D" path="res://Image/skilltree/inferno-locked/HELLonEARTH-B.png" id="19_4mlua"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nmtlx"]
-load_path = "res://.godot/imported/Strength.png-1f4a00ab4b4d63b890f111c2c7cfe3e8.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_amvsh"]
-load_path = "res://.godot/imported/Agility.png-ab951be7ddb39e84eda2b8e9b6cec847.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lxbjc"]
-load_path = "res://.godot/imported/Wisdom.png-79980db5ccc37307e56b91433e5cb3db.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8b8rr"]
-load_path = "res://.godot/imported/Constitution.png-379943546ac904afbd4910fbc9dcbcf9.ctex"
+[ext_resource type="Texture2D" uid="uid://chuh0ig7ro6pg" path="res://Image/skilltree/skills_page.png" id="3_fo6xe"]
+[ext_resource type="Texture2D" uid="uid://5r4v80pux258" path="res://Image/skilltree/inferno/Fireball-V2.png" id="3_yvy8a"]
+[ext_resource type="Texture2D" uid="uid://b7nnxrqlvommv" path="res://Image/skilltree/demonknight/FireStrike.png" id="4_6o348"]
+[ext_resource type="Texture2D" uid="uid://cd5y1tqfi2f6o" path="res://Image/skilltree/generic/Strength.png" id="4_hu5g0"]
+[ext_resource type="Texture2D" uid="uid://d3lfwotxkq0df" path="res://Image/skilltree/demonknight-locked/Counter.png" id="5_dnau8"]
+[ext_resource type="Texture2D" uid="uid://nm4mh7key7ns" path="res://Image/skilltree/generic-locked/Strength.png" id="5_ngw3d"]
+[ext_resource type="Texture2D" uid="uid://djf650hxviro0" path="res://Image/skilltree/inferno/Fire_Rain.png" id="5_oncqo"]
+[ext_resource type="Texture2D" uid="uid://bdu8hjmvb4lvs" path="res://Image/skilltree/generic/Agility.png" id="6_c3krg"]
+[ext_resource type="Texture2D" uid="uid://3leg1crhyyjn" path="res://Image/skilltree/demonknight/Guillotine.png" id="6_fdsjl"]
+[ext_resource type="Texture2D" uid="uid://pq5xgxw3fob6" path="res://Image/skilltree/generic-locked/Agility.png" id="7_1ly5m"]
+[ext_resource type="Texture2D" uid="uid://c4xy6bdtm3ikk" path="res://Image/skilltree/inferno-locked/Fireball-V2.png" id="7_7mik7"]
+[ext_resource type="Texture2D" uid="uid://bay7s7odlwe42" path="res://Image/skilltree/inferno/Meteor.png" id="7_rqjsk"]
+[ext_resource type="Texture2D" uid="uid://y4wurtq66r8p" path="res://Image/skilltree/demonknight/TrueForm.png" id="8_72td3"]
+[ext_resource type="Texture2D" uid="uid://s8goqahyt6ft" path="res://Image/skilltree/generic/Wisdom.png" id="8_ww867"]
+[ext_resource type="Texture2D" uid="uid://bqjjtd02m1a73" path="res://Image/skilltree/inferno/HELLonEARTH-B.png" id="9_orqo6"]
+[ext_resource type="Texture2D" uid="uid://cj4t414qr6e7h" path="res://Image/skilltree/generic-locked/Wisdom.png" id="9_wquwx"]
+[ext_resource type="Texture2D" uid="uid://bkoq73s6i5ui7" path="res://Image/skilltree/generic/Constitution.png" id="10_7ockp"]
+[ext_resource type="Texture2D" uid="uid://b4gt73c002igb" path="res://Image/skilltree/demonknight-locked/FireStrike.png" id="10_fpb5p"]
+[ext_resource type="Texture2D" uid="uid://chrvs5gl0np2q" path="res://Image/skilltree/demonknight/TrueForm-B.png" id="10_ryahl"]
+[ext_resource type="Texture2D" uid="uid://bw24nx32ps4ly" path="res://Image/skilltree/generic-locked/Constitution.png" id="11_ltef1"]
+[ext_resource type="Texture2D" uid="uid://cre72nealvemb" path="res://Image/skilltree/inferno-locked/Fire_Rain.png" id="11_m3i6t"]
+[ext_resource type="Texture2D" uid="uid://c0afy57x3lqba" path="res://Image/skilltree/demonknight-locked/Guillotine.png" id="13_52jj6"]
+[ext_resource type="Texture2D" uid="uid://cc1rtuoep6wxk" path="res://Image/skilltree/inferno-locked/Meteor.png" id="15_0nmsp"]
+[ext_resource type="Texture2D" uid="uid://1orj26y6fxbw" path="res://Image/skilltree/demonknight-locked/TrueForm-B.png" id="17_k4pg6"]
+[ext_resource type="Texture2D" uid="uid://bdlj0d1mljmbf" path="res://Image/skilltree/demonknight-locked/TrueForm.png" id="17_sha8l"]
+[ext_resource type="Texture2D" uid="uid://r5dsvgannj7a" path="res://Image/skilltree/inferno-locked/HELLonEARTH-B.png" id="19_4mlua"]
 
 [node name="Skill Tree" type="Control"]
 layout_mode = 3
@@ -181,26 +173,26 @@ alignment = 1
 [node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_nmtlx")
+texture_normal = ExtResource("4_hu5g0")
 texture_disabled = ExtResource("5_ngw3d")
 
 [node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
 size_flags_horizontal = 8
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_amvsh")
+texture_normal = ExtResource("6_c3krg")
 texture_disabled = ExtResource("7_1ly5m")
 
 [node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_lxbjc")
+texture_normal = ExtResource("8_ww867")
 texture_disabled = ExtResource("9_wquwx")
 
 [node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_8b8rr")
+texture_normal = ExtResource("10_7ockp")
 texture_disabled = ExtResource("11_ltef1")
 
 [node name="Level 2" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
@@ -236,26 +228,26 @@ alignment = 1
 [node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_nmtlx")
+texture_normal = ExtResource("4_hu5g0")
 texture_disabled = ExtResource("5_ngw3d")
 
 [node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3"]
 layout_mode = 2
 size_flags_horizontal = 8
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_amvsh")
+texture_normal = ExtResource("6_c3krg")
 texture_disabled = ExtResource("7_1ly5m")
 
 [node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_lxbjc")
+texture_normal = ExtResource("8_ww867")
 texture_disabled = ExtResource("9_wquwx")
 
 [node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_8b8rr")
+texture_normal = ExtResource("10_7ockp")
 texture_disabled = ExtResource("11_ltef1")
 
 [node name="Level 4" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
@@ -291,26 +283,26 @@ alignment = 1
 [node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_nmtlx")
+texture_normal = ExtResource("4_hu5g0")
 texture_disabled = ExtResource("5_ngw3d")
 
 [node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5"]
 layout_mode = 2
 size_flags_horizontal = 8
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_amvsh")
+texture_normal = ExtResource("6_c3krg")
 texture_disabled = ExtResource("7_1ly5m")
 
 [node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_lxbjc")
+texture_normal = ExtResource("8_ww867")
 texture_disabled = ExtResource("9_wquwx")
 
 [node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_8b8rr")
+texture_normal = ExtResource("10_7ockp")
 texture_disabled = ExtResource("11_ltef1")
 
 [node name="Level 6" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
@@ -346,26 +338,26 @@ alignment = 1
 [node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_nmtlx")
+texture_normal = ExtResource("4_hu5g0")
 texture_disabled = ExtResource("5_ngw3d")
 
 [node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7"]
 layout_mode = 2
 size_flags_horizontal = 8
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_amvsh")
+texture_normal = ExtResource("6_c3krg")
 texture_disabled = ExtResource("7_1ly5m")
 
 [node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_lxbjc")
+texture_normal = ExtResource("8_ww867")
 texture_disabled = ExtResource("9_wquwx")
 
 [node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_8b8rr")
+texture_normal = ExtResource("10_7ockp")
 texture_disabled = ExtResource("11_ltef1")
 
 [node name="Level 8" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
@@ -401,26 +393,26 @@ alignment = 1
 [node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_nmtlx")
+texture_normal = ExtResource("4_hu5g0")
 texture_disabled = ExtResource("5_ngw3d")
 
 [node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9"]
 layout_mode = 2
 size_flags_horizontal = 8
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_amvsh")
+texture_normal = ExtResource("6_c3krg")
 texture_disabled = ExtResource("7_1ly5m")
 
 [node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_lxbjc")
+texture_normal = ExtResource("8_ww867")
 texture_disabled = ExtResource("9_wquwx")
 
 [node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9"]
 layout_mode = 2
 disabled = true
-texture_normal = SubResource("CompressedTexture2D_8b8rr")
+texture_normal = ExtResource("10_7ockp")
 texture_disabled = ExtResource("11_ltef1")
 
 [connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
