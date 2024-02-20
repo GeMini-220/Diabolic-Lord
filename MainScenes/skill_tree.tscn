@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dub0g5t4go5dt"]
+[gd_scene load_steps=30 format=3 uid="uid://ycbqvltmppkh"]
 
 [ext_resource type="Script" path="res://src/Skill_Tree.gd" id="1_culyc"]
 [ext_resource type="Texture2D" uid="uid://dr8jo5fx2ot2h" path="res://Image/skilltree/demonknight/Counter.png" id="2_2uve7"]
