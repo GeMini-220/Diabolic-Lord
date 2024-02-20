@@ -17,3 +17,8 @@ func _on_embark_pressed():
 
 func _on_main_menu_pressed():
 	get_tree().change_scene_to_file("res://MainScenes/start_menu.tscn")
+
+
+func _on_upgrade_pressed():
+	#get_tree().change_scene_to_file("res://MainScenes/skill_tree.tscn")
+	$"Skill Tree".show()
