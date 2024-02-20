@@ -8,7 +8,7 @@ func _ready():
 	var save_file = FileAccess.open(State.FILE_PATH, FileAccess.READ)
 	if save_file:
 		load_game.visible = true
-		save_file.close
+		save_file.close()
 	else:
 		load_game.visible = false
 
@@ -20,6 +20,7 @@ func _on_load_game_pressed():
 	var save_file = FileAccess.open(State.FILE_PATH, FileAccess.READ)
 	if save_file:
 		State.load_player_data()
+		save_file.close()
 		get_tree().change_scene_to_file("res://MainScenes/campfire.tscn")
 	else:
 		print("Player data not found.")

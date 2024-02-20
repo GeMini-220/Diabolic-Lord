@@ -626,22 +626,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
 text = "Infernal
 Affliction"
 
-[node name="ShatteringStrike" type="Button" parent="SpellsPanel/Spells"]
-layout_mode = 2
-size_flags_horizontal = 3
-tooltip_text = "Deals %s damage to one target and stun them for 1 turn."
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
-theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
-text = "Shattering
-Strike"
-
 [node name="Back" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -788,5 +772,4 @@ stream = ExtResource("14_i752q")
 [connection signal="pressed" from="SpellsPanel/Spells/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/dreadforge" to="." method="_on_dread_forge_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/InfernalAffliction" to="." method="_on_infernal_affliction_pressed"]
-[connection signal="pressed" from="SpellsPanel/Spells/ShatteringStrike" to="." method="_on_shattering_strike_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/Back" to="." method="_on_back_pressed"]

@@ -12,7 +12,7 @@ var current_action
 var audio
 var DOT = 0
 var is_hiding = false
-var is_stunned = false
+var stunned_turn = 0
 var modifier = 0
 
 func _ready():

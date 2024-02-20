@@ -7,11 +7,17 @@ var enemies
 var num_current_enemies
 var all_characters
 var is_defending = false
+var countering_turn = 0
 var game_over = false
 var second_phase = false
 var target = null
 var stunned = false
 var Boss_damage = State.damage
+var Boss_magic = State.magic
+var Boss_speed = State.speed
+var guillotine_upperbound = 0.25
+var Boss_lifesteal = 0
+var true_form = 0
 
 func _ready():
 	
@@ -73,12 +79,12 @@ func choose_random_enemies():
 
 func update_tooltip():
 	$SpellsPanel/Spells/Attack.tooltip_text = "Basic attack, deals %s damage to one target." % floor(Boss_damage)
-	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increases your damage by %s%% for the remainder of the battle." % State.magic
+	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increases your damage by %s%% for the remainder of the battle." % Boss_magic
 	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
-	$SpellsPanel/Spells/ShatteringStrike.tooltip_text = "Deals %s damage to one target and stun them for one turn." % floor(Boss_damage * 0.75)
-	# $SpellsPanel/Spells/Counter.tooltip_text = "Guard for one turn. Return 2x the pre-mitigation damage dealt to you."
-	# $SpellsPanel/Spells/Guillotine.tooltip_text = "Deals %s damage to one target. If the target is below 25% hp, they take double damage from this ability. If they die, recast on a random target." % floor(Boss_damage)
-	# $SpellsPanel/Spells/TrueForm.tooltip_text = "All your stats by 50% for the rest of the fight. Gain 20% lifesteal. Shattering Strike and Counter buff/debuff increases by one turn. Guillotine 25% → 35%."
+	#$SpellsPanel/Spells/ShatteringStrike.tooltip_text = "Deals %s damage to one target and stun them for %s turn." % [floor(Boss_damage * 0.75), 1 + true_form]
+	#$SpellsPanel/Spells/Counter.tooltip_text = "Guard for %s turn. Return 2x the pre-mitigation damage dealt to you." % 1 + true_form
+	#$SpellsPanel/Spells/Guillotine.tooltip_text = "Deals %s damage to one target. If the target is below %s%% hp, they take double damage from this ability. If they die, recast on a random target." % [floor(Boss_damage), guillotine_upperbound * 100]
+	#$SpellsPanel/Spells/TrueForm.tooltip_text = "All your stats by 50%% for the rest of the fight. Gain 20%% lifesteal. Shattering Strike and Counter buff/debuff increases by 1 turn. Guillotine %s%% -> 35%%." % (guillotine_upperbound * 100)
 
 func set_health(progress_bar, health, max_health):
 	progress_bar.value = health
@@ -98,6 +104,7 @@ func enemy_turn(enemy):
 	await enemy.turn()
 	if enemy.DOT > 0:
 		await enemy.took_damage(enemy.DOT)
+		await take_lifesteal(enemy.DOT)
 	if enemy.dead:
 		display_text("The %s burned to death!" % enemy.name)
 		await self.textbox_closed
@@ -105,8 +112,8 @@ func enemy_turn(enemy):
 		target = null
 		await check_win()
 	else:
-		if enemy.is_stunned:
-			enemy.is_stunned = false
+		if enemy.stunned_turn > 0:
+			enemy.stunned_turn -= 1
 			display_text("The %s is stunned! Their turn will be skipped." % enemy.name)
 			await self.textbox_closed
 			return
@@ -139,13 +146,13 @@ func enemy_attack(enemy):
 	await self.textbox_closed
 	await enemy.play_animation("attack")
 	
+	var final_damage = floor(randf_range(0.5 + enemy.modifier, 1.5 + enemy.modifier) * enemy.damage)
 	if is_defending:
 		is_defending = false
 		$AnimationPlayer.play("mini_shake")
 		display_text("Your minion took the attack for you!")
 		await self.textbox_closed
 	else:
-		var final_damage = floor(randf_range(0.5 + enemy.modifier, 1.5 + enemy.modifier) * enemy.damage)
 		State.current_health = max(0, State.current_health - final_damage)
 		set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 		
@@ -153,19 +160,40 @@ func enemy_attack(enemy):
 		display_text("The %s dealt %d damage!" % [enemy.name, final_damage])
 		await self.textbox_closed
 		
-		if State.current_health==0:
-			game_over = true
-			$AnimationPlayer.play("enemy_damaged")
-			display_text("You died!")
+	if State.current_health != 0 and countering_turn > 0:
+		var countering_damage = final_damage * 2
+		
+		countering_turn -= 1
+		$SpellSound1.play() # TODO: add sound
+		await enemy.took_damage(countering_damage)
+		display_text("You countered the attack!")
+		await self.textbox_closed
+		
+		display_text("You dealt %d damage to the %s!" % [countering_damage, enemy.name])
+		await self.textbox_closed
+		
+		await take_lifesteal(countering_damage)
+		
+		if enemy.dead:
+			display_text("You killed the %s!" % enemy.name)
 			await self.textbox_closed
-			#get_tree().quit()
-		elif State.current_health <= State.max_health / 2 and not second_phase:
-			second_phase = true
-			Boss_damage *= 1.5
-			display_text("Under half of your health, you've reached your second phase!")
-			await self.textbox_closed
-			display_text("Your damage has increased!")
-			await self.textbox_closed
+			enemies.erase(enemy)
+			await check_win()
+	
+	if State.current_health == 0:
+		game_over = true
+		$AnimationPlayer.play("enemy_damaged")
+		display_text("You died!")
+		await self.textbox_closed
+		#get_tree().quit()
+	elif State.current_health <= State.max_health / 2 and not second_phase:
+		second_phase = true
+		Boss_damage *= 1.5
+		display_text("Under half of your health, you've reached your second phase!")
+		await self.textbox_closed
+		display_text("Your damage has increased!")
+		await self.textbox_closed
+	
 	enemy.modifier = 0
 
 func enemy_heal(enemy):
@@ -289,29 +317,27 @@ func player_turn(player):
 	# Add any other actions the player should take during their turn
 	
 func process():
-	var actions = {}
-	var turn_order = []
-	# Create a list of enemies with their corresponding accumulated time
-	for character in all_characters:
-		actions[character.name] = []
-		for i in range(1,101):
-			var speed
-			if character.name == "DemonLord":
-				speed = State.speed
-			else:
-				speed = character.speed
-			if i*speed > 100:
-				break
-			actions[character.name].append(i*speed)
-	for i in range(0,101):
-		for character in all_characters:
-			if actions[character.name].is_empty() or actions[character.name][0]!=i:
-				continue
-			turn_order.append(character) 
-			actions[character.name].remove_at(0)
-			#actions[character.name].remove(actions[character.name][0])
-# Define the custom comparison function
 	while not game_over:
+		var actions = {}
+		var turn_order = []
+		# Create a list of enemies with their corresponding accumulated time
+		for character in all_characters:
+			actions[character.name] = []
+			for i in range(1,101):
+				var speed
+				if character.name == "DemonLord":
+					speed = Boss_speed
+				else:
+					speed = character.speed
+				if i*speed > 100:
+					break
+				actions[character.name].append(i*speed)
+		for i in range(0,101):
+			for character in all_characters:
+				if actions[character.name].is_empty() or actions[character.name][0]!=i:
+					continue
+				turn_order.append(character) 
+				actions[character.name].remove_at(0)
 		for i in turn_order.size():
 			var character = turn_order[i]
 			if !character.visible:
@@ -440,6 +466,8 @@ func _on_attack_pressed():
 	display_text("You dealt %d damage to the %s!" % [final_damage, target.name])
 	await self.textbox_closed
 	
+	await take_lifesteal(final_damage)
+	
 	if target.dead:
 		display_text("You killed the %s!" % target.name)
 		await self.textbox_closed
@@ -496,14 +524,16 @@ func _on_shattering_strike_pressed():
 		final_damage *= 0.75
 	final_damage = floor(final_damage)
 	
-	$SpellSound1.play() # TODO: use Bryan's sound in GDD?
+	$SpellSound1.play() # TODO: add sound
 	await target.took_damage(final_damage)
 	
-	display_text("You delivered a heavy blow to %s!" % target.name)
+	display_text("You delivered a Shattering Strike to %s!" % target.name)
 	await self.textbox_closed
 	
 	display_text("You dealt %d damage to the %s!" % [final_damage, target.name])
 	await self.textbox_closed
+	
+	await take_lifesteal(final_damage)
 	
 	if target.dead:
 		display_text("You killed the %s!" % target.name)
@@ -511,7 +541,7 @@ func _on_shattering_strike_pressed():
 		enemies.erase(target)
 		await check_win()
 	else:
-		target.is_stunned = true
+		target.stunned_turn += 1 + true_form
 		display_text("%s is stunned!" % target.name)
 		await self.textbox_closed
 		
@@ -519,13 +549,82 @@ func _on_shattering_strike_pressed():
 	emit_signal("action_taken")
 	
 func _on_counter_pressed():
-	pass
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	countering_turn += 1 + true_form
+	display_text("You deftly execute Counter, turning the next enemy's attack against them with twice the force!")
+	await self.textbox_closed
+	emit_signal("action_taken")
 	
-func _on_guillotine_pressed():
-	pass
+func _on_guillotine_pressed(recast = false):
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	var enemy_defending = false
+	if target == null:
+		await select_enemy()
+	elif !recast:
+		display_text("The %s rushed in to defend their allies!" % target.name)
+		await self.textbox_closed
+		enemy_defending = true
 	
+	var final_damage = randf_range(0.5, 1.5) * Boss_damage
+	if is_defending == true:
+		final_damage *= 0.5
+	if enemy_defending == true:
+		final_damage *= 0.75
+	
+	if target.current_health <= guillotine_upperbound * target.health:
+		final_damage *= 2
+		display_text("The target's health dwindles below 25%, unleashing the full might of Guillotine.")
+		await self.textbox_closed
+	final_damage = floor(final_damage)
+	
+	$SpellSound1.play() # TODO: add sound
+	await target.took_damage(final_damage)
+	
+	display_text("You dealt %d damage to the %s!" % [final_damage, target.name])
+	await self.textbox_closed
+	
+	await take_lifesteal(final_damage)
+	
+	if target.dead:
+		display_text("You killed the %s!" % target.name)
+		await self.textbox_closed
+		enemies.erase(target)
+		await check_win()
+		if !game_over:
+			var living_enemies = []
+			for enemy in enemies:
+				if !enemy.dead:
+					living_enemies.append(enemy)
+			display_text("Your blade slicing through the air with deadly precision, ready to strike again at the next unfortunate target.")
+			await self.textbox_closed
+			target = living_enemies[randi() % living_enemies.size()]
+			await _on_guillotine_pressed(true)
+	target = null
+	emit_signal("action_taken")
+
 func _on_true_form_pressed():
-	pass
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	$SpellSound2.play() # TODO: Add sound
+	display_text("You embraced your True Form.")
+	await self.textbox_closed
+	Boss_damage *= 1.5
+	Boss_speed *= 1.5
+	Boss_magic *= 1.5
+	Boss_lifesteal += 0.2
+	true_form += 1
+	guillotine_upperbound = 0.35
+	emit_signal("action_taken")
+	
+func take_lifesteal(damage):
+	if Boss_lifesteal > 0 and State.max_health != State.current_health:
+		var health_restored = min(State.max_health - State.current_health, floor(damage * Boss_lifesteal))
+		State.current_health += health_restored
+		set_health(get_node("/root/Battle/PlayerPanel/ProgressBar"), State.current_health, State.max_health)
+		display_text("You restored %d health." % health_restored)
+		await textbox_closed
 
 func _on_back_pressed():
 	$ActionsPanel.show()
