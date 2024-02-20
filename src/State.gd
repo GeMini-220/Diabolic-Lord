@@ -40,7 +40,7 @@ func get_player_save_data() -> Dictionary:
 		"speed": speed,
 		"magic": magic,
 		"currentBattle": currentBattle,
-		"household_passive_active": household_passive_active
+		"household_passive_active": household_passive_active,
 		"player_level": player_level,
 		"upgrade_points": upgrade_points,
 		"tier_unlocked": tier_unlocked,
