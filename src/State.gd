@@ -16,10 +16,22 @@ var speed
 var magic
 var currentBattle
 var household_passive_active = true
+
+# Player progression variables
+var player_level = 1
+var upgrade_points = 0
+var tier_unlocked = 1
+var spells_unlocked = {
+	"Inferno": [],
+	"Demon Knight": [],
+	"Vampire Lord": []
+}
+
 # SAVE/ LOAD information
 var FILE_PATH = "user://player_save_data.save"
 var PASSKEY = "YouCanDoBetter"
 #Prepare the player data by collecting these variables into a dictionary.
+# Modified to include player progression data
 func get_player_save_data() -> Dictionary:
 	return {
 		"current_health": current_health,
@@ -29,8 +41,14 @@ func get_player_save_data() -> Dictionary:
 		"magic": magic,
 		"currentBattle": currentBattle,
 		"household_passive_active": household_passive_active
+		"player_level": player_level,
+		"upgrade_points": upgrade_points,
+		"tier_unlocked": tier_unlocked,
+		"spells_unlocked": spells_unlocked,
+		
 	}
 
+# Modified to include default values for the new progression variables
 func initialize_player_data() -> void:
 	var new_player_data = {
 		"current_health": 666,
@@ -39,6 +57,14 @@ func initialize_player_data() -> void:
 		"speed": 25,
 		"magic": 25,
 		"currentBattle": 0,
+		"player_level": 1,
+		"upgrade_points": 0,
+		"tier_unlocked": 1,
+		"spells_unlocked": {
+			"Inferno": [],
+			"Demon Knight": [],
+			"Vampire Lord": []
+		},
 	}
 	apply_player_data(new_player_data)
 
@@ -73,6 +99,7 @@ func load_player_data() -> void:
 	else:
 		print("Failed to open encrypted player data file.")
 
+# Modified to apply the loaded or initialized player progression data
 #After loading, you'll want to apply this data back to your player's variables:
 func apply_player_data(player_data: Dictionary) -> void:
 	current_health = player_data["current_health"]
@@ -81,4 +108,8 @@ func apply_player_data(player_data: Dictionary) -> void:
 	speed = player_data["speed"]
 	magic = player_data["magic"]
 	currentBattle = player_data["currentBattle"]
+	player_level = player_data["player_level"]
+	upgrade_points = player_data["upgrade_points"]
+	tier_unlocked = player_data["tier_unlocked"]
+	spells_unlocked = player_data["spells_unlocked"]
 	# Update any other player state or UI elements as necessary

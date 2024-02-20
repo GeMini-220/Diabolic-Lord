@@ -4,6 +4,7 @@ signal action_taken
 signal target_selected
 @export var characters = {}
 var enemies
+var num_current_enemies
 var all_characters
 var is_defending = false
 var game_over = false
@@ -16,29 +17,64 @@ var vampiric_frenzy_active = false
 var vampiric_frenzy_cd = 0
 
 func _ready():
+	
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 	State.currentBattle += 1
 	$DemonLord.play("idle")
 	$BGMusic.play()
 	
-	enemies = $Enemies.get_children()
+	randomize()
+	enemies = choose_random_enemies()
 	all_characters = enemies.duplicate()
 	all_characters.append($DemonLord)
 	
-	for enemy in enemies:
-		enemy.get_ready()
+	var screen_resolution = get_tree().root.content_scale_size # (1152, 648)
+	for i in len(enemies):
+		enemies[i].get_ready()
+		enemies[i].position = Vector2(screen_resolution.x / (num_current_enemies + 1) * (i + 1), screen_resolution.y / 2)
+		# temporary alignment of enemies
 	
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 	$VampSpellsPanel.hide()
 	display_text("Summoned by your loyal cultists, you, the Demon Lord, have awoken!")
 	await self.textbox_closed
-	display_text("These four adventurers wish to return you to your eternal slumber.")
+	display_text("These %s adventurers wish to return you to your eternal slumber." % num_current_enemies)
 	await self.textbox_closed
 	display_text("This is the final battle!")
 	await self.textbox_closed
 	await process()
 	
+func choose_random_enemies():
+	for e in $CurrentEnemies.get_children():
+		e.queue_free()
+	if 1 <= State.currentBattle and State.currentBattle <= 3:
+		num_current_enemies = 3
+	elif 4 <= State.currentBattle and State.currentBattle <= 6:
+		num_current_enemies = 4
+	elif 7 <= State.currentBattle and State.currentBattle <= 9:
+		num_current_enemies = 5
+	else:
+		num_current_enemies = 8
+	var enemy_types = $Enemies.get_children() # at least 1 enemy for each type
+	while num_current_enemies > enemy_types.size(): # free spots
+		enemy_types.append($Enemies.get_children()[randi() % $Enemies.get_children().size()])
+	var enemy_dict = {}
+	for i in $Enemies.get_children():
+		for j in i.get_children():
+			enemy_dict[j.name] = []
+	for i in enemy_types:
+		var enemies_of_type = i.get_children()
+		var new_enemy = enemies_of_type[randi() % enemies_of_type.size()].duplicate()
+		enemy_dict[new_enemy.name].append(new_enemy)
+	for i in enemy_dict: 
+		if enemy_dict[i].size() > 1:
+			for j in enemy_dict[i].size():
+				enemy_dict[i][j].name = "%s %s" % [i, j + 1] # rename
+		for j in enemy_dict[i].size():
+			$CurrentEnemies.add_child(enemy_dict[i][j])
+	return $CurrentEnemies.get_children()
+
 func update_tooltip():
 	$SpellsPanel/Spells/Attack.tooltip_text = "Basic attack, deals %s damage to one target." % floor(Boss_damage)
 	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increases your damage by %s%% for the remainder of the battle." % State.magic
@@ -360,7 +396,7 @@ func end_game():
 	else:
 		display_text("Against your unstoppable might, the heroes have lost.")
 		await self.textbox_closed
-		if State.currentBattle >= 15:
+		if State.currentBattle >= 10:
 			display_text("The world will see a dark age under your rule.")
 			await self.textbox_closed
 			display_text("The living will suffer, and the dead will rise.")

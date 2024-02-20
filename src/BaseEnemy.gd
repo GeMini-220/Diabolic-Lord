@@ -1,6 +1,7 @@
 extends Resource
 
 @export var name: String = "Enemy"
+@export var type: String = "Defender"
 @export var animation: SpriteFrames = null
 @export var health: int = 30
 @export var current_health: int = 30

@@ -15,11 +15,11 @@ var is_hiding = false
 var modifier = 0
 var debuffs = {}
 
-func _physics_process(_delta):
-	# Add the gravity.
-	pass
+func _ready():
+	self.visible = false
 
 func get_ready():
+	self.visible = true
 	battle.set_health($ProgressBar, enemy.health, enemy.health)
 	$AnimatedSprite2D.sprite_frames = enemy.animation
 	$AudioStreamPlayer2D.stream = enemy.audio
@@ -30,7 +30,7 @@ func create_tooltip():
 	for i in actions:
 		actionString += str(i) + ". "
 	actionString = actionString.capitalize()
-	$Control.tooltip_text = "Name: %s\nDamage: %s\nSpeed: %s\nMagic: %s\nActions: %s" % [enemy.name, damage, speed, magic, actionString]
+	$Control.tooltip_text = "Class: %s\nDamage: %s\nSpeed: %s\nMagic: %s\nActions: %s" % [enemy.name, damage, speed, magic, actionString]
 
 func took_damage(taken_damage) -> bool:
 	current_health = max(0,current_health - taken_damage)
