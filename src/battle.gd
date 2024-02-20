@@ -30,6 +30,7 @@ func _ready():
 	
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
+	$VampSpellsPanel.hide()
 	display_text("Summoned by your loyal cultists, you, the Demon Lord, have awoken!")
 	await self.textbox_closed
 	display_text("These four adventurers wish to return you to your eternal slumber.")
@@ -122,8 +123,6 @@ func select_random_ally(charmed_enemy):
 
 func calculate_damage(attacker, target) -> int:
 	var final_damage = floor(randf_range(0.5 + attacker.modifier, 1.5 + attacker.modifier) * attacker.damage)
-	if vampiric_frenzy_active:
-		final_damage *= 1.2
 	final_damage = max(final_damage, 0)
 	return final_damage
 
@@ -416,6 +415,7 @@ func _on_blood_siphon_pressed():
 	var HighDamageRange = 1.1
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
+	$VampSpellsPanel.hide()
 	if vampiric_frenzy_active:
 		LowDamageRange *= 1.5
 		HighDamageRange *= 1.5
@@ -463,6 +463,7 @@ func household_passive():
 	var HighDamageRange = 0.8
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
+	$VampSpellsPanel.hide()
 	display_text("Household has activated choose a sacraficial target.")
 	await self.textbox_closed
 	if target == null:
@@ -495,13 +496,14 @@ func household_passive():
 
 
 func _on_noble_charm_pressed():
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	$VampSpellsPanel.hide()
+	
 	if noble_charm_cd > 0:
 		display_text("Noble Charm is still on cooldown for %d more turns." % noble_charm_cd)
 		await self.textbox_closed
 		return
-
-	$ActionsPanel.hide()
-	$SpellsPanel.hide()
 	display_text("Select an enemy to bewitch with Noble Charm.")
 	await select_enemy()
 	if target != null:
@@ -517,12 +519,16 @@ func _on_noble_charm_pressed():
 	emit_signal("action_taken")
 
 func _on_vampiric_frenzy_pressed():
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	$VampSpellsPanel.hide()
 	if vampiric_frenzy_cd > 0:
 		display_text("Vampiric Frenzy is still on cooldown for %d more turns" %vampiric_frenzy_cd)
 		await self.textbox_closed
 		return
 	
 	activate_vampiric_frenzy()
+	$VL_VF_Sound.play()
 	display_text("Vampiric Frenzy activated! Attacks will now heal you and have a chance to charm the enemy.")
 	await self.textbox_closed
 	emit_signal("action_taken")
@@ -633,4 +639,15 @@ func _on_back_pressed():
 
 
 
+
+
+
+func _on_vamp_spells_pressed():
+	$SpellsPanel.hide()
+	$VampSpellsPanel.show()
+
+
+func _on_back_to_spells_pressed():
+	$VampSpellsPanel.hide()
+	$SpellsPanel.show()
 
