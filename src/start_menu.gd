@@ -2,7 +2,7 @@ extends Control
 
 @onready var battle_scene = preload("res://MainScenes/campfire.tscn") as PackedScene
 @onready var confirmation_dialog = $ConfirmationDialog
-@onready var load_game = $MarginContainer/HBoxContainer/VBoxContainer/load_game
+@onready var load_game = $load_game
 
 func _ready():
 	var save_file = FileAccess.open(State.FILE_PATH, FileAccess.READ)
