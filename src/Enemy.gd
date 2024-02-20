@@ -1,6 +1,7 @@
 extends CharacterBody2D
 @onready var battle = get_node("/root/Battle")
 @export var enemy: Resource = null
+@onready var type = enemy.type
 @onready var health = enemy.health
 @onready var current_health = health
 @onready var damage = enemy.damage

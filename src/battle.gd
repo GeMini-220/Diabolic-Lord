@@ -164,7 +164,7 @@ func enemy_attack(enemy):
 		var countering_damage = final_damage * 2
 		
 		countering_turn -= 1
-		$SpellSound1.play() # TODO: add sound
+		$dk_spell_2_counter.play()
 		await enemy.took_damage(countering_damage)
 		display_text("You countered the attack!")
 		await self.textbox_closed
@@ -524,7 +524,10 @@ func _on_shattering_strike_pressed():
 		final_damage *= 0.75
 	final_damage = floor(final_damage)
 	
-	$SpellSound1.play() # TODO: add sound
+	if target.type == "Defender":
+		$dk_spell_1_metal.play()
+	else:
+		$dk_spell_1_thud.play()
 	await target.took_damage(final_damage)
 	
 	display_text("You delivered a Shattering Strike to %s!" % target.name)
@@ -551,6 +554,7 @@ func _on_shattering_strike_pressed():
 func _on_counter_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
+	$dk_spell_2_guard.play()
 	countering_turn += 1 + true_form
 	display_text("You deftly execute Counter, turning the next enemy's attack against them with twice the force!")
 	await self.textbox_closed
