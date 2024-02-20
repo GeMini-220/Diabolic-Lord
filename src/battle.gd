@@ -62,6 +62,7 @@ func enemy_turn(enemy):
 	# Check if the enemy is charmed and the charm effect should trigger this turn
 	if enemy.has_debuff("noble_charm"):
 		display_text("%s is under the charms influence and ready to serve" % enemy.name)
+		await self.textbox_closed
 		var ally = select_random_ally(enemy)
 		if ally:
 			var damage = calculate_damage(enemy, ally)  # Implement based on your game's logic
@@ -76,6 +77,7 @@ func enemy_turn(enemy):
 		
 		else:
 			display_text("%s is charmed but has no allies to attack!" % enemy.name)
+			await self.textbox_closed
 		if noble_charm_cd <= 0:
 			display_text("The %s shakes off the effects of Noble Charm." % enemy.name)
 			await self.textbox_closed
@@ -426,17 +428,16 @@ func _on_blood_siphon_pressed():
 		display_text("The %s senses the impending danger and prepares to counter!" % target.name)
 		await self.textbox_closed
 
-	
 	# Calculate Blood Siphon damage within a low to medium range
 	var blood_siphon_damage = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange)) # Adjust the range based on desired spell power
 	$VL_BS_Sound.play()
 	await target.took_damage(blood_siphon_damage)
+	
 	display_text("You cast Blood Siphon, draining life from your foe.")
 	await self.textbox_closed
 	
-
 	var life_steal = life_steal(blood_siphon_damage)
-	
+
 	display_text("You healed for %s by siphoning the blood of your enemy." %blood_siphon_damage)
 	await self.textbox_closed
 	
@@ -446,6 +447,7 @@ func _on_blood_siphon_pressed():
 	if vampiric_frenzy_active and randf() < 0.5:
 		apply_noble_charm(target)
 		display_text("Vampiric Frenzy charmed %s." %target.name)
+		await self.textbox_closed
 	if target.dead:
 		display_text("You killed the %s!" % target.name)
 		await self.textbox_closed
@@ -460,7 +462,10 @@ func household_passive():
 	if not State.household_passive_active:
 		return
 	var LowDamageRange = 0.4
-	var HighDamageRange = 0.8
+	var HighDamageRange = 0.6
+	if vampiric_frenzy_active:
+		LowDamageRange *= 1.2
+		HighDamageRange *= 1.2
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 	$VampSpellsPanel.hide()
@@ -475,13 +480,18 @@ func household_passive():
 	var HP_dmg = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange))
 	$VL_HH_Sound.play()
 	await target.took_damage(HP_dmg)
-	display_text("You bat has been summuned and flew at %s and dealt %s" %[target.name, HP_dmg])
+	display_text("Your bat has been summoned and flew at %s dealing %s damage, and restoring %s health" %[target.name, HP_dmg, HP_dmg])
 	await self.textbox_closed
 	
 	var life_steal = life_steal(HP_dmg)
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 	
 	display_text("Youre bat sacriced itself so you could fight on, gain %s health" %HP_dmg)
+	await self.textbox_closed
+	if vampiric_frenzy_active and randf() < 0.5:
+		apply_noble_charm(target)
+		display_text("Vampiric Frenzy charmed %s." %target.name)
+		await self.textbox_closed	
 	if target.dead:
 		display_text("You killed the %s!" % target.name)
 		await self.textbox_closed
@@ -498,12 +508,13 @@ func household_passive():
 func _on_noble_charm_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
-	$VampSpellsPanel.hide()
+
 	
 	if noble_charm_cd > 0:
 		display_text("Noble Charm is still on cooldown for %d more turns." % noble_charm_cd)
 		await self.textbox_closed
 		return
+	$VampSpellsPanel.hide()
 	display_text("Select an enemy to bewitch with Noble Charm.")
 	await select_enemy()
 	if target != null:
@@ -521,12 +532,11 @@ func _on_noble_charm_pressed():
 func _on_vampiric_frenzy_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
-	$VampSpellsPanel.hide()
 	if vampiric_frenzy_cd > 0:
 		display_text("Vampiric Frenzy is still on cooldown for %d more turns" %vampiric_frenzy_cd)
 		await self.textbox_closed
 		return
-	
+	$VampSpellsPanel.hide()
 	activate_vampiric_frenzy()
 	$VL_VF_Sound.play()
 	display_text("Vampiric Frenzy activated! Attacks will now heal you and have a chance to charm the enemy.")
@@ -581,6 +591,8 @@ func _on_attack_pressed():
 	
 	#var final_damage = State.damage
 	var final_damage = randf_range(0.5, 1.5) * Boss_damage
+	if vampiric_frenzy_active:
+		final_damage *= 1.2
 	if is_defending == true:
 		final_damage *= 0.5
 	if enemy_defending == true:
@@ -594,7 +606,10 @@ func _on_attack_pressed():
 	
 	display_text("You dealt %d damage to the %s!" % [final_damage, target.name])
 	await self.textbox_closed
-	
+	if vampiric_frenzy_active and randf() < 0.5:
+		apply_noble_charm(target)
+		display_text("Vampiric Frenzy charmed %s." %target.name)
+		await self.textbox_closed	
 	if target.dead:
 		display_text("You killed the %s!" % target.name)
 		await self.textbox_closed
@@ -622,8 +637,10 @@ func _on_infernal_affliction_pressed():
 	else:
 		display_text("The %s rushed in to defend its allies!" % target.name)
 		await self.textbox_closed
-	
-	target.DOT += floor(Boss_damage / 3)
+	if vampiric_frenzy_active:
+		target.DOT += floor(Boss_damage / 3) * 1.2
+	else:
+		target.DOT += floor(Boss_damage / 3)
 	$SpellSound3.play()
 	display_text("The %s is engulfed in hellfire!" % target.name)
 	await self.textbox_closed
