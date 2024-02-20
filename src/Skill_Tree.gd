@@ -79,7 +79,7 @@ func _on_generic_pressed(upgrade_choice):
 				get_upgrade()
 				$TextBoxes/Upgrade.text = "You've increased your %s!" % upgrade_choice
 			"Health":
-				State.current_health += GENERIC_UPGRADES["Health"]
+				State.current_health = min(State.max_health, State.current_health + GENERIC_UPGRADES["Health"])
 				get_upgrade()
 				$TextBoxes/Upgrade.text = "You've increased your %s!" % upgrade_choice
 	else:
