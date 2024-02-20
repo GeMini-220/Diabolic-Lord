@@ -1,23 +1,33 @@
-[gd_scene load_steps=20 format=3 uid="uid://dub0g5t4go5dt"]
+[gd_scene load_steps=30 format=3 uid="uid://dub0g5t4go5dt"]
 
 [ext_resource type="Script" path="res://src/Skill_Tree.gd" id="1_culyc"]
 [ext_resource type="Texture2D" uid="uid://dr8jo5fx2ot2h" path="res://Image/skilltree/demonknight/Counter.png" id="2_2uve7"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="2_gvh82"]
+[ext_resource type="Texture2D" uid="uid://chuh0ig7ro6pg" path="res://Image/skilltree/skills_page.png" id="3_fo6xe"]
 [ext_resource type="Texture2D" uid="uid://5r4v80pux258" path="res://Image/skilltree/inferno/Fireball-V2.png" id="3_yvy8a"]
 [ext_resource type="Texture2D" uid="uid://b7nnxrqlvommv" path="res://Image/skilltree/demonknight/FireStrike.png" id="4_6o348"]
+[ext_resource type="Texture2D" uid="uid://cd5y1tqfi2f6o" path="res://Image/skilltree/generic/Strength.png" id="4_hu5g0"]
 [ext_resource type="Texture2D" uid="uid://d3lfwotxkq0df" path="res://Image/skilltree/demonknight-locked/Counter.png" id="5_dnau8"]
+[ext_resource type="Texture2D" uid="uid://nm4mh7key7ns" path="res://Image/skilltree/generic-locked/Strength.png" id="5_ngw3d"]
 [ext_resource type="Texture2D" uid="uid://djf650hxviro0" path="res://Image/skilltree/inferno/Fire_Rain.png" id="5_oncqo"]
+[ext_resource type="Texture2D" uid="uid://bdu8hjmvb4lvs" path="res://Image/skilltree/generic/Agility.png" id="6_c3krg"]
 [ext_resource type="Texture2D" uid="uid://3leg1crhyyjn" path="res://Image/skilltree/demonknight/Guillotine.png" id="6_fdsjl"]
+[ext_resource type="Texture2D" uid="uid://pq5xgxw3fob6" path="res://Image/skilltree/generic-locked/Agility.png" id="7_1ly5m"]
 [ext_resource type="Texture2D" uid="uid://c4xy6bdtm3ikk" path="res://Image/skilltree/inferno-locked/Fireball-V2.png" id="7_7mik7"]
 [ext_resource type="Texture2D" uid="uid://bay7s7odlwe42" path="res://Image/skilltree/inferno/Meteor.png" id="7_rqjsk"]
 [ext_resource type="Texture2D" uid="uid://y4wurtq66r8p" path="res://Image/skilltree/demonknight/TrueForm.png" id="8_72td3"]
+[ext_resource type="Texture2D" uid="uid://s8goqahyt6ft" path="res://Image/skilltree/generic/Wisdom.png" id="8_ww867"]
 [ext_resource type="Texture2D" uid="uid://bqjjtd02m1a73" path="res://Image/skilltree/inferno/HELLonEARTH-B.png" id="9_orqo6"]
+[ext_resource type="Texture2D" uid="uid://cj4t414qr6e7h" path="res://Image/skilltree/generic-locked/Wisdom.png" id="9_wquwx"]
+[ext_resource type="Texture2D" uid="uid://bkoq73s6i5ui7" path="res://Image/skilltree/generic/Constitution.png" id="10_7ockp"]
 [ext_resource type="Texture2D" uid="uid://b4gt73c002igb" path="res://Image/skilltree/demonknight-locked/FireStrike.png" id="10_fpb5p"]
 [ext_resource type="Texture2D" uid="uid://chrvs5gl0np2q" path="res://Image/skilltree/demonknight/TrueForm-B.png" id="10_ryahl"]
+[ext_resource type="Texture2D" uid="uid://bw24nx32ps4ly" path="res://Image/skilltree/generic-locked/Constitution.png" id="11_ltef1"]
 [ext_resource type="Texture2D" uid="uid://cre72nealvemb" path="res://Image/skilltree/inferno-locked/Fire_Rain.png" id="11_m3i6t"]
 [ext_resource type="Texture2D" uid="uid://c0afy57x3lqba" path="res://Image/skilltree/demonknight-locked/Guillotine.png" id="13_52jj6"]
 [ext_resource type="Texture2D" uid="uid://cc1rtuoep6wxk" path="res://Image/skilltree/inferno-locked/Meteor.png" id="15_0nmsp"]
 [ext_resource type="Texture2D" uid="uid://1orj26y6fxbw" path="res://Image/skilltree/demonknight-locked/TrueForm-B.png" id="17_k4pg6"]
+[ext_resource type="Texture2D" uid="uid://bdlj0d1mljmbf" path="res://Image/skilltree/demonknight-locked/TrueForm.png" id="17_sha8l"]
 [ext_resource type="Texture2D" uid="uid://r5dsvgannj7a" path="res://Image/skilltree/inferno-locked/HELLonEARTH-B.png" id="19_4mlua"]
 
 [node name="Skill Tree" type="Control"]
@@ -31,21 +41,22 @@ script = ExtResource("1_culyc")
 
 [node name="Back" type="Button" parent="."]
 layout_mode = 1
-offset_right = 117.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -117.0
 offset_bottom = 69.0
+grow_horizontal = 0
 theme_override_fonts/font = ExtResource("2_gvh82")
 theme_override_font_sizes/font_size = 32
 text = "Back"
 
 [node name="TextBoxes" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -156.5
-offset_right = 269.0
-offset_bottom = 156.5
-grow_vertical = 2
+layout_mode = 0
+offset_left = 671.0
+offset_top = 209.0
+offset_right = 1034.0
+offset_bottom = 511.0
 
 [node name="Explanation" type="Label" parent="TextBoxes"]
 custom_minimum_size = Vector2(100, 200)
@@ -72,313 +83,368 @@ autowrap_mode = 2
 
 [node name="Tree" type="ScrollContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -280.0
 offset_top = -320.0
-offset_right = 280.0
+offset_right = 560.0
 offset_bottom = 320.0
-grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Tree"]
+[node name="PanelContainer" type="PanelContainer" parent="Tree"]
 layout_mode = 2
 
-[node name="Labels" type="VBoxContainer" parent="Tree/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="Tree/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("3_fo6xe")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Tree/PanelContainer"]
+layout_mode = 2
+
+[node name="Labels" type="VBoxContainer" parent="Tree/PanelContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 95
 
-[node name="Label1" type="Label" parent="Tree/HBoxContainer/Labels"]
+[node name="Label1" type="Label" parent="Tree/PanelContainer/HBoxContainer/Labels"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gvh82")
 theme_override_font_sizes/font_size = 32
 text = "Level 1"
 
-[node name="Label2" type="Label" parent="Tree/HBoxContainer/Labels"]
+[node name="Label2" type="Label" parent="Tree/PanelContainer/HBoxContainer/Labels"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gvh82")
 theme_override_font_sizes/font_size = 32
 text = "Level 2"
 
-[node name="Label3" type="Label" parent="Tree/HBoxContainer/Labels"]
+[node name="Label3" type="Label" parent="Tree/PanelContainer/HBoxContainer/Labels"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gvh82")
 theme_override_font_sizes/font_size = 32
 text = "Level 3"
 
-[node name="Label4" type="Label" parent="Tree/HBoxContainer/Labels"]
+[node name="Label4" type="Label" parent="Tree/PanelContainer/HBoxContainer/Labels"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gvh82")
 theme_override_font_sizes/font_size = 32
 text = "Level 4"
 
-[node name="Label5" type="Label" parent="Tree/HBoxContainer/Labels"]
+[node name="Label5" type="Label" parent="Tree/PanelContainer/HBoxContainer/Labels"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gvh82")
 theme_override_font_sizes/font_size = 32
 text = "Level 5"
 
-[node name="Label6" type="Label" parent="Tree/HBoxContainer/Labels"]
+[node name="Label6" type="Label" parent="Tree/PanelContainer/HBoxContainer/Labels"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gvh82")
 theme_override_font_sizes/font_size = 32
 text = "Level 6"
 
-[node name="Label7" type="Label" parent="Tree/HBoxContainer/Labels"]
+[node name="Label7" type="Label" parent="Tree/PanelContainer/HBoxContainer/Labels"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gvh82")
 theme_override_font_sizes/font_size = 32
 text = "Level 7"
 
-[node name="Label8" type="Label" parent="Tree/HBoxContainer/Labels"]
+[node name="Label8" type="Label" parent="Tree/PanelContainer/HBoxContainer/Labels"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gvh82")
 theme_override_font_sizes/font_size = 32
 text = "Level 8"
 
-[node name="Label9" type="Label" parent="Tree/HBoxContainer/Labels"]
+[node name="Label9" type="Label" parent="Tree/PanelContainer/HBoxContainer/Labels"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_gvh82")
 theme_override_font_sizes/font_size = 32
 text = "Level 9"
 
-[node name="Tree Levels" type="VBoxContainer" parent="Tree/HBoxContainer"]
+[node name="Tree Levels" type="VBoxContainer" parent="Tree/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 40
 
-[node name="Level 1" type="HBoxContainer" parent="Tree/HBoxContainer/Tree Levels"]
+[node name="Level 1" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
 layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Damage" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 1"]
+[node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
-texture_normal = ExtResource("8_72td3")
+disabled = true
+texture_normal = ExtResource("4_hu5g0")
+texture_disabled = ExtResource("5_ngw3d")
 
-[node name="Speed" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 1"]
+[node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
 size_flags_horizontal = 8
-texture_normal = ExtResource("8_72td3")
+disabled = true
+texture_normal = ExtResource("6_c3krg")
+texture_disabled = ExtResource("7_1ly5m")
 
-[node name="Magic" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 1"]
+[node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
-texture_normal = ExtResource("8_72td3")
+disabled = true
+texture_normal = ExtResource("8_ww867")
+texture_disabled = ExtResource("9_wquwx")
 
-[node name="Health" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 1"]
+[node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
-texture_normal = ExtResource("8_72td3")
+disabled = true
+texture_normal = ExtResource("10_7ockp")
+texture_disabled = ExtResource("11_ltef1")
 
-[node name="Level 2" type="HBoxContainer" parent="Tree/HBoxContainer/Tree Levels"]
+[node name="Level 2" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Counter" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 2"]
+[node name="Counter" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2"]
 layout_mode = 2
 size_flags_horizontal = 4
 disabled = true
 texture_normal = ExtResource("2_2uve7")
 texture_disabled = ExtResource("5_dnau8")
 
-[node name="Fireball" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 2"]
+[node name="Fireball" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2"]
 layout_mode = 2
 disabled = true
 texture_normal = ExtResource("3_yvy8a")
 texture_disabled = ExtResource("7_7mik7")
 
-[node name="Blood Siphon" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 2"]
+[node name="Blood Siphon" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2"]
 layout_mode = 2
-texture_normal = ExtResource("2_2uve7")
+disabled = true
+texture_normal = ExtResource("8_72td3")
+texture_disabled = ExtResource("17_sha8l")
 
-[node name="Level 3" type="HBoxContainer" parent="Tree/HBoxContainer/Tree Levels"]
+[node name="Level 3" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
 layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Damage" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 3"]
+[node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3"]
 layout_mode = 2
-texture_normal = ExtResource("4_6o348")
+disabled = true
+texture_normal = ExtResource("4_hu5g0")
+texture_disabled = ExtResource("5_ngw3d")
 
-[node name="Speed" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 3"]
+[node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+size_flags_horizontal = 8
+disabled = true
+texture_normal = ExtResource("6_c3krg")
+texture_disabled = ExtResource("7_1ly5m")
 
-[node name="Magic" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 3"]
+[node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+disabled = true
+texture_normal = ExtResource("8_ww867")
+texture_disabled = ExtResource("9_wquwx")
 
-[node name="Health" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 3"]
+[node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+disabled = true
+texture_normal = ExtResource("10_7ockp")
+texture_disabled = ExtResource("11_ltef1")
 
-[node name="Level 4" type="HBoxContainer" parent="Tree/HBoxContainer/Tree Levels"]
+[node name="Level 4" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Shattering Strike" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 4"]
+[node name="Shattering Strike" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4"]
 layout_mode = 2
 size_flags_horizontal = 4
 disabled = true
 texture_normal = ExtResource("4_6o348")
 texture_disabled = ExtResource("10_fpb5p")
 
-[node name="Fire Rain" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 4"]
+[node name="Fire Rain" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4"]
 layout_mode = 2
 disabled = true
 texture_normal = ExtResource("5_oncqo")
 texture_disabled = ExtResource("11_m3i6t")
 
-[node name="Red Rush" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 4"]
+[node name="Red Rush" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4"]
 layout_mode = 2
-texture_normal = ExtResource("2_2uve7")
+disabled = true
+texture_normal = ExtResource("8_72td3")
+texture_disabled = ExtResource("17_sha8l")
 
-[node name="Level 5" type="HBoxContainer" parent="Tree/HBoxContainer/Tree Levels"]
+[node name="Level 5" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
 layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Damage" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 5"]
+[node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5"]
 layout_mode = 2
-texture_normal = ExtResource("4_6o348")
+disabled = true
+texture_normal = ExtResource("4_hu5g0")
+texture_disabled = ExtResource("5_ngw3d")
 
-[node name="Speed" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 5"]
+[node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+size_flags_horizontal = 8
+disabled = true
+texture_normal = ExtResource("6_c3krg")
+texture_disabled = ExtResource("7_1ly5m")
 
-[node name="Magic" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 5"]
+[node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+disabled = true
+texture_normal = ExtResource("8_ww867")
+texture_disabled = ExtResource("9_wquwx")
 
-[node name="Health" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 5"]
+[node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+disabled = true
+texture_normal = ExtResource("10_7ockp")
+texture_disabled = ExtResource("11_ltef1")
 
-[node name="Level 6" type="HBoxContainer" parent="Tree/HBoxContainer/Tree Levels"]
+[node name="Level 6" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Guillotine" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 6"]
+[node name="Guillotine" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 6"]
 layout_mode = 2
 size_flags_horizontal = 4
 disabled = true
 texture_normal = ExtResource("6_fdsjl")
 texture_disabled = ExtResource("13_52jj6")
 
-[node name="Meteor" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 6"]
+[node name="Meteor" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 6"]
 layout_mode = 2
 disabled = true
 texture_normal = ExtResource("7_rqjsk")
 texture_disabled = ExtResource("15_0nmsp")
 
-[node name="Noble Charm" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 6"]
+[node name="Noble Charm" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 6"]
 layout_mode = 2
-texture_normal = ExtResource("2_2uve7")
+disabled = true
+texture_normal = ExtResource("8_72td3")
+texture_disabled = ExtResource("17_sha8l")
 
-[node name="Level 7" type="HBoxContainer" parent="Tree/HBoxContainer/Tree Levels"]
+[node name="Level 7" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
 layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Damage" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 7"]
+[node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7"]
 layout_mode = 2
-texture_normal = ExtResource("4_6o348")
+disabled = true
+texture_normal = ExtResource("4_hu5g0")
+texture_disabled = ExtResource("5_ngw3d")
 
-[node name="Speed" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 7"]
+[node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+size_flags_horizontal = 8
+disabled = true
+texture_normal = ExtResource("6_c3krg")
+texture_disabled = ExtResource("7_1ly5m")
 
-[node name="Magic" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 7"]
+[node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+disabled = true
+texture_normal = ExtResource("8_ww867")
+texture_disabled = ExtResource("9_wquwx")
 
-[node name="Health" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 7"]
+[node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+disabled = true
+texture_normal = ExtResource("10_7ockp")
+texture_disabled = ExtResource("11_ltef1")
 
-[node name="Level 8" type="HBoxContainer" parent="Tree/HBoxContainer/Tree Levels"]
+[node name="Level 8" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="True Form" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 8"]
+[node name="True Form" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 8"]
 layout_mode = 2
 size_flags_horizontal = 4
 disabled = true
 texture_normal = ExtResource("10_ryahl")
 texture_disabled = ExtResource("17_k4pg6")
 
-[node name="Hell on Earth" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 8"]
+[node name="Hell on Earth" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 8"]
 layout_mode = 2
 disabled = true
 texture_normal = ExtResource("9_orqo6")
 texture_disabled = ExtResource("19_4mlua")
 
-[node name="Vampiric Frenzy" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 8"]
+[node name="Vampiric Frenzy" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 8"]
 layout_mode = 2
-texture_normal = ExtResource("2_2uve7")
+disabled = true
+texture_normal = ExtResource("8_72td3")
+texture_disabled = ExtResource("17_sha8l")
 
-[node name="Level 9" type="HBoxContainer" parent="Tree/HBoxContainer/Tree Levels"]
+[node name="Level 9" type="HBoxContainer" parent="Tree/PanelContainer/HBoxContainer/Tree Levels"]
 layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Damage" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 9"]
+[node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9"]
 layout_mode = 2
-texture_normal = ExtResource("4_6o348")
+disabled = true
+texture_normal = ExtResource("4_hu5g0")
+texture_disabled = ExtResource("5_ngw3d")
 
-[node name="Speed" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 9"]
+[node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+size_flags_horizontal = 8
+disabled = true
+texture_normal = ExtResource("6_c3krg")
+texture_disabled = ExtResource("7_1ly5m")
 
-[node name="Magic" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 9"]
+[node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+disabled = true
+texture_normal = ExtResource("8_ww867")
+texture_disabled = ExtResource("9_wquwx")
 
-[node name="Health" type="TextureButton" parent="Tree/HBoxContainer/Tree Levels/Level 9"]
+[node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9"]
 layout_mode = 2
-texture_normal = ExtResource("5_oncqo")
+disabled = true
+texture_normal = ExtResource("10_7ockp")
+texture_disabled = ExtResource("11_ltef1")
 
 [connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 1/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 1/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 1/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 1/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 2/Counter" to="." method="_on_tier_pressed" binds= ["Demon Knight", 1]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 2/Fireball" to="." method="_on_tier_pressed" binds= ["Inferno", 1]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 2/Blood Siphon" to="." method="_on_tier_pressed" binds= ["Vampire", 1]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 3/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 3/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 3/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 3/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 4/Shattering Strike" to="." method="_on_tier_pressed" binds= ["Demon Knight", 2]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 4/Fire Rain" to="." method="_on_tier_pressed" binds= ["Inferno", 2]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 4/Red Rush" to="." method="_on_tier_pressed" binds= ["Vampire", 2]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 5/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 5/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 5/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 5/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 6/Guillotine" to="." method="_on_tier_pressed" binds= ["Demon Knight", 3]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 6/Meteor" to="." method="_on_tier_pressed" binds= ["Inferno", 3]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 6/Noble Charm" to="." method="_on_tier_pressed" binds= ["Vampire", 3]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 7/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 7/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 7/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 7/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 8/True Form" to="." method="_on_tier_pressed" binds= ["Demon Knight", 4]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 8/Hell on Earth" to="." method="_on_tier_pressed" binds= ["Inferno", 4]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 8/Vampiric Frenzy" to="." method="_on_tier_pressed" binds= ["Vampire", 4]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 9/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 9/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 9/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
-[connection signal="pressed" from="Tree/HBoxContainer/Tree Levels/Level 9/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2/Counter" to="." method="_on_tier_pressed" binds= ["Demon Knight", 1]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2/Fireball" to="." method="_on_tier_pressed" binds= ["Inferno", 1]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2/Blood Siphon" to="." method="_on_tier_pressed" binds= ["Vampire Lord", 1]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4/Shattering Strike" to="." method="_on_tier_pressed" binds= ["Demon Knight", 2]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4/Fire Rain" to="." method="_on_tier_pressed" binds= ["Inferno", 2]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4/Red Rush" to="." method="_on_tier_pressed" binds= ["Vampire Lord", 2]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 6/Guillotine" to="." method="_on_tier_pressed" binds= ["Demon Knight", 3]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 6/Meteor" to="." method="_on_tier_pressed" binds= ["Inferno", 3]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 6/Noble Charm" to="." method="_on_tier_pressed" binds= ["Vampire Lord", 3]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 7/Health" to="." method="_on_generic_pressed" binds= ["Health"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 8/True Form" to="." method="_on_tier_pressed" binds= ["Demon Knight", 4]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 8/Hell on Earth" to="." method="_on_tier_pressed" binds= ["Inferno", 4]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 8/Vampiric Frenzy" to="." method="_on_tier_pressed" binds= ["Vampire Lord", 4]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9/Damage" to="." method="_on_generic_pressed" binds= ["Damage"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9/Speed" to="." method="_on_generic_pressed" binds= ["Speed"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9/Magic" to="." method="_on_generic_pressed" binds= ["Magic"]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 9/Health" to="." method="_on_generic_pressed" binds= ["Health"]]

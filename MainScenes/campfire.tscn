@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://4hjr3fcl6odq"]
+[gd_scene load_steps=13 format=3 uid="uid://4hjr3fcl6odq"]
 
 [ext_resource type="Script" path="res://src/Campfire.gd" id="1_32l6o"]
 [ext_resource type="Texture2D" uid="uid://dyp8gqxrnk6ll" path="res://Image/campfire/BG-static.png" id="2_vqedm"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dt5ru7n7du5yi" path="res://Image/campfire/Upgrade.png" id="7_alfhd"]
 [ext_resource type="Texture2D" uid="uid://cjwf6oqv1k4ce" path="res://Image/campfire/Upgrade-Hover.png" id="8_1p5o3"]
 [ext_resource type="BitMap" uid="uid://dcyygrqnawjmu" path="res://Image/campfire/Upgrade-ClickMask.bmp" id="8_kcuar"]
+[ext_resource type="PackedScene" uid="uid://dub0g5t4go5dt" path="res://MainScenes/skill_tree.tscn" id="12_li17o"]
 
 [node name="Campfire" type="Control"]
 layout_mode = 3
@@ -57,6 +58,10 @@ texture_normal = ExtResource("7_alfhd")
 texture_hover = ExtResource("8_1p5o3")
 texture_click_mask = ExtResource("8_kcuar")
 stretch_mode = 4
+
+[node name="Skill Tree" parent="." instance=ExtResource("12_li17o")]
+visible = false
+layout_mode = 1
 
 [connection signal="pressed" from="Embark" to="." method="_on_embark_pressed"]
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
