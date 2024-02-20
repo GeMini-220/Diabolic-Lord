@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dt5ru7n7du5yi" path="res://Image/campfire/Upgrade.png" id="7_alfhd"]
 [ext_resource type="Texture2D" uid="uid://cjwf6oqv1k4ce" path="res://Image/campfire/Upgrade-Hover.png" id="8_1p5o3"]
 [ext_resource type="BitMap" uid="uid://dcyygrqnawjmu" path="res://Image/campfire/Upgrade-ClickMask.bmp" id="8_kcuar"]
-[ext_resource type="PackedScene" path="res://MainScenes/skill_tree.tscn" id="12_li17o"]
+[ext_resource type="PackedScene" uid="uid://ycbqvltmppkh" path="res://MainScenes/skill_tree.tscn" id="12_li17o"]
 
 [node name="Campfire" type="Control"]
 layout_mode = 3

@@ -13,8 +13,16 @@ func _ready():
 		load_game.visible = false
 
 func _on_start_new_game_pressed():
+	var save_file = FileAccess.open(State.FILE_PATH, FileAccess.READ)
+	if save_file:
+		$newGameConfirmationDialog.popup()
+
+func _on_new_game_confirmation_dialog_confirmed():
 	State.initialize_player_data()
 	get_tree().change_scene_to_packed(battle_scene)
+	
+func _on_new_game_confirmation_dialog_canceled():
+	$newGameConfirmationDialog.hide()
 
 func _on_load_game_pressed():
 	var save_file = FileAccess.open(State.FILE_PATH, FileAccess.READ)
@@ -34,3 +42,8 @@ func _on_confirm_button_pressed():
 
 func _on_cancel_button_pressed():
 	confirmation_dialog.hide()
+
+
+
+
+

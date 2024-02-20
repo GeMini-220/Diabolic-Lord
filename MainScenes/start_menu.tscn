@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bt0p0f1doph00"]
+[gd_scene load_steps=12 format=3 uid="uid://bt0p0f1doph00"]
 
 [ext_resource type="Script" path="res://src/start_menu.gd" id="1_yf0g8"]
 [ext_resource type="Texture2D" uid="uid://c71gg1jag5br4" path="res://Image/Mausoleum_Background.png" id="2_37vsj"]
 [ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="2_wgoxx"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="3_7t56n"]
+[ext_resource type="Theme" uid="uid://bnteruy8vbr4b" path="res://src/main_menu_button.tres" id="4_tvqsd"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5c30k"]
 
@@ -66,6 +67,7 @@ offset_left = 31.0
 offset_top = 382.0
 offset_right = 271.0
 offset_bottom = 444.0
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxEmpty_5c30k")
@@ -81,6 +83,7 @@ offset_left = 269.0
 offset_top = 460.0
 offset_right = 424.0
 offset_bottom = 514.0
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxEmpty_411go")
@@ -95,6 +98,7 @@ offset_left = 688.0
 offset_top = 462.0
 offset_right = 851.0
 offset_bottom = 524.0
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ayfon")
@@ -103,10 +107,12 @@ text = "Quit
  Game"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+title = "Quit?"
 initial_position = 2
-size = Vector2i(500, 250)
-ok_button_text = ""
-cancel_button_text = ""
+size = Vector2i(500, 130)
+theme = ExtResource("4_tvqsd")
+ok_button_text = "YES. LET ME GO"
+cancel_button_text = "NO. No."
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialog"]
 anchors_preset = 15
@@ -125,7 +131,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="ConfirmationDialog/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.988235, 0.921569, 0.945098, 1)
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 text = "Are you sure you want to quit?"
@@ -152,21 +158,40 @@ alignment = 1
 layout_mode = 2
 
 [node name="confirm_button" type="Button" parent="ConfirmationDialog/HBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 25
 text = "Yes"
 
 [node name="cancel_button" type="Button" parent="ConfirmationDialog/HBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 25
 text = "No"
 
+[node name="newGameConfirmationDialog" type="ConfirmationDialog" parent="."]
+title = "New Game?"
+initial_position = 1
+size = Vector2i(400, 200)
+theme = ExtResource("4_tvqsd")
+ok_button_text = "YES. YOU HEARD ME."
+dialog_text = "Are you sure you
+want to create a new game?
+Your current save file
+will be DELETED."
+dialog_autowrap = true
+cancel_button_text = "NO!!!!!"
+
 [connection signal="pressed" from="start_new_game" to="." method="_on_start_new_game_pressed"]
 [connection signal="pressed" from="load_game" to="." method="_on_load_game_pressed"]
 [connection signal="pressed" from="quit_game" to="." method="_on_quit_game_pressed"]
+[connection signal="canceled" from="ConfirmationDialog" to="." method="_on_cancel_button_pressed"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirm_button_pressed"]
 [connection signal="pressed" from="ConfirmationDialog/HBoxContainer/VBoxContainer/confirm_button" to="." method="_on_confirm_button_pressed"]
 [connection signal="pressed" from="ConfirmationDialog/HBoxContainer/VBoxContainer/cancel_button" to="." method="_on_cancel_button_pressed"]
+[connection signal="canceled" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_canceled"]
+[connection signal="confirmed" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_confirmed"]
