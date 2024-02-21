@@ -1,9 +1,106 @@
-[gd_scene load_steps=5 format=3 uid="uid://bt0p0f1doph00"]
+[gd_scene load_steps=9 format=3 uid="uid://bt0p0f1doph00"]
 
 [ext_resource type="Texture2D" uid="uid://u06ai6t8fqc2" path="res://Image/battleback1.png" id="1_l2ec1"]
 [ext_resource type="Script" path="res://src/start_menu.gd" id="1_yf0g8"]
 [ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="2_wgoxx"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="3_7t56n"]
+[ext_resource type="AudioStream" uid="uid://dsuq45efjulon" path="res://audio/DLOST_-_Diabolic_Lord.wav" id="5_har3j"]
+
+[sub_resource type="Animation" id="Animation_ivpcf"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../BGMusic:volume_db")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.66533e-15, -80.0]
+}
+
+[sub_resource type="Animation" id="Animation_8gayl"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../BGMusic:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../BGMusic:volume_db")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-80.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_itlke"]
+_data = {
+"fade_in": SubResource("Animation_8gayl"),
+"fade_out": SubResource("Animation_ivpcf")
+}
 
 [node name="Start Menu" type="Control"]
 layout_mode = 3
@@ -94,6 +191,7 @@ text = "Quit Game"
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 initial_position = 2
 size = Vector2i(500, 250)
+popup_window = true
 ok_button_text = ""
 cancel_button_text = ""
 
@@ -153,6 +251,25 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 25
 text = "No"
+
+[node name="ScreenFade" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScreenFadeAnim" type="AnimationPlayer" parent="ScreenFade"]
+libraries = {
+"": SubResource("AnimationLibrary_itlke")
+}
+
+[node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_har3j")
+volume_db = -80.0
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/start_new_game" to="." method="_on_start_new_game_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/load_game" to="." method="_on_load_game_pressed"]
