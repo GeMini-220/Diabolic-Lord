@@ -1,5 +1,6 @@
 extends Control
 
+var skill_tree_opened = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,3 +23,6 @@ func _on_main_menu_pressed():
 func _on_upgrade_pressed():
 	#get_tree().change_scene_to_file("res://MainScenes/skill_tree.tscn")
 	$"Skill Tree".show()
+	if skill_tree_opened == false:
+		$"Skill Tree".check_for_upgrades()
+		skill_tree_opened = true
