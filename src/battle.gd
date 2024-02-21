@@ -3,6 +3,14 @@ signal textbox_closed
 signal action_taken
 signal target_selected
 @export var characters = {}
+
+var hex_duration = 0
+var hex_effective_damage = 1.0 # This stores the factor by which Boss_damage is currently being multiplied due to Hex.
+var redirect_active = false
+var redirect_target = null # The target to redirect damage to
+var redirect_absorption = 0 # Amount of damage the redirect target can absorb
+
+
 var enemies
 var num_current_enemies
 var all_characters
@@ -146,6 +154,10 @@ func enemy_turn(enemy):
 				#     await enemy_shield(enemy)
 				"hide":
 					await enemy_hide(enemy)
+				"hex":
+					await enemy_hex(enemy)
+				"redirect":
+					await enemy_redirect(enemy)
 
 #this is for a charmed enemy to select a random enemy that is not them selves
 func select_random_ally(charmed_enemy):
@@ -164,6 +176,51 @@ func calculate_damage(attacker, target) -> int:
 	final_damage = max(final_damage, 0)
 	return final_damage
 
+func enemy_redirect(enemy):
+	redirect_active = true
+	redirect_target = enemy # Redirecting damage to the artificer itself
+	redirect_absorption = enemy.magic # Assuming 'magic' is the attribute for MGC
+	display_text("The %s prepares to redirect damage!" % enemy.name)
+	await self.textbox_closed
+
+func calculate_damage_with_redirect(damage, original_target):
+	if redirect_active and redirect_target and original_target != redirect_target:
+		var absorbed_damage = min(redirect_absorption, damage)
+		var remaining_damage = damage - absorbed_damage
+
+		# Apply absorbed damage to the redirect target
+		redirect_target.current_health -= absorbed_damage
+		# Apply any remaining damage to the original target
+		original_target.current_health -= remaining_damage
+
+		display_text("The %s redirects and absorbs %d damage, leaving %d damage to %s." % [redirect_target.name, absorbed_damage, remaining_damage, original_target.name])
+		await self.textbox_closed
+
+		# After redirecting once, you might deactivate the redirect or handle as needed
+		redirect_active = false # Reset or manage based on your game's mechanics
+	else:
+		# Normal damage application if no redirect is active
+		original_target.current_health -= damage
+
+
+func enemy_hex(enemy):
+	if hex_duration == 0: # Check if Hex can be applied
+		display_text("The %s casts a Hex, weakening the Demon Lord's attacks!" % enemy.name)
+		await self.textbox_closed
+
+		# Apply the Hex effect
+		hex_effective_damage = 0.75 # Reduce damage to 75% of its original value
+		Boss_damage *= hex_effective_damage
+		hex_duration = 2 # Hex lasts for 2 rounds
+
+		display_text("The Demon Lord's attack power is reduced for 2 rounds!")
+		await self.textbox_closed
+	else:
+		display_text("The Hex spell is still affecting the Demon Lord and can't be reapplied yet.")
+		await self.textbox_closed
+
+
+	
 
 func enemy_attack(enemy):
 	if enemy.is_hiding:
@@ -355,21 +412,19 @@ func process():
 				continue
 			display_text("It's the %s's turn!" % character.name)
 			await self.textbox_closed
-			if character.name != 'DemonLord':
-				await enemy_turn(character)
-			else:
-				var next = i + 1
-				var current_health
-				if next < turn_order.size():
-					if turn_order[next].name == 'DemonLord':
-						current_health = State.current_health
-					else:
-						current_health = turn_order[next].current_health
-				while next < turn_order.size() and current_health == 0:
-					next = next + 1
-				if next < turn_order.size():
-					display_text("The next character taking action is %s" % turn_order[next].name)
+			if character.name == 'DemonLord':
+				# Check if the Dempn Lord is returning from a "Red Rush" dive
+				if is_flying:
+					# Apply the Red Rush damage
+					display_text("Diving from the skies, the Vampire Lord strikes %s for %d damage!" % [red_rush_target.name, red_rush_damage])
 					await self.textbox_closed
+					$RedRushSound2.play()
+					fly_away.play("fly_back")
+					red_rush_target.took_damage(red_rush_damage)
+					red_rush_target = null
+					red_rush_damage = 0
+					is_flying = false  # Reset flying status
+				# Allow the Demonlord to choose the next move
 				$ActionsPanel.show()
 				await player_turn(character)
 				await household_passive()
@@ -466,6 +521,9 @@ func _on_blood_siphon_pressed():
 
 	# Calculate Blood Siphon damage within a low to medium range
 	var blood_siphon_damage = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange)) # Adjust the range based on desired spell power
+	if redirect_active and redirect_target and target != redirect_target:
+		calculate_damage_with_redirect(blood_siphon_damage, target)
+		
 	$VL_BS_Sound.play()
 	await target.took_damage(blood_siphon_damage)
 	
@@ -488,7 +546,6 @@ func _on_blood_siphon_pressed():
 		display_text("You killed the %s!" % target.name)
 		await self.textbox_closed
 		enemies.erase(target)  # Remove the target from the enemies list
-		target.queue_free()  # Optionally remove the enemy node from the scene
 		await check_win()  # Check if this triggers a win condition
 	
 	target = null 
@@ -532,7 +589,6 @@ func household_passive():
 		display_text("You killed the %s!" % target.name)
 		await self.textbox_closed
 		enemies.erase(target)  # Remove the target from the enemies list
-		target.queue_free()  # Optionally remove the enemy node from the scene
 		await check_win()  # Check if this triggers a win condition
 	
 	target = null  # Clear the current target
