@@ -1161,7 +1161,6 @@ anchor_mode = 0
 
 [node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_wh8s1")
-volume_db = -80.0
 
 [node name="SpellSound1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("12_hjm0n")
@@ -1221,6 +1220,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ScreenFadeAnimPlayer" type="AnimationPlayer" parent="ScreenFade"]
+autoplay = "fade_in"
 libraries = {
 "": SubResource("AnimationLibrary_32g0i")
 }
