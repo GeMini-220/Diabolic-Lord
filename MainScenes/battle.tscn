@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=3 uid="uid://cmm365jef52ho"]
+[gd_scene load_steps=90 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
