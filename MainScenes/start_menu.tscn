@@ -1,106 +1,22 @@
-[gd_scene load_steps=9 format=3 uid="uid://bt0p0f1doph00"]
+[gd_scene load_steps=12 format=3 uid="uid://bt0p0f1doph00"]
 
-[ext_resource type="Texture2D" uid="uid://u06ai6t8fqc2" path="res://Image/battleback1.png" id="1_l2ec1"]
 [ext_resource type="Script" path="res://src/start_menu.gd" id="1_yf0g8"]
+[ext_resource type="Texture2D" uid="uid://c71gg1jag5br4" path="res://Image/Mausoleum_Background.png" id="2_37vsj"]
 [ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="2_wgoxx"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="3_7t56n"]
-[ext_resource type="AudioStream" uid="uid://dsuq45efjulon" path="res://audio/DLOST_-_Diabolic_Lord.wav" id="5_har3j"]
+[ext_resource type="Theme" uid="uid://bnteruy8vbr4b" path="res://src/main_menu_button.tres" id="4_tvqsd"]
 
-[sub_resource type="Animation" id="Animation_8gayl"]
-resource_name = "fade_in"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.1, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../BGMusic:playing")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../BGMusic:volume_db")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.1, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-80.0, 0.0]
-}
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5c30k"]
 
-[sub_resource type="Animation" id="Animation_ivpcf"]
-resource_name = "fade_out"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../BGMusic:volume_db")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.66533e-15, -80.0]
-}
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oxn2p"]
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_itlke"]
-_data = {
-"fade_in": SubResource("Animation_8gayl"),
-"fade_out": SubResource("Animation_ivpcf")
-}
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_411go"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jmgfj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ayfon"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dd4pb"]
 
 [node name="Start Menu" type="Control"]
 layout_mode = 3
@@ -118,28 +34,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_l2ec1")
+texture = ExtResource("2_37vsj")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 12
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 1140.0
+offset_bottom = 636.0
 theme_override_constants/separation = 140
 
-[node name="Seperator" type="Control" parent="MarginContainer/VBoxContainer"]
+[node name="Seperator" type="Control" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.717647, 0.168627, 0.2, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -152,48 +60,59 @@ text = "Diabolic Lord"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 64
-alignment = 1
-
-[node name="Seperator2" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Seperator3" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="start_new_game" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="start_new_game" type="Button" parent="."]
 custom_minimum_size = Vector2(120, 32)
 layout_mode = 2
+offset_left = 31.0
+offset_top = 382.0
+offset_right = 271.0
+offset_bottom = 444.0
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
-text = "Start New Game"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5c30k")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_oxn2p")
+text = "Start
+ New
+ Game"
 
-[node name="load_game" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="load_game" type="Button" parent="."]
 custom_minimum_size = Vector2(120, 32)
 layout_mode = 2
+offset_left = 269.0
+offset_top = 460.0
+offset_right = 424.0
+offset_bottom = 514.0
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
-text = "Load Game"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_411go")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_jmgfj")
+text = "Load
+ Game"
 
-[node name="quit_game" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="quit_game" type="Button" parent="."]
 custom_minimum_size = Vector2(120, 32)
 layout_mode = 2
+offset_left = 688.0
+offset_top = 462.0
+offset_right = 851.0
+offset_bottom = 524.0
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
-text = "Quit Game"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ayfon")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_dd4pb")
+text = "Quit
+ Game"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+title = "Quit?"
 initial_position = 2
-size = Vector2i(500, 250)
-popup_window = true
-ok_button_text = ""
-cancel_button_text = ""
+size = Vector2i(500, 130)
+theme = ExtResource("4_tvqsd")
+ok_button_text = "YES. LET ME GO"
+cancel_button_text = "NO. No."
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ConfirmationDialog"]
 anchors_preset = 15
@@ -212,7 +131,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="ConfirmationDialog/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.988235, 0.921569, 0.945098, 1)
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 text = "Are you sure you want to quit?"
@@ -239,40 +158,40 @@ alignment = 1
 layout_mode = 2
 
 [node name="confirm_button" type="Button" parent="ConfirmationDialog/HBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 25
 text = "Yes"
 
 [node name="cancel_button" type="Button" parent="ConfirmationDialog/HBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme = ExtResource("4_tvqsd")
 theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 25
 text = "No"
 
-[node name="ScreenFade" type="ColorRect" parent="."]
-modulate = Color(0, 0, 0, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
+[node name="newGameConfirmationDialog" type="ConfirmationDialog" parent="."]
+title = "New Game?"
+initial_position = 1
+size = Vector2i(400, 200)
+theme = ExtResource("4_tvqsd")
+ok_button_text = "YES. YOU HEARD ME."
+dialog_text = "Are you sure you
+want to create a new game?
+Your current save file
+will be DELETED."
+dialog_autowrap = true
+cancel_button_text = "NO!!!!!"
 
-[node name="ScreenFadeAnim" type="AnimationPlayer" parent="ScreenFade"]
-libraries = {
-"": SubResource("AnimationLibrary_itlke")
-}
-
-[node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_har3j")
-volume_db = -80.0
-
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/start_new_game" to="." method="_on_start_new_game_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/load_game" to="." method="_on_load_game_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/quit_game" to="." method="_on_quit_game_pressed"]
+[connection signal="pressed" from="start_new_game" to="." method="_on_start_new_game_pressed"]
+[connection signal="pressed" from="load_game" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="quit_game" to="." method="_on_quit_game_pressed"]
+[connection signal="canceled" from="ConfirmationDialog" to="." method="_on_cancel_button_pressed"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirm_button_pressed"]
 [connection signal="pressed" from="ConfirmationDialog/HBoxContainer/VBoxContainer/confirm_button" to="." method="_on_confirm_button_pressed"]
 [connection signal="pressed" from="ConfirmationDialog/HBoxContainer/VBoxContainer/cancel_button" to="." method="_on_cancel_button_pressed"]
+[connection signal="canceled" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_canceled"]
+[connection signal="confirmed" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_confirmed"]

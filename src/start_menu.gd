@@ -2,9 +2,7 @@ extends Control
 
 @onready var battle_scene = preload("res://MainScenes/campfire.tscn") as PackedScene
 @onready var confirmation_dialog = $ConfirmationDialog
-@onready var load_game = $MarginContainer/HBoxContainer/VBoxContainer/load_game
-@onready var screen_fade = $ScreenFade
-@onready var screen_fade_anim = $ScreenFade/ScreenFadeAnim
+@onready var load_game = $load_game
 
 
 
@@ -34,8 +32,16 @@ func start_fade_out(next_scene_path: String, is_packed_scene: bool = false):
 
 # Use this function for starting a new game with a pre-packed scene
 func _on_start_new_game_pressed():
+	var save_file = FileAccess.open(State.FILE_PATH, FileAccess.READ)
+	if save_file:
+		$newGameConfirmationDialog.popup()
+
+func _on_new_game_confirmation_dialog_confirmed():
 	State.initialize_player_data()
-	start_fade_out("res://MainScenes/campfire.tscn", true)
+	get_tree().change_scene_to_packed(battle_scene)
+	
+func _on_new_game_confirmation_dialog_canceled():
+	$newGameConfirmationDialog.hide()
 
 # Adjust the loading from a file to potentially utilize `start_fade_out` directly if suitable
 func _on_load_game_pressed():
@@ -58,3 +64,8 @@ func _on_confirm_button_pressed():
 
 func _on_cancel_button_pressed():
 	confirmation_dialog.hide()
+
+
+
+
+
