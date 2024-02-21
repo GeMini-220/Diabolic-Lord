@@ -8,6 +8,7 @@ extends Control
 
 
 func _ready():
+	screen_fade.visible = true
 	screen_fade_anim.play("fade_in")
 	await screen_fade_anim.animation_finished
 

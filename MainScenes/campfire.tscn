@@ -14,33 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://ycbqvltmppkh" path="res://MainScenes/skill_tree.tscn" id="12_li17o"]
 [ext_resource type="AudioStream" uid="uid://dsuq45efjulon" path="res://audio/DLOST_-_Diabolic_Lord.wav" id="13_i1idq"]
 
-[sub_resource type="Animation" id="Animation_ne8ly"]
-resource_name = "fade_to_black"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../BGMusic:volume_db")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1.51572),
-"update": 0,
-"values": [0.0, -80.0]
-}
-
 [sub_resource type="Animation" id="Animation_nwpus"]
 length = 0.001
 tracks/0/type = "value"
@@ -65,7 +38,7 @@ tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.1, 1),
+"times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -105,6 +78,33 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [-80.0, 1.66533e-15]
+}
+
+[sub_resource type="Animation" id="Animation_ne8ly"]
+resource_name = "fade_to_black"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../BGMusic:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1.51572),
+"update": 0,
+"values": [0.0, -80.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_nn8k5"]
@@ -170,6 +170,7 @@ volume_db = -80.0
 autoplay = true
 
 [node name="ScreenFade" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -179,6 +180,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ScreenFadeAnim" type="AnimationPlayer" parent="ScreenFade"]
+autoplay = "fade_in"
 libraries = {
 "": SubResource("AnimationLibrary_nn8k5")
 }

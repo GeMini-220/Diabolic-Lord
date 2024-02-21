@@ -507,6 +507,9 @@ _data = {
 "shake": SubResource("Animation_1adku")
 }
 
+[sub_resource type="Animation" id="Animation_oe7av"]
+length = 0.001
+
 [sub_resource type="Animation" id="Animation_fjehs"]
 resource_name = "fade_in"
 tracks/0/type = "value"
@@ -557,9 +560,6 @@ tracks/3/keys = {
 "update": 0,
 "values": [-80.0, 1.66533e-15]
 }
-
-[sub_resource type="Animation" id="Animation_oe7av"]
-length = 0.001
 
 [sub_resource type="Animation" id="Animation_blwuq"]
 resource_name = "fade_out"
