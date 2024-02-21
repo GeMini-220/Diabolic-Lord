@@ -15,6 +15,7 @@ var damage
 var speed
 var magic
 var currentBattle
+var household_passive_active = true
 
 # Player progression variables
 var player_level
@@ -34,6 +35,7 @@ func get_player_save_data() -> Dictionary:
 		"speed": speed,
 		"magic": magic,
 		"currentBattle": currentBattle,
+		"household_passive_active": household_passive_active,
 		"player_level": player_level,
 		"tier_unlocked": tier_unlocked,
 		"spells_unlocked": spells_unlocked,
