@@ -3,11 +3,14 @@ extends Control
 @onready var battle_scene = preload("res://MainScenes/campfire.tscn") as PackedScene
 @onready var confirmation_dialog = $ConfirmationDialog
 @onready var load_game = $load_game
+@onready var screen_fade = $ScreenFade
+@onready var screen_fade_anim = $ScreenFade/ScreenFadeAnim
 
 
 
 
 func start_fade_in():
+	
 	screen_fade_anim.play("fade_in")
 	await screen_fade_anim.animation_finished
 	
