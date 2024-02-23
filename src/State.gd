@@ -21,6 +21,7 @@ var household_passive_active = false
 var player_level
 var tier_unlocked
 var spells_unlocked
+var generic_unlocked
 
 # SAVE/ LOAD information
 var FILE_PATH = "user://player_save_data.save"
@@ -39,6 +40,7 @@ func get_player_save_data() -> Dictionary:
 		"player_level": player_level,
 		"tier_unlocked": tier_unlocked,
 		"spells_unlocked": spells_unlocked,
+		"generic_unlocked": generic_unlocked,
 		
 	}
 
@@ -47,13 +49,14 @@ func initialize_player_data() -> void:
 	var new_player_data = {
 		"current_health": 666,
 		"max_health": 666,
-		"damage": 30,
-		"speed": 25,
+		"damage": 300,
+		"speed": 10, #25,
 		"magic": 25,
 		"currentBattle": 0,
 		"player_level": 1,
 		"tier_unlocked": 0,
 		"spells_unlocked": ['', '', '', ''],
+		"generic_unlocked": ['', '', '', '', ''],
 	}
 	apply_player_data(new_player_data)
 
@@ -100,4 +103,5 @@ func apply_player_data(player_data: Dictionary) -> void:
 	player_level = player_data["player_level"]
 	tier_unlocked = player_data["tier_unlocked"]
 	spells_unlocked = player_data["spells_unlocked"]
+	generic_unlocked = player_data["generic_unlocked"]
 	# Update any other player state or UI elements as necessary
