@@ -1050,7 +1050,7 @@ func _on_shattering_strike_pressed():
 		display_text("Shattering Strike is still on cooldown for %d more turns." % [shattering_strike_cd])
 		await self.textbox_closed
 		return
-	$DkSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	var enemy_defending = false
 	if target == null:
 		await select_enemy()
@@ -1103,7 +1103,7 @@ func _on_counter_pressed():
 		display_text("Counter is still on cooldown for %d more turns." % [counter_cd])
 		await self.textbox_closed
 		return
-	$DkSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	$dk_spell_2_guard.play()
 	countering_turn += 1 + true_form
 	display_text("You deftly execute Counter, turning the next enemy's attack against them with twice the force!")
@@ -1118,7 +1118,7 @@ func _on_guillotine_pressed(recast = false):
 		display_text("Guillotine is still on cooldown for %d more turns." % [guillotine_cd])
 		await self.textbox_closed
 		return
-	$DkSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	var enemy_defending = false
 	if target == null:
 		await select_enemy()
@@ -1174,7 +1174,7 @@ func _on_true_form_pressed():
 		display_text("True Form is still on cooldown for %d more turns." % [true_form_cd])
 		await self.textbox_closed
 		return
-	$DkSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	$SpellSound2.play() # TODO: Add sound
 	display_text("You embraced your True Form.")
 	await self.textbox_closed
