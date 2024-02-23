@@ -795,7 +795,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
 text = "Infernal
 Affliction"
 
-[node name="VampSpells" type="Button" parent="SpellsPanel/Spells"]
+[node name="TierSpells" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -807,24 +807,8 @@ theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
-text = "Blood
+text = "Greater
 Spells"
-
-[node name="InfernoSpells" type="Button" parent="SpellsPanel/Spells"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
-theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
-text = "Fire
-Spells
-"
 
 [node name="Back" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
@@ -840,14 +824,14 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
 text = "Back"
 
-[node name="VampSpellsPanel" type="Panel" parent="."]
+[node name="TierSpellsPanel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 150.0
 grow_horizontal = 2
 
-[node name="VampSpells" type="HBoxContainer" parent="VampSpellsPanel"]
+[node name="TierSpells" type="HBoxContainer" parent="TierSpellsPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -861,7 +845,7 @@ grow_vertical = 2
 theme_override_constants/separation = 26
 alignment = 1
 
-[node name="BloodSiphon" type="Button" parent="VampSpellsPanel/VampSpells"]
+[node name="1" type="Button" parent="TierSpellsPanel/TierSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Damage the enemy and restore your health"
@@ -878,7 +862,7 @@ text = "Blood
 Siphon
 "
 
-[node name="RedRush" type="Button" parent="VampSpellsPanel/VampSpells"]
+[node name="2" type="Button" parent="TierSpellsPanel/TierSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Damage the enemy and restore your health"
@@ -895,7 +879,7 @@ text = "Red
 Rush
 "
 
-[node name="NobleCharm" type="Button" parent="VampSpellsPanel/VampSpells"]
+[node name="3" type="Button" parent="TierSpellsPanel/TierSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Damage the enemy and restore your health"
@@ -912,7 +896,7 @@ text = "Noble
 Charm
 "
 
-[node name="VampiricFrenzy" type="Button" parent="VampSpellsPanel/VampSpells"]
+[node name="4" type="Button" parent="TierSpellsPanel/TierSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Damage the enemy and restore your health"
@@ -929,109 +913,7 @@ text = "Vampiric
 Frenzy
 "
 
-[node name="BackToSpells" type="Button" parent="VampSpellsPanel/VampSpells"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
-theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
-text = "Back"
-
-[node name="InfernoSpellsPanel" type="Panel" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 150.0
-grow_horizontal = 2
-
-[node name="InfernoSpells" type="HBoxContainer" parent="InfernoSpellsPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 26.0
-offset_top = 26.0
-offset_right = -26.0
-offset_bottom = -26.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 26
-alignment = 1
-
-[node name="Fireball" type="Button" parent="InfernoSpellsPanel/InfernoSpells"]
-layout_mode = 2
-size_flags_horizontal = 3
-tooltip_text = "Damage the enemy and restore your health"
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
-theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
-text = "Fireball
-"
-
-[node name="Fire Rain" type="Button" parent="InfernoSpellsPanel/InfernoSpells"]
-layout_mode = 2
-size_flags_horizontal = 3
-tooltip_text = "Damage the enemy and restore your health"
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
-theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
-text = "Fire 
-Rain
-"
-
-[node name="Meteor" type="Button" parent="InfernoSpellsPanel/InfernoSpells"]
-layout_mode = 2
-size_flags_horizontal = 3
-tooltip_text = "Damage the enemy and restore your health"
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
-theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
-text = "Meteor"
-
-[node name="HellOnEarth" type="Button" parent="InfernoSpellsPanel/InfernoSpells"]
-layout_mode = 2
-size_flags_horizontal = 3
-tooltip_text = "Damage the enemy and restore your health"
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
-theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
-text = "Hell
-On
-Earth
-"
-
-[node name="BackToSpells" type="Button" parent="InfernoSpellsPanel/InfernoSpells"]
+[node name="BackToSpells" type="Button" parent="TierSpellsPanel/TierSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -1231,16 +1113,10 @@ autoplay = "fade_in"
 [connection signal="pressed" from="SpellsPanel/Spells/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/dreadforge" to="." method="_on_dread_forge_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/InfernalAffliction" to="." method="_on_infernal_affliction_pressed"]
-[connection signal="pressed" from="SpellsPanel/Spells/VampSpells" to="." method="_on_vamp_spells_pressed"]
-[connection signal="pressed" from="SpellsPanel/Spells/InfernoSpells" to="." method="_on_inferno_spells_pressed"]
+[connection signal="pressed" from="SpellsPanel/Spells/TierSpells" to="." method="_on_vamp_spells_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/Back" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="VampSpellsPanel/VampSpells/BloodSiphon" to="." method="_on_blood_siphon_pressed"]
-[connection signal="pressed" from="VampSpellsPanel/VampSpells/RedRush" to="." method="_on_red_rush_pressed"]
-[connection signal="pressed" from="VampSpellsPanel/VampSpells/NobleCharm" to="." method="_on_noble_charm_pressed"]
-[connection signal="pressed" from="VampSpellsPanel/VampSpells/VampiricFrenzy" to="." method="_on_vampiric_frenzy_pressed"]
-[connection signal="pressed" from="VampSpellsPanel/VampSpells/BackToSpells" to="." method="_on_back_to_spells_pressed"]
-[connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/Fireball" to="." method="_on_fireball_pressed"]
-[connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/Fire Rain" to="." method="_on_fire_rain_pressed"]
-[connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/Meteor" to="." method="_on_meteor_pressed"]
-[connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/HellOnEarth" to="." method="_on_hell_on_earth_pressed"]
-[connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/BackToSpells" to="." method="_on_back_to_spells_pressed"]
+[connection signal="pressed" from="TierSpellsPanel/TierSpells/1" to="." method="_on_tier_pressed" binds= [1]]
+[connection signal="pressed" from="TierSpellsPanel/TierSpells/2" to="." method="_on_tier_pressed" binds= [2]]
+[connection signal="pressed" from="TierSpellsPanel/TierSpells/3" to="." method="_on_tier_pressed" binds= [3]]
+[connection signal="pressed" from="TierSpellsPanel/TierSpells/4" to="." method="_on_tier_pressed" binds= [4]]
+[connection signal="pressed" from="TierSpellsPanel/TierSpells/BackToSpells" to="." method="_on_back_to_spells_pressed"]

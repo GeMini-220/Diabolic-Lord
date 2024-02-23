@@ -62,10 +62,10 @@ func _ready():
 		enemies[i].position = Vector2(screen_resolution.x / (num_current_enemies + 1) * (i + 1), screen_resolution.y / 2)
 		# temporary alignment of enemies
 	#Enable/Disable buttons based on if skill is obtained
-
+	ready_spells()
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
-	$VampSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	display_text("Summoned by your loyal cultists, you, the Demon Lord, have awoken!")
 	await self.textbox_closed
 	display_text("These %s adventurers wish to return you to your eternal slumber." % num_current_enemies)
@@ -429,7 +429,7 @@ func process():
 	while not game_over:
 		for i in turn_order.size():
 			var character = turn_order[i]
-			if !character.visible:
+			if !is_instance_valid(character) or !character.visible:
 				continue
 			display_text("It's the %s's turn!" % character.name)
 			await self.textbox_closed
@@ -520,6 +520,12 @@ func _input(event):
 	# Player attcks adventurers
 	# Add any other actions the player should take during their turn
 
+func ready_spells():
+	for tier in 4:
+		var spell_name = "Not yet\nunlocked"
+		if State.spells_unlocked[tier] != "":
+			spell_name = State.spells_unlocked[tier].replace(" ", "\n")
+		get_node("TierSpellsPanel/TierSpells/%s" % str(tier+1)).text = spell_name
 
 #VAMP LORD SKILLS 356-720
 func life_steal(damage: int):
@@ -535,7 +541,7 @@ func _on_blood_siphon_pressed():
 	var HighDamageRange = 1.1
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
-	$VampSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	if vampiric_frenzy_active:
 		LowDamageRange *= 1.5
 		HighDamageRange *= 1.5
@@ -593,7 +599,7 @@ func household_passive():
 
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
-	$VampSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 
 	display_text("Household has activated choose a sacrificial target.")
 	await self.textbox_closed
@@ -647,7 +653,7 @@ func _on_red_rush_pressed():
 		display_text("You are already flying and cannot use Red Rush again.")
 		await self.textbox_closed
 		return
-	$VampSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	display_text("Select a target for Red Rush.")
 	await select_enemy()
 	
@@ -680,7 +686,7 @@ func _on_noble_charm_pressed():
 		display_text("Noble Charm is still on cooldown for %d more turns." % noble_charm_cd)
 		await self.textbox_closed
 		return
-	$VampSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	display_text("Select an enemy to bewitch with Noble Charm.")
 	await select_enemy()
 	if target != null:
@@ -703,7 +709,7 @@ func _on_vampiric_frenzy_pressed():
 		display_text("Vampiric Frenzy is still on cooldown for %d more turns" %vampiric_frenzy_cd)
 		await self.textbox_closed
 		return
-	$VampSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	activate_vampiric_frenzy()
 	$VL_VF_Sound.play()
 	display_text("Vampiric Frenzy activated! Attacks will now heal you and have a chance to charm the enemy.")
@@ -739,7 +745,7 @@ func _on_fireball_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 
-	$InfernoSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	
 	if target == null:
 		await select_enemy()
@@ -806,7 +812,7 @@ func _on_fire_rain_pressed():
 		await self.textbox_closed
 		return
 
-	$InfernoSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 
 	# Use the new function to select up to 2 targets
 	var targets = await select_multiple_targets(2)
@@ -837,7 +843,7 @@ func _on_meteor_pressed():
 		display_text("Meteor is still on cooldown for %d more turns." % meteor_cd)
 		await self.textbox_closed
 		return
-	$InfernoSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	# Use the new function to select up to 3 targets
 	var targets = await select_multiple_targets(3)
 
@@ -867,7 +873,7 @@ func _on_hell_on_earth_pressed():
 		display_text("Hell on Earth is still on cooldown for %d more turns." % [hell_on_earth_cd])
 		await self.textbox_closed
 		return
-	$InfernoSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	hell_on_earth_cd = 6
 	hell_on_earth_active = true
 	
@@ -981,28 +987,22 @@ func _on_back_pressed():
 	$SpellsPanel.hide()
 
 
-
-
-
-
-
 func _on_vamp_spells_pressed():
 	$SpellsPanel.hide()
-	$VampSpellsPanel.show()
+	$TierSpellsPanel.show()
 
 
 func _on_back_to_spells_pressed():
-	$VampSpellsPanel.hide()
-	$InfernoSpellsPanel.hide()
+	$TierSpellsPanel.hide()
 	$SpellsPanel.show()
 
 
-
-func _on_inferno_spells_pressed():
-	$SpellsPanel.hide()
-	$InfernoSpellsPanel.show()
-
-
-
-
-
+func _on_tier_pressed(extra_arg_0):
+	var spell_name = State.spells_unlocked[extra_arg_0 - 1]
+	if spell_name != "":
+		spell_name = "_on_" + spell_name.to_snake_case() + "_pressed"
+		var spell_func = Callable(self, spell_name)
+		spell_func.call()
+	else:
+		display_text("You haven't unlocked a spell of tier %s yet!" % extra_arg_0)
+		await self.textbox_closed
