@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://4hjr3fcl6odq"]
+[gd_scene load_steps=18 format=3 uid="uid://4hjr3fcl6odq"]
 
 [ext_resource type="Script" path="res://src/Campfire.gd" id="1_32l6o"]
 [ext_resource type="Texture2D" uid="uid://dyp8gqxrnk6ll" path="res://Image/campfire/BG-static.png" id="2_vqedm"]
@@ -12,6 +12,107 @@
 [ext_resource type="Texture2D" uid="uid://cjwf6oqv1k4ce" path="res://Image/campfire/Upgrade-Hover.png" id="8_1p5o3"]
 [ext_resource type="BitMap" uid="uid://dcyygrqnawjmu" path="res://Image/campfire/Upgrade-ClickMask.bmp" id="8_kcuar"]
 [ext_resource type="PackedScene" uid="uid://ycbqvltmppkh" path="res://MainScenes/skill_tree.tscn" id="12_li17o"]
+[ext_resource type="AudioStream" uid="uid://dsuq45efjulon" path="res://audio/DLOST_-_Diabolic_Lord.wav" id="13_i1idq"]
+
+[sub_resource type="Animation" id="Animation_nwpus"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_bo547"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../BGMusic:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../BGMusic:volume_db")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-80.0, 1.66533e-15]
+}
+
+[sub_resource type="Animation" id="Animation_ne8ly"]
+resource_name = "fade_to_black"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../BGMusic:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1.51572),
+"update": 0,
+"values": [0.0, -80.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nn8k5"]
+_data = {
+"RESET": SubResource("Animation_nwpus"),
+"fade_in": SubResource("Animation_bo547"),
+"fade_to_black": SubResource("Animation_ne8ly")
+}
 
 [node name="Campfire" type="Control"]
 layout_mode = 3
@@ -62,6 +163,27 @@ stretch_mode = 4
 [node name="Skill Tree" parent="." instance=ExtResource("12_li17o")]
 visible = false
 layout_mode = 1
+
+[node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_i1idq")
+volume_db = -80.0
+autoplay = true
+
+[node name="ScreenFade" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScreenFadeAnim" type="AnimationPlayer" parent="ScreenFade"]
+libraries = {
+"": SubResource("AnimationLibrary_nn8k5")
+}
+autoplay = "fade_in"
 
 [connection signal="pressed" from="Embark" to="." method="_on_embark_pressed"]
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]

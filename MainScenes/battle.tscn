@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://cmm365jef52ho"]
+[gd_scene load_steps=88 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
@@ -9,18 +9,25 @@
 [ext_resource type="Texture2D" uid="uid://bqgttrqxpwnl4" path="res://Image/Demon-Animated-1-Sheet.png" id="8_axo2t"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="9_5fkrt"]
 [ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="10_o7qsd"]
-[ext_resource type="AudioStream" uid="uid://dlf1lmjy4bg3x" path="res://audio/Blackmoor_Colossus_Loop.wav" id="11_qbwgk"]
+[ext_resource type="AudioStream" uid="uid://buhqm80u3i41o" path="res://audio/Defending_the_Camp.wav" id="10_wh8s1"]
 [ext_resource type="AudioStream" uid="uid://cais5n0j5tw3m" path="res://audio/fout-01.wav" id="12_hjm0n"]
 [ext_resource type="AudioStream" uid="uid://b2yvtc61ct3p4" path="res://audio/fout-02.wav" id="13_810fw"]
-[ext_resource type="AudioStream" uid="uid://cynsk6lk0dubg" path="res://audio/vamp_lord_spell_2.wav" id="14_apkor"]
+[ext_resource type="AudioStream" uid="uid://cynsk6lk0dubg" path="res://audio/VampireSounds/vamp_lord_spell_2.wav" id="14_gl8q8"]
 [ext_resource type="AudioStream" uid="uid://bvwrth2sp64uj" path="res://audio/fout-03.wav" id="14_i752q"]
 [ext_resource type="AudioStream" uid="uid://cobv5jh56eh3k" path="res://audio/dk_spell_1_metal.mp3" id="14_uttlw"]
 [ext_resource type="AudioStream" uid="uid://bvyrqcrjquxyp" path="res://audio/dk_spell_1_thud.mp3" id="15_dn31c"]
 [ext_resource type="AudioStream" uid="uid://w3hit2t2w7nw" path="res://audio/dk_spell_2_guard.mp3" id="16_khjor"]
 [ext_resource type="AudioStream" uid="uid://d1mhg6xaqaalb" path="res://audio/dk_spell_2_counter.mp3" id="17_job4w"]
-[ext_resource type="AudioStream" uid="uid://bwqv4xxs5lq0m" path="res://audio/vamp_lord_spell_1.wav" id="15_digon"]
-[ext_resource type="AudioStream" uid="uid://6dcxc8ddlr3u" path="res://audio/vamp_lord_spell_3.wav" id="16_1sosb"]
-[ext_resource type="AudioStream" uid="uid://bpcyfhuli2elt" path="res://audio/vamp_lord_spell_4.wav" id="17_75osa"]
+[ext_resource type="AudioStream" uid="uid://bwqv4xxs5lq0m" path="res://audio/VampireSounds/vamp_lord_spell_1.wav" id="15_3e52p"]
+[ext_resource type="AudioStream" uid="uid://6dcxc8ddlr3u" path="res://audio/VampireSounds/vamp_lord_spell_3.wav" id="16_kylpl"]
+[ext_resource type="AudioStream" uid="uid://bpcyfhuli2elt" path="res://audio/VampireSounds/vamp_lord_spell_4.wav" id="17_qnygj"]
+[ext_resource type="AudioStream" uid="uid://b44sdob6noi7b" path="res://audio/VampireSounds/red_rush_1.wav" id="18_s6gls"]
+[ext_resource type="AudioStream" uid="uid://dbbcwg6o5sijc" path="res://audio/VampireSounds/red_rush_2.wav" id="19_26orp"]
+[ext_resource type="AudioStream" uid="uid://2qubk27f6hrk" path="res://audio/InfernoSounds/scorched_earth.wav" id="20_utnpk"]
+[ext_resource type="AudioStream" uid="uid://db6md3jcocfby" path="res://audio/InfernoSounds/fireball_sound.wav" id="21_51i50"]
+[ext_resource type="AudioStream" uid="uid://c441ccykxnspj" path="res://audio/InfernoSounds/fire_rain_sound.wav" id="22_fl6dg"]
+[ext_resource type="AudioStream" uid="uid://cif6qqqfk4xxh" path="res://audio/InfernoSounds/meteor_sound.wav" id="23_fle55"]
+[ext_resource type="AudioStream" uid="uid://cunk365utjae6" path="res://audio/InfernoSounds/hell_on_earth_sound.wav" id="24_5ib0j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xcjfb"]
 atlas = ExtResource("8_axo2t")
@@ -324,6 +331,59 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="Animation" id="Animation_0ko52"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(576, 343)]
+}
+
+[sub_resource type="Animation" id="Animation_sd0so"]
+resource_name = "fly_away"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(576, 343), Vector2(576, 250), Vector2(576, 343), Vector2(576, -100)]
+}
+
+[sub_resource type="Animation" id="Animation_ipk00"]
+resource_name = "fly_back"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(576, -100), Vector2(576, 343)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4cudh"]
+_data = {
+"RESET": SubResource("Animation_0ko52"),
+"fly_away": SubResource("Animation_sd0so"),
+"fly_back": SubResource("Animation_ipk00")
+}
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_45ras"]
 bg_color = Color(0, 0, 0, 1)
 border_width_left = 1
@@ -451,6 +511,106 @@ _data = {
 "shake": SubResource("Animation_1adku")
 }
 
+[sub_resource type="Animation" id="Animation_oe7av"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_fjehs"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../BGMusic:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.1001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../BGMusic:volume_db")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-80.0, 1.66533e-15]
+}
+
+[sub_resource type="Animation" id="Animation_blwuq"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../BGMusic:volume_db")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.66533e-15, -80.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_32g0i"]
+_data = {
+"RESET": SubResource("Animation_oe7av"),
+"fade_in": SubResource("Animation_fjehs"),
+"fade_out": SubResource("Animation_blwuq")
+}
+
 [node name="Battle" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -497,6 +657,11 @@ position = Vector2(576, 343)
 scale = Vector2(14, 14)
 sprite_frames = SubResource("SpriteFrames_o3t5s")
 animation = &"idle"
+
+[node name="FlyAway" type="AnimationPlayer" parent="DemonLord"]
+libraries = {
+"": SubResource("AnimationLibrary_4cudh")
+}
 
 [node name="ActionsPanel" type="Panel" parent="."]
 visible = false
@@ -646,9 +811,24 @@ theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
-text = "Vampiric
-Lord
-Spellbook"
+text = "Blood
+Spells"
+
+[node name="InfernoSpells" type="Button" parent="SpellsPanel/Spells"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Fire
+Spells
+"
 
 [node name="Back" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
@@ -665,7 +845,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
 text = "Back"
 
 [node name="VampSpellsPanel" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -703,6 +882,23 @@ text = "Blood
 Siphon
 "
 
+[node name="RedRush" type="Button" parent="VampSpellsPanel/VampSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Red
+Rush
+"
+
 [node name="NobleCharm" type="Button" parent="VampSpellsPanel/VampSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -738,6 +934,108 @@ Frenzy
 "
 
 [node name="BackToSpells" type="Button" parent="VampSpellsPanel/VampSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Back"
+
+[node name="InfernoSpellsPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 150.0
+grow_horizontal = 2
+
+[node name="InfernoSpells" type="HBoxContainer" parent="InfernoSpellsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = 26.0
+offset_right = -26.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="Fireball" type="Button" parent="InfernoSpellsPanel/InfernoSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Fireball
+"
+
+[node name="Fire Rain" type="Button" parent="InfernoSpellsPanel/InfernoSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Fire 
+Rain
+"
+
+[node name="Meteor" type="Button" parent="InfernoSpellsPanel/InfernoSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Meteor"
+
+[node name="HellOnEarth" type="Button" parent="InfernoSpellsPanel/InfernoSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Hell
+On
+Earth
+"
+
+[node name="BackToSpells" type="Button" parent="InfernoSpellsPanel/InfernoSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -866,7 +1164,7 @@ libraries = {
 anchor_mode = 0
 
 [node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("11_qbwgk")
+stream = ExtResource("10_wh8s1")
 
 [node name="SpellSound1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("12_hjm0n")
@@ -889,16 +1187,58 @@ stream = ExtResource("16_khjor")
 [node name="dk_spell_2_counter" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("17_job4w")
 [node name="VL_BS_Sound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("14_apkor")
+stream = ExtResource("14_gl8q8")
 
 [node name="VL_HH_Sound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("15_digon")
+stream = ExtResource("15_3e52p")
 
 [node name="VL_NC_Sound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("16_1sosb")
+stream = ExtResource("16_kylpl")
 
 [node name="VL_VF_Sound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("17_75osa")
+stream = ExtResource("17_qnygj")
+
+[node name="RedRushSound1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("18_s6gls")
+volume_db = 5.0
+
+[node name="RedRushSound2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("19_26orp")
+volume_db = 5.0
+
+[node name="ScorchedEarthSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("20_utnpk")
+volume_db = 10.0
+
+[node name="FireballSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("21_51i50")
+volume_db = 15.0
+
+[node name="FireRainSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("22_fl6dg")
+
+[node name="MeteorSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("23_fle55")
+
+[node name="HellOnEarthSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("24_5ib0j")
+volume_db = 10.0
+
+[node name="ScreenFade" type="ColorRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScreenFadeAnimPlayer" type="AnimationPlayer" parent="ScreenFade"]
+libraries = {
+"": SubResource("AnimationLibrary_32g0i")
+}
+autoplay = "fade_in"
 
 [connection signal="pressed" from="ActionsPanel/Actions/Spells" to="." method="_on_spells_pressed"]
 [connection signal="pressed" from="ActionsPanel/Actions/Defend" to="." method="_on_defend_pressed"]
@@ -907,8 +1247,15 @@ stream = ExtResource("17_75osa")
 [connection signal="pressed" from="SpellsPanel/Spells/dreadforge" to="." method="_on_dread_forge_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/InfernalAffliction" to="." method="_on_infernal_affliction_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/VampSpells" to="." method="_on_vamp_spells_pressed"]
+[connection signal="pressed" from="SpellsPanel/Spells/InfernoSpells" to="." method="_on_inferno_spells_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="VampSpellsPanel/VampSpells/BloodSiphon" to="." method="_on_blood_siphon_pressed"]
+[connection signal="pressed" from="VampSpellsPanel/VampSpells/RedRush" to="." method="_on_red_rush_pressed"]
 [connection signal="pressed" from="VampSpellsPanel/VampSpells/NobleCharm" to="." method="_on_noble_charm_pressed"]
 [connection signal="pressed" from="VampSpellsPanel/VampSpells/VampiricFrenzy" to="." method="_on_vampiric_frenzy_pressed"]
 [connection signal="pressed" from="VampSpellsPanel/VampSpells/BackToSpells" to="." method="_on_back_to_spells_pressed"]
+[connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/Fireball" to="." method="_on_fireball_pressed"]
+[connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/Fire Rain" to="." method="_on_fire_rain_pressed"]
+[connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/Meteor" to="." method="_on_meteor_pressed"]
+[connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/HellOnEarth" to="." method="_on_hell_on_earth_pressed"]
+[connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/BackToSpells" to="." method="_on_back_to_spells_pressed"]

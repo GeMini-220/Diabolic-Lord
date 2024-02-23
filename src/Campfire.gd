@@ -1,24 +1,35 @@
 extends Control
 
+var skill_tree_opened = false
 
-# Called when the node enters the scene tree for the first time.
+@onready var bg_music = $BGMusic
+@onready var screen_fade = $ScreenFade
+@onready var screen_fade_anim = $ScreenFade/ScreenFadeAnim
+
+
+
 func _ready():
-	pass
+	screen_fade.visible = true
+	screen_fade_anim.play("fade_in")
+	await screen_fade_anim.animation_finished
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 
 func _on_embark_pressed():
-	get_tree().change_scene_to_file("res://MainScenes/battle.tscn")
-
+	start_fade_out("res://MainScenes/battle.tscn")
 
 func _on_main_menu_pressed():
-	get_tree().change_scene_to_file("res://MainScenes/start_menu.tscn")
-
+	start_fade_out("res://MainScenes/start_menu.tscn")
 
 func _on_upgrade_pressed():
-	#get_tree().change_scene_to_file("res://MainScenes/skill_tree.tscn")
 	$"Skill Tree".show()
+	if skill_tree_opened == false:
+		$"Skill Tree".check_for_upgrades()
+		skill_tree_opened = true
+
+func start_fade_out(next_scene_path: String):
+	screen_fade.visible = true
+	screen_fade_anim.play("fade_to_black")
+	await screen_fade_anim.animation_finished
+	get_tree().change_scene_to_file(next_scene_path)
+	

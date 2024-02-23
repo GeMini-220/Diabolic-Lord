@@ -1,8 +1,10 @@
 extends Control
+
 signal textbox_closed
 signal action_taken
 signal target_selected
-@export var characters = {}
+
+
 var enemies
 var num_current_enemies
 var all_characters
@@ -21,13 +23,39 @@ var true_form = 0
 var noble_charm_cd = 0
 var vampiric_frenzy_active = false
 var vampiric_frenzy_cd = 0
+var fire_rain_cd = 0
+var meteor_cd = 0
+var hell_on_earth_cd = 0
+var hell_on_earth_active = false
+var is_flying = false
+var red_rush_target = null
+var red_rush_damage = 0
+var red_rush_cd = 0
+
+
+@onready var screen_fade = $ScreenFade
+@onready var screen_fade_anim = $ScreenFade/ScreenFadeAnimPlayer
+@export var characters = {}
+@onready var fly_away = $DemonLord/FlyAway
+
+
+func start_fade_in():
+	screen_fade_anim.play("fade_in")
+	await screen_fade_anim.animation_finished
+
+
+func start_fade_out(next_scene_path: String):
+	screen_fade.visible = true
+	screen_fade_anim.play("fade_out")
+	await screen_fade_anim.animation_finished
+	get_tree().change_scene_to_file(next_scene_path)
+
 
 func _ready():
-	
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 	State.currentBattle += 1
+	start_fade_in()
 	$DemonLord.play("idle")
-	$BGMusic.play()
 	
 	randomize()
 	enemies = choose_random_enemies()
@@ -39,7 +67,8 @@ func _ready():
 		enemies[i].get_ready()
 		enemies[i].position = Vector2(screen_resolution.x / (num_current_enemies + 1) * (i + 1), screen_resolution.y / 2)
 		# temporary alignment of enemies
-	
+	#Enable/Disable buttons based on if skill is obtained
+
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 	$VampSpellsPanel.hide()
@@ -105,25 +134,68 @@ func check_win():
 	#get_tree().quit()
 
 func enemy_turn(enemy):
+	# Check if the Demon lord is flying
+	if is_flying == true:
+		display_text("%s attempts to attack the Vampire Lord, but misses as he is soaring high above!" % enemy.name)
+		await self.textbox_closed
+		return  # Skip the rest of the turn since the attack misses
+
+	# Apply "Scorched Earth" DOT effect if it's active before any actions are taken
+	if hell_on_earth_active:
+		enemy.DOT *= 1.2
+	
+	if enemy.has_debuff("Scorched Earth") and enemy.DOT > 0:
+		$ScorchedEarthSound.play()
+		enemy.took_damage(enemy.DOT)
+		display_text("%s takes %d damage from the Scorched Earth." % [enemy.name, enemy.DOT])
+		await self.textbox_closed
+		if enemy.dead:
+			display_text("The %s gave in to the flames and has perished, only a pile of ash remains." % enemy.name)
+			await self.textbox_closed
+			enemies.erase(enemy)  # Make sure to remove the enemy properly from your enemy list
+			await check_win()  # Check if this death has resulted in a win condition
+			return  # Exit the function early since the enemy is dead and cannot take further actions
+
+	enemy.reduce_debuff_duration("Scorched Earth")  # Reduce the DOT duration
+
+	# If the "Scorched Earth" debuff has expired, reset the DOT to 0
+	if not enemy.has_debuff("Scorched Earth"):
+		enemy.DOT = 0
+
 	# Check if the enemy is charmed and the charm effect should trigger this turn
 	if enemy.has_debuff("noble_charm"):
+		$VL_NC_Sound.play()
 		display_text("%s is under the charms influence and ready to serve" % enemy.name)
 		await self.textbox_closed
 		var ally = select_random_ally(enemy)
 		if ally:
-			var damage = calculate_damage(enemy, ally)  # Implement based on your game's logic
+			var damage = calculate_damage(enemy, ally) 
 			ally.took_damage(damage)
 			display_text("%s attacks %s for %d damage." % [enemy.name, ally.name, damage])
-			await  self.textbox_closed
-			enemy.reduce_debuff_duration("noble_charm")
+			await self.textbox_closed
 			if ally.dead:
 				display_text("The %s killed the %s!" % [enemy.name, ally.name])
 				await self.textbox_closed
-				enemies.erase(target)  # Remove the target from the enemies list
-		
+				enemies.erase(ally)  # Remove the dead ally from the enemies list
+				# Ensure target is set to null if it was the dead ally
+				if target == ally:
+					target = null
+			enemy.reduce_debuff_duration("noble_charm")
 		else:
-			display_text("%s is charmed but has no allies to attack!" % enemy.name)
+			# If no allies left, enemy attacks itself
+			var damage = calculate_damage(enemy, enemy)
+			enemy.took_damage(damage)
+			display_text("%s is charmed and attacks themselves for %d damage." % [enemy.name, damage])
 			await self.textbox_closed
+			if enemy.dead:
+				display_text("%s killed themselves under the charm's influence!" % enemy.name)
+				await self.textbox_closed
+				enemies.erase(enemy)
+				# If the current target was the enemy itself, clear it
+				if target == enemy:
+					target = null
+				await check_win()
+		# Check if charm effect wears off
 		if noble_charm_cd <= 0:
 			display_text("The %s shakes off the effects of Noble Charm." % enemy.name)
 			await self.textbox_closed
@@ -164,16 +236,22 @@ func enemy_turn(enemy):
 
 #this is for a charmed enemy to select a random enemy that is not them selves
 func select_random_ally(charmed_enemy):
-	var potential_allies = enemies.duplicate()  # Assuming 'enemies' is an Array of nodes
-	potential_allies.erase(charmed_enemy)  # Remove the charmed enemy from the list
+	var potential_allies = []
+	# Fill potential_allies with enemies that are alive and not the charmed enemy
+	for enemy in enemies:
+		if enemy != charmed_enemy and not enemy.dead:
+			potential_allies.append(enemy)
 	
-	if potential_allies.is_empty():
-		return null  # Return null if no allies are left for selection
+	# If there are no potential allies left, return null
+	if potential_allies.size() == 0:
+		return null
 	
-	var random_index = randi() % potential_allies.size()  # Select a random index
-	return potential_allies[random_index]  # Return the randomly selected ally
+	# Select a random index from the potential_allies array
+	var random_index = randi() % potential_allies.size()
+	return potential_allies[random_index]
+ # Return the randomly selected ally
 
-
+#self explanitory useful for enemy on enemy attacks
 func calculate_damage(attacker, target) -> int:
 	var final_damage = floor(randf_range(0.5 + attacker.modifier, 1.5 + attacker.modifier) * attacker.damage)
 	final_damage = max(final_damage, 0)
@@ -389,29 +467,32 @@ func process():
 				continue
 			display_text("It's the %s's turn!" % character.name)
 			await self.textbox_closed
-			if character.name != 'DemonLord':
-				await enemy_turn(character)
-			else:
-				var next = i + 1
-				var current_health
-				if next < turn_order.size():
-					if turn_order[next].name == 'DemonLord':
-						current_health = State.current_health
-					else:
-						current_health = turn_order[next].current_health
-				while next < turn_order.size() and current_health == 0:
-					next = next + 1
-				if next < turn_order.size():
-					display_text("The next character taking action is %s" % turn_order[next].name)
+			if character.name == 'DemonLord':
+				# Check if the Dempn Lord is returning from a "Red Rush" dive
+				if is_flying:
+					# Apply the Red Rush damage
+					display_text("Diving from the skies, the Vampire Lord strikes %s for %d damage!" % [red_rush_target.name, red_rush_damage])
+					$RedRushSound2.play()
+					fly_away.play("fly_back")
+					red_rush_target.took_damage(red_rush_damage)
+					is_flying = false  # Reset flying status
+					red_rush_target = null
+					red_rush_damage = 0
 					await self.textbox_closed
+				# Allow the Demonlord to choose the next move
 				$ActionsPanel.show()
 				await player_turn(character)
-				await household_passive()
-				end_of_turn()
+			else:
+				await enemy_turn(character)
+			await household_passive()		# We do not need this active is turned off right now
+			end_of_turn()
+
 			if game_over:
 				break
+
 		display_text("End of round")
 		await self.textbox_closed
+
 	if game_over:
 		end_game()
 
@@ -426,7 +507,7 @@ func end_game():
 		await self.textbox_closed
 		display_text("For now.")
 		await self.textbox_closed
-		get_tree().change_scene_to_file("res://MainScenes/start_menu.tscn")
+		start_fade_out("res://MainScenes/start_menu.tscn")
 	else:
 		display_text("Against your unstoppable might, the heroes have lost.")
 		await self.textbox_closed
@@ -439,10 +520,11 @@ func end_game():
 			await self.textbox_closed
 			display_text("The End.")
 			await self.textbox_closed
-			get_tree().change_scene_to_file("res://MainScenes/start_menu.tscn")
+			start_fade_out("res://MainScenes/start_menu.tscn")
 		else:
+			State.player_level += 1
 			State.save_player_data()
-			get_tree().change_scene_to_file("res://MainScenes/campfire.tscn")
+			start_fade_out("res://MainScenes/campfire.tscn")
 
 func display_text(text):
 	if $ActionsPanel.visible:
@@ -469,19 +551,19 @@ func _input(event):
 	if (Input.is_action_just_pressed("ui_accept") or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)) and $Textbox.visible:
 		$Textbox.hide()
 		emit_signal("textbox_closed")
-
 	# Player attcks adventurers
 	# Add any other actions the player should take during their turn
-	
-	#VAMP LORD SKILLS 356-487pending
+
+
+#VAMP LORD SKILLS 356-720
 func life_steal(damage: int):
 	State.current_health += damage
 	if State.current_health > State.max_health:
 		State.current_health = State.max_health
 	
-	# Assuming 'player_health_bar' is a reference to the ProgressBar node for the player's health
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
-	
+
+
 func _on_blood_siphon_pressed():
 	var LowDamageRange = 0.8
 	var HighDamageRange = 1.1
@@ -491,7 +573,6 @@ func _on_blood_siphon_pressed():
 	if vampiric_frenzy_active:
 		LowDamageRange *= 1.5
 		HighDamageRange *= 1.5
-
 	if target == null:
 		await select_enemy()
 	else:
@@ -528,51 +609,100 @@ func _on_blood_siphon_pressed():
 	target = null 
 	emit_signal("action_taken")
 
+
 func household_passive():
+	var available_targets = get_available_targets()
+	if available_targets.size() == 0:
+		# No available targets, possibly due to invisibility or other conditions.
+		return
+
 	if not State.household_passive_active:
 		return
+
 	var LowDamageRange = 0.4
 	var HighDamageRange = 0.6
 	if vampiric_frenzy_active:
 		LowDamageRange *= 1.2
 		HighDamageRange *= 1.2
+
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 	$VampSpellsPanel.hide()
-	display_text("Household has activated choose a sacraficial target.")
+
+	display_text("Household has activated choose a sacrificial target.")
 	await self.textbox_closed
+
+	# Select an enemy from available targets.
+	await select_enemy()  # This should now ensure there's at least one target available.
+
 	if target == null:
-		await select_enemy()
-	else:
 		display_text("Household passive activated, but no target was selected.")
 		await self.textbox_closed
-	
+		return  # Exit if no target was selected after all.
+
 	var HP_dmg = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange))
 	$VL_HH_Sound.play()
 	await target.took_damage(HP_dmg)
-	display_text("Your bat has been summoned and flew at %s dealing %s damage, and restoring %s health" %[target.name, HP_dmg, HP_dmg])
-	await self.textbox_closed
 	
-	var life_steal = life_steal(HP_dmg)
+	display_text("Your bat has been summoned and flew at %s dealing %s damage, and restoring %s health" % [target.name, HP_dmg, HP_dmg])
+	await self.textbox_closed
+
+	life_steal(HP_dmg)  # Assuming life_steal function correctly updates health.
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
-	
-	display_text("Youre bat sacriced itself so you could fight on, gain %s health" %HP_dmg)
+
+	display_text("Your bat sacrificed itself so you could fight on, gaining %s health" % HP_dmg)
 	await self.textbox_closed
+
 	if vampiric_frenzy_active and randf() < 0.5:
 		apply_noble_charm(target)
-		display_text("Vampiric Frenzy charmed %s." %target.name)
-		await self.textbox_closed	
+		display_text("Vampiric Frenzy charmed %s." % target.name)
+		await self.textbox_closed
+
 	if target.dead:
 		display_text("You killed the %s!" % target.name)
 		await self.textbox_closed
 		enemies.erase(target)  # Remove the target from the enemies list
 		target.queue_free()  # Optionally remove the enemy node from the scene
 		await check_win()  # Check if this triggers a win condition
-	
+
 	target = null  # Clear the current target
 	emit_signal("action_taken")
 
 
+func _on_red_rush_pressed():
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	if red_rush_cd > 0:
+		display_text("Red Rush is still on cooldown for %d more turns." % red_rush_cd)
+		await  self.textbox_closed
+		return
+	
+	if is_flying:
+		display_text("You are already flying and cannot use Red Rush again.")
+		await self.textbox_closed
+		return
+	$VampSpellsPanel.hide()
+	display_text("Select a target for Red Rush.")
+	await select_enemy()
+	
+	if target == null:
+		display_text("No target was selected for Red Rush.")
+		await self.textbox_closed
+		return
+	
+	red_rush_damage = floor(Boss_damage * randf_range(1.2, 1.8))
+	red_rush_target = target
+	is_flying = true
+	
+	display_text("The Vampire Lord spreads his wings and takes to the skies, becoming untouchable.")
+	await self.textbox_closed
+	
+	$RedRushSound1.play()
+	fly_away.play("fly_away")
+
+	red_rush_cd = 3
+	target = null
+	emit_signal("action_taken")
 
 
 func _on_noble_charm_pressed():
@@ -599,6 +729,7 @@ func _on_noble_charm_pressed():
 	target = null
 	emit_signal("action_taken")
 
+
 func _on_vampiric_frenzy_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
@@ -614,22 +745,182 @@ func _on_vampiric_frenzy_pressed():
 	emit_signal("action_taken")
 
 
-
 func activate_vampiric_frenzy():
 	vampiric_frenzy_active = true
 	vampiric_frenzy_cd = 5
+
 
 func apply_noble_charm(target):
 	if "noble_charm" not in target.debuffs:
 		target.debuffs["noble_charm"] = 3  # Lasts for 3 turns/actions
 
+
 func end_of_turn():
 	if noble_charm_cd > 0:
 		noble_charm_cd -= 1
-	if vampiric_frenzy_active:
-		if vampiric_frenzy_cd > 0:
-			vampiric_frenzy_cd -= 1
+	if vampiric_frenzy_active and vampiric_frenzy_cd > 0:
+		vampiric_frenzy_cd -= 1
+	if fire_rain_cd > 0:
+		fire_rain_cd -= 1
+	if meteor_cd > 0:
+		meteor_cd -= 1
+	if hell_on_earth_active and hell_on_earth_cd > 0:
+		hell_on_earth_cd -= 1
+
+
+#Inferno Spells 738-888
+func _on_fireball_pressed():
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+
+	$InfernoSpellsPanel.hide()
 	
+	if target == null:
+		await select_enemy()
+	else:
+		display_text("You conjure a mighty fireball and hurl it at %s!" % target.name)
+		await self.textbox_closed
+	$FireballSound.play()
+	# Calculate fireball damage within a medium range
+	var fireball_damage = floor(Boss_damage * randf_range(0.8, 1.2)) # Adjust the range based on desired spell power
+	await target.took_damage(fireball_damage)
+	
+	display_text("The fireball hits the %s, dealing %d damage." % [target.name, fireball_damage])
+	await self.textbox_closed
+
+	# Apply Scorched Earth debuff
+	var dot_damage = floor(Boss_damage * 0.25) # Damage over time effect
+	target.DOT += dot_damage # Set the DOT value on the enemy
+	target.apply_debuff("Scorched Earth", 3) # Apply debuff for 3 turns
+
+	display_text("The ground beneath %s scorches, igniting them with a lingering flame!" % target.name)
+	await self.textbox_closed
+	if target.dead:
+		display_text("You killed the %s!" % target.name)
+		await self.textbox_closed
+		enemies.erase(target)  # Remove the target from the enemies list
+		await check_win() 
+	target = null
+	emit_signal("action_taken")
+
+# NEXT TWO FUNCTIONS ARE HELPERS
+# This function will return an array of selected targets up to a maximum number specified.
+func select_multiple_targets(max_targets : int) -> Array:
+	var selected_targets = []
+	var available_targets = get_available_targets()
+	var num_targets_to_select = min(available_targets.size(), max_targets)
+
+	for i in range(num_targets_to_select):
+		display_text("Select target %d of %d for the ability." % [i + 1, num_targets_to_select])
+		await select_enemy()
+		if target != null:
+			selected_targets.append(target)
+			available_targets.erase(target)  # Ensure the same target cannot be selected again
+			target = null  # Reset target for next selection
+		else:
+			display_text("No target was selected.")
+			await self.textbox_closed
+			break  # Exit the selection process if no target is selected
+
+	return selected_targets
+
+func get_available_targets():
+	var targets = []
+	for enemy in enemies:
+		if not enemy.dead and enemy.visible:  # Assumed conditions for a target to be available
+			targets.append(enemy)
+	return targets
+
+#BACK TO INFERNO SPELLS
+func _on_fire_rain_pressed():
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	if fire_rain_cd > 0:
+		display_text("Fire Rain is still on cooldown for %d more turns." % fire_rain_cd)
+		await self.textbox_closed
+		return
+
+	$InfernoSpellsPanel.hide()
+
+	# Use the new function to select up to 2 targets
+	var targets = await select_multiple_targets(2)
+
+	# Apply Fire Rain effects to the selected targets
+	for target in targets:
+		var fire_rain_damage = floor(Boss_damage * randf_range(0.8, 1.1)) # Adjust range as desired
+		$FireRainSound.play()
+		target.took_damage(fire_rain_damage)
+		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
+		target.apply_debuff("Scorched Earth", 3) # Apply debuff for 3 turns
+
+		display_text("Fire rains down upon %s, dealing %d damage and scorching the earth!" % [target.name, fire_rain_damage])
+		await self.textbox_closed
+		if target.dead:
+			display_text("You killed the %s!" % target.name)
+			await self.textbox_closed
+			enemies.erase(target)  # Remove the target from the enemies list
+			await check_win() 
+	fire_rain_cd = 3  # Set the ability's cooldown
+	emit_signal("action_taken")
+
+
+func _on_meteor_pressed():
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	if meteor_cd > 0:
+		display_text("Meteor is still on cooldown for %d more turns." % meteor_cd)
+		await self.textbox_closed
+		return
+	$InfernoSpellsPanel.hide()
+	# Use the new function to select up to 3 targets
+	var targets = await select_multiple_targets(3)
+
+	# Apply Meteor effects to the selected targets
+	for target in targets:
+		var meteor_damage = floor(Boss_damage * randf_range(1.0, 1.5))
+		$MeteorSound.play() # Adjust range for desired spell power
+		target.took_damage(meteor_damage)
+		# Apply one stack of "Scorched Earth" debuff
+		target.apply_debuff("Scorched Earth", 3) 
+
+		display_text("A meteor strikes %s, dealing %d damage and scorching the earth!" % [target.name, meteor_damage])
+		await self.textbox_closed
+		if target.dead:
+			display_text("You killed the %s!" % target.name)
+			await self.textbox_closed
+			enemies.erase(target)  # Remove the target from the enemies list
+			await check_win() 
+
+	meteor_cd = 3  # Set the ability's cooldown
+	emit_signal("action_taken")
+
+func _on_hell_on_earth_pressed():
+	$ActionsPanel.hide()
+	$SpellsPanel.hide()
+	if hell_on_earth_cd > 0:
+		display_text("Hell on Earth is still on cooldown for %d more turns." % [hell_on_earth_cd])
+		await self.textbox_closed
+		return
+	$InfernoSpellsPanel.hide()
+	hell_on_earth_cd = 6
+	hell_on_earth_active = true
+	
+	var targets = get_available_targets()
+	$HellOnEarthSound.play()
+	for target in targets:
+		var hell_on_earth_dmg = floor(Boss_damage * randf_range(0.3, 0.5)) # Adjust range as desired
+		target.took_damage(hell_on_earth_dmg)
+		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
+		target.apply_debuff("Scorched Earth", 6)
+	display_text("A giant chasm tears open as you unleash Hell on Earth!")
+	await self.textbox_closed
+	for target in targets:
+		if target.dead:
+			display_text("You killed the %s!" % target.name)
+			await self.textbox_closed
+			enemies.erase(target)
+			await check_win()
+	emit_signal("action_taken")
 
 
 
@@ -864,5 +1155,16 @@ func _on_vamp_spells_pressed():
 
 func _on_back_to_spells_pressed():
 	$VampSpellsPanel.hide()
+	$InfernoSpellsPanel.hide()
 	$SpellsPanel.show()
+
+
+
+func _on_inferno_spells_pressed():
+	$SpellsPanel.hide()
+	$InfernoSpellsPanel.show()
+
+
+
+
 
