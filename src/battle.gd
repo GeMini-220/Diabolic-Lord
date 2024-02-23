@@ -128,11 +128,6 @@ func check_win():
 	#get_tree().quit()
 
 func enemy_turn(enemy):
-	# Check if the Demon lord is flying
-	if is_flying == true:
-		display_text("%s attempts to attack the Vampire Lord, but misses as he is soaring high above!" % enemy.name)
-		await self.textbox_closed
-		return  # Skip the rest of the turn since the attack misses
 
 	# Apply "Scorched Earth" DOT effect if it's active before any actions are taken
 	if hell_on_earth_active:
@@ -148,7 +143,8 @@ func enemy_turn(enemy):
 			await self.textbox_closed
 			enemies.erase(enemy)  # Make sure to remove the enemy properly from your enemy list
 			await check_win()  # Check if this death has resulted in a win condition
-			return  # Exit the function early since the enemy is dead and cannot take further actions
+			if game_over:
+				end_game()  # Exit the function early since the enemy is dead and cannot take further actions
 
 	enemy.reduce_debuff_duration("Scorched Earth")  # Reduce the DOT duration
 
@@ -195,6 +191,7 @@ func enemy_turn(enemy):
 				if target == enemy:
 					target = null
 				await check_win()
+				return
 		# Check if charm effect wears off
 		if noble_charm_cd <= 0:
 			display_text("The %s shakes off the effects of Noble Charm." % enemy.name)
@@ -210,6 +207,7 @@ func enemy_turn(enemy):
 			enemies.erase(enemy)
 			target = null
 			await check_win()
+			return
 		else:
 			match enemy.current_action:
 				"attack":
@@ -258,6 +256,10 @@ func calculate_damage(attacker, target) -> int:
 
 
 func enemy_attack(enemy):
+	if is_flying == true:
+		display_text("%s attempts to attack the Vampire Lord, but misses as he is soaring high above!" % enemy.name)
+		await self.textbox_closed
+		return  
 	if enemy.is_hiding:
 		display_text("The %s reveals themselves!" % enemy.name)
 		await self.textbox_closed
@@ -337,6 +339,7 @@ func enemy_help(enemy):
 		await enemy_attack(enemy)
 	else:
 		help_target.DOT = max(0, help_target.DOT - 5)
+		help_target.DOT = floor(help_target.DOT)
 		display_text("The %s is saving %s from their infernal prison!" % [enemy.name, help_target.name])
 		await self.textbox_closed
 		await enemy.play_animation("attack")
@@ -428,14 +431,10 @@ func enemy_hex(enemy):
 		await enemy_attack(enemy)
 
 func enemy_redirect(enemy):
-	display_text("The %s prepares to redirect your attack!" % enemy.name)
-	await self.textbox_closed
-	
-	# Set up the redirection
 	redirect_active = true
 	redirect_target = enemy  # This enemy becomes the target for the next attack
 	
-	display_text("The %s will redirect the next attack to themselves!" % enemy.name)
+	display_text("The %s will redirect the next attack to themselves and attempt to absorb the damage!" % enemy.name)
 	await self.textbox_closed
 
 func handle_redirect(target, damage):
@@ -516,13 +515,17 @@ func process():
 					$RedRushSound2.play()
 					fly_away.play("fly_back")
 					red_rush_damage = await handle_redirect(red_rush_target, red_rush_damage)
-					red_rush_target.took_damage(red_rush_damage)
+					await red_rush_target.took_damage(red_rush_damage)
+					await check_win()
+					if game_over:
+						break
 					is_flying = false  # Reset flying status
 					red_rush_target = null
 					red_rush_damage = 0
 				await player_turn(character)
 			else:
 				await enemy_turn(character)
+				await check_win()
 			await household_passive()		# We do not need this active is turned off right now
 			end_of_turn()
 
@@ -595,12 +598,27 @@ func _input(event):
 
 
 #VAMP LORD SKILLS 356-720
-func life_steal(damage: int):
-	State.current_health += damage
-	if State.current_health > State.max_health:
-		State.current_health = State.max_health
+func life_steal(damage: int) -> float:
+	var life_steal_amt = 0.0
+	if vampiric_frenzy_active:
+		life_steal_amt = damage # If vampiric frenzy is active, use full damage for life steal
+	else:
+		life_steal_amt = damage * 0.25 # Otherwise, steal 25% of damage dealt
+
+	var actual_life_steal = 0.0 # The actual amount of health restored, considering max health limit
 	
+	# Calculate how much health can actually be restored without exceeding max health
+	if (State.current_health + life_steal_amt > State.max_health):
+		actual_life_steal = State.max_health - State.current_health
+		State.current_health = State.max_health
+	else:
+		actual_life_steal = life_steal_amt
+		State.current_health += actual_life_steal
+
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
+	
+	return actual_life_steal
+
 
 
 func _on_blood_siphon_pressed():
@@ -623,17 +641,13 @@ func _on_blood_siphon_pressed():
 	blood_siphon_damage = await handle_redirect(target, blood_siphon_damage) # Adjust the range based on desired spell power
 	$VL_BS_Sound.play()
 	await target.took_damage(blood_siphon_damage)
-	
-	display_text("You cast Blood Siphon, draining life from your foe.")
-	await self.textbox_closed
-	
-	var life_steal = life_steal(blood_siphon_damage)
 
-	display_text("You healed for %s by siphoning the blood of your enemy." %blood_siphon_damage)
+	var life_steal_amt = life_steal(blood_siphon_damage)
+	display_text("The Demon Lord cast Blood Siphon, you drain the life force of your enemy dealing %s damage. You have regenerated %d health." % [blood_siphon_damage, life_steal_amt])
 	await self.textbox_closed
-	
-	display_text("Blood Siphon dealt %d damage to the %s." % [blood_siphon_damage, target.name])
-	await self.textbox_closed
+
+
+
 	
 	if vampiric_frenzy_active and randf() < 0.5:
 		apply_noble_charm(target)
@@ -643,8 +657,7 @@ func _on_blood_siphon_pressed():
 		display_text("You killed the %s!" % target.name)
 		await self.textbox_closed
 		enemies.erase(target)  # Remove the target from the enemies list
-		target.queue_free()  # Optionally remove the enemy node from the scene
-		await check_win()  # Check if this triggers a win condition
+		await check_win() 
 	
 	target = null 
 	emit_signal("action_taken")
@@ -722,7 +735,6 @@ func _on_red_rush_pressed():
 		await self.textbox_closed
 		return
 	$VampSpellsPanel.hide()
-	display_text("Select a target for Red Rush.")
 	await select_enemy()
 	
 	if target == null:
@@ -730,7 +742,7 @@ func _on_red_rush_pressed():
 		await self.textbox_closed
 		return
 	
-	red_rush_damage = floor(Boss_damage * randf_range(1.2, 1.8))
+	red_rush_damage = floor(Boss_damage * randf_range(0.8, 1.4))
 	red_rush_target = target
 	is_flying = true
 	
@@ -760,7 +772,7 @@ func _on_noble_charm_pressed():
 	if target != null:
 		$VL_NC_Sound.play()
 		apply_noble_charm(target)
-		display_text("The %s is now charmed and will attack its allies!" % target.name)
+		display_text("The %s is now charmed and will attack their allies!" % target.name)
 		noble_charm_cd = 3  # Set the cooldown
 		await self.textbox_closed
 	else:
@@ -780,7 +792,7 @@ func _on_vampiric_frenzy_pressed():
 	$VampSpellsPanel.hide()
 	activate_vampiric_frenzy()
 	$VL_VF_Sound.play()
-	display_text("Vampiric Frenzy activated! Attacks will now heal you and have a chance to charm the enemy.")
+	display_text("Vampiric Frenzy activated! Vampire Lord abilities will now heal you for 100% of the damage you deal and have a chance 50% to charm the enemy.")
 	await self.textbox_closed
 	emit_signal("action_taken")
 
@@ -822,7 +834,7 @@ func _on_fireball_pressed():
 		await self.textbox_closed
 	$FireballSound.play()
 	# Calculate fireball damage within a medium range
-	var fireball_damage = floor(Boss_damage * randf_range(0.8, 1.2))
+	var fireball_damage = floor(Boss_damage * randf_range(0.7, 1.0))
 	fireball_damage = await handle_redirect(target, fireball_damage) # Adjust the range based on desired spell power
 	await target.took_damage(fireball_damage)
 	
@@ -830,7 +842,7 @@ func _on_fireball_pressed():
 	await self.textbox_closed
 
 	# Apply Scorched Earth debuff
-	var dot_damage = floor(Boss_damage * 0.25) # Damage over time effect
+	var dot_damage = floor(Boss_damage * 0.15) # Damage over time effect
 	target.DOT += dot_damage # Set the DOT value on the enemy
 	target.apply_debuff("Scorched Earth", 3) # Apply debuff for 3 turns
 
@@ -852,7 +864,6 @@ func select_multiple_targets(max_targets : int) -> Array:
 	var num_targets_to_select = min(available_targets.size(), max_targets)
 
 	for i in range(num_targets_to_select):
-		display_text("Select target %d of %d for the ability." % [i + 1, num_targets_to_select])
 		await select_enemy()
 		if target != null:
 			selected_targets.append(target)
@@ -868,7 +879,7 @@ func select_multiple_targets(max_targets : int) -> Array:
 func get_available_targets():
 	var targets = []
 	for enemy in enemies:
-		if not enemy.dead and enemy.visible:  # Assumed conditions for a target to be available
+		if not enemy.dead and not enemy.is_hiding:  # Assumed conditions for a target to be available
 			targets.append(enemy)
 	return targets
 
@@ -883,27 +894,36 @@ func _on_fire_rain_pressed():
 
 	$InfernoSpellsPanel.hide()
 
-	# Use the new function to select up to 2 targets
+	# Use the function to select up to 2 targets
 	var targets = await select_multiple_targets(2)
+	var dead_enemies = [] # To track enemies that die due to this spell
 
 	# Apply Fire Rain effects to the selected targets
 	for target in targets:
-		var fire_rain_damage = floor(Boss_damage * randf_range(0.8, 1.1)) # Adjust range as desired
+		var fire_rain_damage = floor(Boss_damage * randf_range(0.5, 0.8)) # Adjust damage range as desired
 		fire_rain_damage = await handle_redirect(target, fire_rain_damage)
 		$FireRainSound.play()
-		target.took_damage(fire_rain_damage)
-		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
+		var is_dead = await target.took_damage(fire_rain_damage) # Assume took_damage can return a death boolean
+		target.DOT += floor(Boss_damage * 0.15) # Apply one stack of DOT
 		target.apply_debuff("Scorched Earth", 3) # Apply debuff for 3 turns
 
 		display_text("Fire rains down upon %s, dealing %d damage and scorching the earth!" % [target.name, fire_rain_damage])
 		await self.textbox_closed
-		if target.dead:
-			display_text("You killed the %s!" % target.name)
-			await self.textbox_closed
-			enemies.erase(target)  # Remove the target from the enemies list
-			await check_win() 
-	fire_rain_cd = 3  # Set the ability's cooldown
+
+		if is_dead:
+			dead_enemies.append(target) # Collect dead enemies for later removal
+
+	# Safely remove dead enemies after applying effects
+	for dead_enemy in dead_enemies:
+		display_text("You killed the %s!" % dead_enemy.name)
+		await self.textbox_closed
+		enemies.erase(dead_enemy)
+
+	await check_win() # Check for a win condition after all effects and removals
+
+	fire_rain_cd = 3 # Reset the spell's cooldown
 	emit_signal("action_taken")
+
 
 
 func _on_meteor_pressed():
@@ -914,34 +934,43 @@ func _on_meteor_pressed():
 		await self.textbox_closed
 		return
 	$InfernoSpellsPanel.hide()
-	# Use the new function to select up to 3 targets
+	
+
+	# Use the function to select up to 3 targets
 	var targets = await select_multiple_targets(3)
+	var dead_enemies = [] # To track enemies that are killed by this spell
 
 	# Apply Meteor effects to the selected targets
 	for target in targets:
-		var meteor_damage = floor(Boss_damage * randf_range(1.0, 1.5))
-		meteor_damage = await handle_redirect(target, meteor_damage)
-		$MeteorSound.play() # Adjust range for desired spell power
-		target.took_damage(meteor_damage)
-		# Apply one stack of "Scorched Earth" debuff
-		target.apply_debuff("Scorched Earth", 3) 
+		var meteor_damage = floor(Boss_damage * randf_range(0.8, 1.2))
+		meteor_damage = await handle_redirect(target, meteor_damage) # Assume this adjusts damage as needed
+		$MeteorSound.play()
+		var is_dead = await target.took_damage(meteor_damage) # Assume took_damage returns a boolean for death
+		target.apply_debuff("Scorched Earth", 3) # Apply debuff
 
 		display_text("A meteor strikes %s, dealing %d damage and scorching the earth!" % [target.name, meteor_damage])
 		await self.textbox_closed
-		if target.dead:
-			display_text("You killed the %s!" % target.name)
-			await self.textbox_closed
-			enemies.erase(target)  # Remove the target from the enemies list
-			await check_win() 
 
-	meteor_cd = 3  # Set the ability's cooldown
+		if is_dead:
+			dead_enemies.append(target) # Add dead target to the list for later removal
+
+	# Remove dead enemies after applying damage to all targets
+	for dead_enemy in dead_enemies:
+		display_text("You killed the %s!" % dead_enemy.name)
+		await self.textbox_closed
+		enemies.erase(dead_enemy)
+
+	await check_win() # Check win condition after all effects are processed
+
+	meteor_cd = 3 # Set the ability's cooldown
 	emit_signal("action_taken")
+
 
 func _on_hell_on_earth_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 	if hell_on_earth_cd > 0:
-		display_text("Hell on Earth is still on cooldown for %d more turns." % [hell_on_earth_cd])
+		display_text("Hell on Earth is still on cooldown for %d more turns." % hell_on_earth_cd)
 		await self.textbox_closed
 		return
 	$InfernoSpellsPanel.hide()
@@ -949,21 +978,28 @@ func _on_hell_on_earth_pressed():
 	hell_on_earth_active = true
 	
 	var targets = get_available_targets()
-	$HellOnEarthSound.play()
+	var dead_enemies = [] # To track enemies that die due to this spell
+	
 	for target in targets:
+		$HellOnEarthSound.play()
 		var hell_on_earth_dmg = floor(Boss_damage * randf_range(0.3, 0.5)) # Adjust range as desired
 		hell_on_earth_dmg = await handle_redirect(target, hell_on_earth_dmg)
-		target.took_damage(hell_on_earth_dmg)
+		var is_dead = await target.took_damage(hell_on_earth_dmg) # Assume took_damage returns a boolean indicating if the target died
 		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
 		target.apply_debuff("Scorched Earth", 6)
+		if is_dead:
+			dead_enemies.append(target)
+	
 	display_text("A giant chasm tears open as you unleash Hell on Earth!")
 	await self.textbox_closed
-	for target in targets:
-		if target.dead:
-			display_text("You killed the %s!" % target.name)
-			await self.textbox_closed
-			enemies.erase(target)
-			await check_win()
+	
+	# Remove dead enemies after damage application
+	for dead_enemy in dead_enemies:
+		display_text("You killed the %s!" % dead_enemy.name)
+		await self.textbox_closed
+		enemies.erase(dead_enemy) # Now safely removing dead enemies
+	
+	await check_win() # Check win condition after all effects are processed
 	emit_signal("action_taken")
 
 
