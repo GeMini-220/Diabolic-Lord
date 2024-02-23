@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=3 uid="uid://cmm365jef52ho"]
+[gd_scene load_steps=92 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
@@ -14,8 +14,12 @@
 [ext_resource type="AudioStream" uid="uid://b2yvtc61ct3p4" path="res://audio/fout-02.wav" id="13_810fw"]
 [ext_resource type="AudioStream" uid="uid://cynsk6lk0dubg" path="res://audio/VampireSounds/vamp_lord_spell_2.wav" id="14_gl8q8"]
 [ext_resource type="AudioStream" uid="uid://bvwrth2sp64uj" path="res://audio/fout-03.wav" id="14_i752q"]
+[ext_resource type="AudioStream" uid="uid://cobv5jh56eh3k" path="res://audio/DemonSounds/dk_spell_1_metal.mp3" id="14_uttlw"]
 [ext_resource type="AudioStream" uid="uid://bwqv4xxs5lq0m" path="res://audio/VampireSounds/vamp_lord_spell_1.wav" id="15_3e52p"]
+[ext_resource type="AudioStream" uid="uid://bvyrqcrjquxyp" path="res://audio/DemonSounds/dk_spell_1_thud.mp3" id="15_dn31c"]
+[ext_resource type="AudioStream" uid="uid://w3hit2t2w7nw" path="res://audio/DemonSounds/dk_spell_2_guard.mp3" id="16_khjor"]
 [ext_resource type="AudioStream" uid="uid://6dcxc8ddlr3u" path="res://audio/VampireSounds/vamp_lord_spell_3.wav" id="16_kylpl"]
+[ext_resource type="AudioStream" uid="uid://d1mhg6xaqaalb" path="res://audio/DemonSounds/dk_spell_2_counter.mp3" id="17_job4w"]
 [ext_resource type="AudioStream" uid="uid://bpcyfhuli2elt" path="res://audio/VampireSounds/vamp_lord_spell_4.wav" id="17_qnygj"]
 [ext_resource type="AudioStream" uid="uid://b44sdob6noi7b" path="res://audio/VampireSounds/red_rush_1.wav" id="18_s6gls"]
 [ext_resource type="AudioStream" uid="uid://dbbcwg6o5sijc" path="res://audio/VampireSounds/red_rush_2.wav" id="19_26orp"]
@@ -745,7 +749,7 @@ offset_right = -26.0
 offset_bottom = -26.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 26
+theme_override_constants/separation = 13
 alignment = 1
 
 [node name="Attack" type="Button" parent="SpellsPanel/Spells"]
@@ -1052,6 +1056,18 @@ stream = ExtResource("13_810fw")
 
 [node name="SpellSound3" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("14_i752q")
+
+[node name="dk_spell_1_metal" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_uttlw")
+
+[node name="dk_spell_1_thud" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("15_dn31c")
+
+[node name="dk_spell_2_guard" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("16_khjor")
+
+[node name="dk_spell_2_counter" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("17_job4w")
 
 [node name="VL_BS_Sound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("14_gl8q8")
