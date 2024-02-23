@@ -11,7 +11,7 @@ var skill_tree_opened = false
 
 
 func _ready():
-	cult_name_sign.text = State.cult_name
+	cult_name_sign.text = State.user_name
 	level_label.text = "Level " + str(State.player_level)
 	screen_fade.visible = true
 	screen_fade_anim.play("fade_in")

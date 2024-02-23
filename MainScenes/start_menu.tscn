@@ -19,7 +19,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dd4pb"]
 
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_bswh1"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bp2ec"]
 
 [sub_resource type="Animation" id="Animation_qsq1r"]
 resource_name = "fade_in"
@@ -261,8 +261,7 @@ will be DELETED."
 dialog_autowrap = true
 cancel_button_text = "NO!!!!!"
 
-[node name="CultNameEdit" type="LineEdit" parent="."]
-visible = false
+[node name="UsernameEdit" type="LineEdit" parent="."]
 top_level = true
 layout_mode = 1
 anchors_preset = 8
@@ -270,57 +269,56 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -117.0
+offset_left = -213.0
 offset_top = -35.0
-offset_right = 96.0
+offset_right = 193.0
 offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1.17353, 1.01685)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
-theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
-theme_override_colors/font_placeholder_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.721569)
-theme_override_colors/caret_color = Color(1, 1, 1, 1)
-theme_override_colors/selection_color = Color(0, 0, 0, 1)
-theme_override_colors/clear_button_color = Color(0, 0, 0, 1)
-theme_override_colors/clear_button_color_pressed = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.960784, 0.580392, 0.705882, 1)
+theme_override_colors/font_selected_color = Color(0.960784, 0.580392, 0.705882, 1)
+theme_override_colors/font_uneditable_color = Color(0.960784, 0.580392, 0.705882, 1)
+theme_override_colors/font_placeholder_color = Color(0.960784, 0.580392, 0.705882, 1)
+theme_override_colors/font_outline_color = Color(0.384314, 0.0509804, 0, 1)
+theme_override_colors/caret_color = Color(0.498039, 0.172549, 0.403922, 1)
+theme_override_colors/selection_color = Color(1, 0, 0, 0.517647)
 theme_override_constants/minimum_character_width = 14
-theme_override_constants/outline_size = 2
+theme_override_constants/outline_size = 16
 theme_override_constants/caret_width = 1
 theme_override_fonts/font = ExtResource("2_wgoxx")
-theme_override_font_sizes/font_size = 19
-theme_override_styles/normal = SubResource("StyleBoxLine_bswh1")
-placeholder_text = "Name Your Cult"
+theme_override_font_sizes/font_size = 38
+theme_override_styles/normal = SubResource("StyleBoxEmpty_bp2ec")
+placeholder_text = "Username"
 alignment = 1
 max_length = 12
 expand_to_text_length = true
 selecting_enabled = false
 
-[node name="CultConfirm" type="Button" parent="CultNameEdit"]
+[node name="UsernameConfirm" type="Button" parent="UsernameEdit"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -114.169
-offset_top = 7.69096
-offset_right = 70.8308
-offset_bottom = 38.691
+offset_left = -154.855
+offset_top = 6.70746
+offset_right = 98.1453
+offset_bottom = 37.7075
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(1.20211, 1.6282)
-theme_override_colors/font_color = Color(0.298039, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0.701961, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0.960784, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0.545098, 0, 0, 1)
-theme_override_colors/font_hover_pressed_color = Color(0.913725, 0, 0, 1)
+theme_override_colors/font_color = Color(0.309804, 0.0941176, 0.027451, 0.945098)
+theme_override_colors/font_pressed_color = Color(0.792157, 0.231373, 0.466667, 1)
+theme_override_colors/font_hover_color = Color(0.847059, 0, 0.254902, 1)
+theme_override_colors/font_focus_color = Color(0.792157, 0.231373, 0.466667, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.866667, 0.290196, 0.52549, 1)
 theme_override_colors/font_disabled_color = Color(0.298039, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0.92549, 0.92549, 0.92549, 0.737255)
-theme_override_constants/outline_size = 1
+theme_override_colors/font_outline_color = Color(0.890196, 0.564706, 0.670588, 0.745098)
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("3_7t56n")
+theme_override_font_sizes/font_size = 22
 text = "let the Suffering Begin!"
 
 [node name="ScreenFade" type="ColorRect" parent="."]
@@ -351,4 +349,4 @@ autoplay = true
 [connection signal="pressed" from="ConfirmationDialog/HBoxContainer/VBoxContainer/cancel_button" to="." method="_on_cancel_button_pressed"]
 [connection signal="canceled" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_canceled"]
 [connection signal="confirmed" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_confirmed"]
-[connection signal="pressed" from="CultNameEdit/CultConfirm" to="." method="_on_cult_confirm_pressed"]
+[connection signal="pressed" from="UsernameEdit/UsernameConfirm" to="." method="_on_username_confirm_pressed"]

@@ -30,6 +30,7 @@ var hex_effective_damage = 0
 var redirect_active = false
 var redirect_target = null
 var infernal_affliction_active = false
+var user_name = State.user_name
 
 @onready var screen_fade = $ScreenFade
 @onready var screen_fade_anim = $ScreenFade/ScreenFadeAnimPlayer
@@ -101,7 +102,7 @@ func _ready():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 	$VampSpellsPanel.hide()
-	display_text("Summoned by your loyal cultists, you, the Demon Lord, have awoken!")
+	display_text("Summoned by your loyal cultists, you, %s, have awoken!" % user_name)
 	await self.textbox_closed
 	display_text("These %s adventurers wish to return you to your eternal slumber." % num_current_enemies)
 	await self.textbox_closed
@@ -454,7 +455,7 @@ func enemy_hide(enemy):
 
 func enemy_hex(enemy):
 	if hex_duration == 0: # Check if Hex can be applied
-		display_text("The %s casts a Hex, weakening the Demon Lord's attacks!" % enemy.name)
+		display_text("The %s casts a Hex, weakening %s attacks!" % user_name)
 		await self.textbox_closed
 
 		# Apply the Hex effect
@@ -462,7 +463,7 @@ func enemy_hex(enemy):
 		Boss_damage *= hex_effective_damage
 		hex_duration = 4 # Hex lasts for 2 rounds
 
-		display_text("The Demon Lord's attack power has been diminshed!")
+		display_text("The %s attack power has been diminshed!" %user_name)
 		await self.textbox_closed
 	else:
 		await enemy_attack(enemy)
@@ -547,7 +548,7 @@ func process():
 				# Check if the Dempn Lord is returning from a "Red Rush" dive
 				if is_flying:
 					# Apply the Red Rush damage
-					display_text("Diving from the skies, the Vampire Lord strikes %s for %d damage!" % [red_rush_target.name, red_rush_damage])
+					display_text("Diving from the skies, %s strikes %s for %d damage!" % [user_name, red_rush_target.name, red_rush_damage])
 					await self.textbox_closed
 					$RedRushSound2.play()
 					fly_away.play("fly_back")
@@ -590,7 +591,7 @@ func end_game():
 		display_text("Against your unstoppable might, the heroes have lost.")
 		await self.textbox_closed
 		if State.currentBattle >= 10:
-			display_text("The world will see a dark age under your rule.")
+			display_text("The world will see a dark age under the rule of %s." %user_name)
 			await self.textbox_closed
 			display_text("The living will suffer, and the dead will rise.")
 			await self.textbox_closed
@@ -679,7 +680,7 @@ func _on_blood_siphon_pressed():
 	await target.took_damage(blood_siphon_damage)
 
 	var life_steal_amt = life_steal(blood_siphon_damage)
-	display_text("The Demon Lord cast Blood Siphon, you drain the life force of your enemy dealing %s damage. You have regenerated %d health." % [blood_siphon_damage, life_steal_amt])
+	display_text("The %s cast Blood Siphon, you drain the life force of your enemy dealing %s damage. You have regenerated %d health." % [user_name, blood_siphon_damage, life_steal_amt])
 	await self.textbox_closed
 
 
@@ -782,7 +783,7 @@ func _on_red_rush_pressed():
 	red_rush_target = target
 	is_flying = true
 	
-	display_text("The Vampire Lord spreads his wings and takes to the skies, becoming untouchable.")
+	display_text("%s spreads their wings and takes to the skies, becoming untouchable." %user_name)
 	await self.textbox_closed
 	
 	$RedRushSound1.play()
