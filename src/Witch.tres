@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=23 format=3 uid="uid://c2bx5njerbbu6"]
+[gd_resource type="Resource" load_steps=23 format=3 uid="uid://buefw3ad8lt6a"]
 
 [ext_resource type="Texture2D" uid="uid://cmqf41kvo2m3v" path="res://Image/Witch-A1-Sheet.png" id="1_nocg3"]
 [ext_resource type="AudioStream" uid="uid://bulglx7vbq2me" path="res://audio/witch_sound.wav" id="2_xjp5h"]

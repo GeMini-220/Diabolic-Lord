@@ -37,20 +37,29 @@ var infernal_affliction_active = false
 @onready var fly_away = $DemonLord/FlyAway
 @onready var enemy_container = $EnemyContainer
 
-func fill_enemy_container():
+
+func fill_battle_with_enemies():
 	var screen_resolution = get_tree().root.content_scale_size # Example: (1152, 648)
 	var num_current_enemies = len(enemies)
 	var max_enemies_per_row = 4
+	var left_buffer = 60
 
 	# Calculate the horizontal and vertical spacing based on the desired number of rows and columns
-	var horizontal_spacing = screen_resolution.x / (max_enemies_per_row + 1)
+	var horizontal_spacing = (screen_resolution.x - left_buffer) / (max_enemies_per_row + 2)
 	var vertical_spacing = screen_resolution.y / 3  # Dividing by 3 gives us space for two rows at the top
 
 	for i in range(num_current_enemies):
 		enemies[i].get_ready()  # Call any setup procedures necessary for the enemy
 		# Calculate the position for each enemy
-		var x_position = (i % max_enemies_per_row) * horizontal_spacing + horizontal_spacing / 2  # Start slightly to the right
-		var y_position = (i / max_enemies_per_row) * vertical_spacing + vertical_spacing / .5  # Start slightly down
+		var x_position = (i % max_enemies_per_row) * horizontal_spacing + horizontal_spacing / 3 + left_buffer # Start slightly to the right
+		
+		# Determine the row index (0 for the bottom row, 1 for the top row)
+		var row_index = i / max_enemies_per_row
+		var y_position = 0
+		if row_index >= 1:  # If the index is 1 or higher, place in the top row
+			y_position = vertical_spacing * 1.25  # The top row position
+		else:  # Otherwise, place in the bottom row
+			y_position = vertical_spacing + vertical_spacing  # The bottom row position
 		
 		# Set the enemy's position to these calculated coordinates
 		enemies[i].position = Vector2(x_position, y_position)
@@ -82,7 +91,7 @@ func _ready():
 	all_characters.append($DemonLord)
 	
 	
-	fill_enemy_container()
+	fill_battle_with_enemies()
 #	var screen_resolution = get_tree().root.content_scale_size # (1152, 648)
 #	for i in len(enemies):
 #		enemies[i].get_ready()

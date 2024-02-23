@@ -848,6 +848,7 @@ _data = {
 }
 
 [node name="Enemy" type="CharacterBody2D"]
+scale = Vector2(0.75, 0.75)
 script = ExtResource("1_ix17e")
 enemy = ExtResource("2_fuon7")
 
@@ -913,7 +914,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_we2sv")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 41
 text = "HP: 25/50"
 horizontal_alignment = 1
 vertical_alignment = 1
