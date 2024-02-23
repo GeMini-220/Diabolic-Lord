@@ -929,8 +929,6 @@ func _on_fire_rain_pressed():
 
 	# Safely remove dead enemies after applying effects
 	for dead_enemy in dead_enemies:
-		display_text("You killed the %s!" % dead_enemy.name)
-		await self.textbox_closed
 		enemies.erase(dead_enemy)
 
 	await check_win() # Check for a win condition after all effects and removals
@@ -970,8 +968,6 @@ func _on_meteor_pressed():
 
 	# Remove dead enemies after applying damage to all targets
 	for dead_enemy in dead_enemies:
-		display_text("You killed the %s!" % dead_enemy.name)
-		await self.textbox_closed
 		enemies.erase(dead_enemy)
 
 	await check_win() # Check win condition after all effects are processed
@@ -1009,8 +1005,6 @@ func _on_hell_on_earth_pressed():
 	
 	# Remove dead enemies after damage application
 	for dead_enemy in dead_enemies:
-		display_text("You killed the %s!" % dead_enemy.name)
-		await self.textbox_closed
 		enemies.erase(dead_enemy) # Now safely removing dead enemies
 	
 	await check_win() # Check win condition after all effects are processed
