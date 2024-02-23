@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
-[ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://src/enemy.tscn" id="3_bsfho"]
+[ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://MainScenes/enemy.tscn" id="3_bsfho"]
 [ext_resource type="Resource" uid="uid://ijiac1r710yp" path="res://src/Fighter.tres" id="4_ky74l"]
 [ext_resource type="Resource" uid="uid://djig52rnheww4" path="res://src/Cleric.tres" id="5_avpfh"]
 [ext_resource type="Resource" uid="uid://dywgcsu2hj36k" path="res://src/Mage.tres" id="7_luad1"]
@@ -12,11 +12,15 @@
 [ext_resource type="AudioStream" uid="uid://dlf1lmjy4bg3x" path="res://audio/Blackmoor_Colossus_Loop.wav" id="11_qbwgk"]
 [ext_resource type="AudioStream" uid="uid://cais5n0j5tw3m" path="res://audio/fout-01.wav" id="12_hjm0n"]
 [ext_resource type="AudioStream" uid="uid://b2yvtc61ct3p4" path="res://audio/fout-02.wav" id="13_810fw"]
+[ext_resource type="AudioStream" uid="uid://cynsk6lk0dubg" path="res://audio/vamp_lord_spell_2.wav" id="14_apkor"]
 [ext_resource type="AudioStream" uid="uid://bvwrth2sp64uj" path="res://audio/fout-03.wav" id="14_i752q"]
 [ext_resource type="AudioStream" uid="uid://cobv5jh56eh3k" path="res://audio/dk_spell_1_metal.mp3" id="14_uttlw"]
 [ext_resource type="AudioStream" uid="uid://bvyrqcrjquxyp" path="res://audio/dk_spell_1_thud.mp3" id="15_dn31c"]
 [ext_resource type="AudioStream" uid="uid://w3hit2t2w7nw" path="res://audio/dk_spell_2_guard.mp3" id="16_khjor"]
 [ext_resource type="AudioStream" uid="uid://d1mhg6xaqaalb" path="res://audio/dk_spell_2_counter.mp3" id="17_job4w"]
+[ext_resource type="AudioStream" uid="uid://bwqv4xxs5lq0m" path="res://audio/vamp_lord_spell_1.wav" id="15_digon"]
+[ext_resource type="AudioStream" uid="uid://6dcxc8ddlr3u" path="res://audio/vamp_lord_spell_3.wav" id="16_1sosb"]
+[ext_resource type="AudioStream" uid="uid://bpcyfhuli2elt" path="res://audio/vamp_lord_spell_4.wav" id="17_75osa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xcjfb"]
 atlas = ExtResource("8_axo2t")
@@ -562,6 +566,7 @@ text = "Items"
 expand_icon = true
 
 [node name="SpellsPanel" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -584,14 +589,13 @@ alignment = 1
 
 [node name="Attack" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
-size_flags_horizontal = 3
 tooltip_text = "Basic attack, deals %s damage to one target."
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
@@ -607,7 +611,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
@@ -623,12 +627,28 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
 text = "Infernal
 Affliction"
+
+[node name="VampSpells" type="Button" parent="SpellsPanel/Spells"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Vampiric
+Lord
+Spellbook"
 
 [node name="Back" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
@@ -638,7 +658,94 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("9_5fkrt")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Back"
+
+[node name="VampSpellsPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 150.0
+grow_horizontal = 2
+
+[node name="VampSpells" type="HBoxContainer" parent="VampSpellsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = 26.0
+offset_right = -26.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="BloodSiphon" type="Button" parent="VampSpellsPanel/VampSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Blood
+Siphon
+"
+
+[node name="NobleCharm" type="Button" parent="VampSpellsPanel/VampSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Noble
+Charm
+"
+
+[node name="VampiricFrenzy" type="Button" parent="VampSpellsPanel/VampSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Vampiric
+Frenzy
+"
+
+[node name="BackToSpells" type="Button" parent="VampSpellsPanel/VampSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
 theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
 theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
@@ -781,6 +888,17 @@ stream = ExtResource("16_khjor")
 
 [node name="dk_spell_2_counter" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("17_job4w")
+[node name="VL_BS_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_apkor")
+
+[node name="VL_HH_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("15_digon")
+
+[node name="VL_NC_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("16_1sosb")
+
+[node name="VL_VF_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("17_75osa")
 
 [connection signal="pressed" from="ActionsPanel/Actions/Spells" to="." method="_on_spells_pressed"]
 [connection signal="pressed" from="ActionsPanel/Actions/Defend" to="." method="_on_defend_pressed"]
@@ -788,4 +906,9 @@ stream = ExtResource("17_job4w")
 [connection signal="pressed" from="SpellsPanel/Spells/Attack" to="." method="_on_attack_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/dreadforge" to="." method="_on_dread_forge_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/InfernalAffliction" to="." method="_on_infernal_affliction_pressed"]
+[connection signal="pressed" from="SpellsPanel/Spells/VampSpells" to="." method="_on_vamp_spells_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="VampSpellsPanel/VampSpells/BloodSiphon" to="." method="_on_blood_siphon_pressed"]
+[connection signal="pressed" from="VampSpellsPanel/VampSpells/NobleCharm" to="." method="_on_noble_charm_pressed"]
+[connection signal="pressed" from="VampSpellsPanel/VampSpells/VampiricFrenzy" to="." method="_on_vampiric_frenzy_pressed"]
+[connection signal="pressed" from="VampSpellsPanel/VampSpells/BackToSpells" to="." method="_on_back_to_spells_pressed"]
