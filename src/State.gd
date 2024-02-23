@@ -15,7 +15,7 @@ var damage
 var speed
 var magic
 var currentBattle
-var household_passive_active = true
+var household_passive_active = false
 
 # Player progression variables
 var player_level
@@ -53,7 +53,7 @@ func initialize_player_data() -> void:
 		"speed": 10, #25,
 		"magic": 25,
 		"currentBattle": 0,
-		"player_level": 0,
+		"player_level": 1,
 		"tier_unlocked": 0,
 		"spells_unlocked": ['', '', '', ''],
 		"generic_unlocked": ['', '', '', '', ''],
