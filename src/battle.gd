@@ -139,6 +139,9 @@ func enemy_turn(enemy):
 		display_text("%s takes %d damage from the Scorched Earth." % [enemy.name, enemy.DOT])
 		await self.textbox_closed
 		if enemy.dead:
+			if enemy.name == "Artificer":
+				if enemy == redirect_target:
+					redirect_target = null #in case artificer dies while mid redirect due to scorched earth
 			display_text("The %s gave in to the flames and has perished, only a pile of ash remains." % enemy.name)
 			await self.textbox_closed
 			enemies.erase(enemy)  # Make sure to remove the enemy properly from your enemy list
@@ -152,6 +155,8 @@ func enemy_turn(enemy):
 	if not enemy.has_debuff("Scorched Earth"):
 		if not enemy.has_debuff("Infernal Afliction"):
 			enemy.DOT = 0
+			display_text("The flames have subsided and the %s fights on!" % enemy.name)
+			await self.textbox_closed
 		else:
 			enemy.DOT = floor(Boss_damage / 3)
 
@@ -201,13 +206,13 @@ func enemy_turn(enemy):
 		await enemy.turn()
 		if enemy.DOT > 0:
 			await enemy.took_damage(enemy.DOT)
-		if enemy.dead:
-			display_text("The %s burned to death!" % enemy.name)
-			await self.textbox_closed
-			enemies.erase(enemy)
-			target = null
-			await check_win()
-			return
+			if enemy.dead:
+				display_text("The %s burned to death!" % enemy.name)
+				await self.textbox_closed
+				enemies.erase(enemy)
+				target = null
+				await check_win()
+				return
 		else:
 			match enemy.current_action:
 				"attack":
@@ -809,34 +814,23 @@ func apply_noble_charm(target):
 func end_of_turn():
 	if noble_charm_cd > 0:
 		noble_charm_cd -= 1
-		if noble_charm_cd == 0:
-			display_text("Noble Charm is now off cooldown.")
-			await self.textbox_closed
-			# Ensure this async call doesn't disrupt game flow, consider a non-blocking approach if necessary
+
 
 	if vampiric_frenzy_cd > 0:
 		vampiric_frenzy_cd -= 1
-		if vampiric_frenzy_cd == 0:
-			display_text("Vampiric Frenzy is now off cooldown.")
-			await self.textbox_closed
+
 
 	if fire_rain_cd > 0:
 		fire_rain_cd -= 1
-		if fire_rain_cd == 0:
-			display_text("Fire Rain is now off cooldown.")
-			await self.textbox_closed
+
 
 	if meteor_cd > 0:
 		meteor_cd -= 1
-		if meteor_cd == 0:
-			display_text("Meteor is now off cooldown.")
-			await self.textbox_closed
+
 
 	if hell_on_earth_cd > 0:
 		hell_on_earth_cd -= 1
-		if hell_on_earth_cd == 0:
-			display_text("Hell on Earth is now off cooldown.")
-			await self.textbox_closed
+
 
 
 
@@ -864,7 +858,7 @@ func _on_fireball_pressed():
 	# Apply Scorched Earth debuff
 	var dot_damage = floor(Boss_damage * 0.15) # Damage over time effect
 	target.DOT += dot_damage # Set the DOT value on the enemy
-	target.apply_debuff("Scorched Earth", 3) # Apply debuff for 3 turns
+	target.apply_debuff("Scorched Earth", 2) # Apply debuff for 3 turns
 
 	display_text("The ground beneath %s scorches, igniting them with a lingering flame!" % target.name)
 	await self.textbox_closed
@@ -925,7 +919,7 @@ func _on_fire_rain_pressed():
 		$FireRainSound.play()
 		var is_dead = await target.took_damage(fire_rain_damage) # Assume took_damage can return a death boolean
 		target.DOT += floor(Boss_damage * 0.15) # Apply one stack of DOT
-		target.apply_debuff("Scorched Earth", 3) # Apply debuff for 3 turns
+		target.apply_debuff("Scorched Earth", 2) # Apply debuff for 3 turns
 
 		display_text("Fire rains down upon %s, dealing %d damage and scorching the earth!" % [target.name, fire_rain_damage])
 		await self.textbox_closed
@@ -966,7 +960,7 @@ func _on_meteor_pressed():
 		meteor_damage = await handle_redirect(target, meteor_damage) # Assume this adjusts damage as needed
 		$MeteorSound.play()
 		var is_dead = await target.took_damage(meteor_damage) # Assume took_damage returns a boolean for death
-		target.apply_debuff("Scorched Earth", 3) # Apply debuff
+		target.apply_debuff("Scorched Earth", 2) # Apply debuff
 
 		display_text("A meteor strikes %s, dealing %d damage and scorching the earth!" % [target.name, meteor_damage])
 		await self.textbox_closed
@@ -1006,7 +1000,7 @@ func _on_hell_on_earth_pressed():
 		hell_on_earth_dmg = await handle_redirect(target, hell_on_earth_dmg)
 		var is_dead = await target.took_damage(hell_on_earth_dmg) # Assume took_damage returns a boolean indicating if the target died
 		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
-		target.apply_debuff("Scorched Earth", 6)
+		target.apply_debuff("Scorched Earth", 4)
 		if is_dead:
 			dead_enemies.append(target)
 	
