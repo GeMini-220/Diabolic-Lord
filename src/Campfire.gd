@@ -23,7 +23,7 @@ func _on_main_menu_pressed():
 
 func _on_upgrade_pressed():
 	$"Skill Tree".show()
-  if skill_tree_opened == false:
+	if skill_tree_opened == false:
 		$"Skill Tree".check_for_upgrades()
 		skill_tree_opened = true
 
