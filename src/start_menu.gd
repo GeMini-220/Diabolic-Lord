@@ -28,7 +28,6 @@ func start_fade_out(next_scene_path: String, is_packed_scene: bool = false):
 	screen_fade_anim.play("fade_out")
 	await screen_fade_anim.animation_finished
 	if is_packed_scene:
-		var scene = battle_scene
 		get_tree().change_scene_to_packed(battle_scene)
 	else:
 		get_tree().change_scene_to_file(next_scene_path)

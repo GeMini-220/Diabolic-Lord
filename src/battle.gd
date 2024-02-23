@@ -249,7 +249,7 @@ func select_random_ally(charmed_enemy):
  # Return the randomly selected ally
 
 #self explanitory useful for enemy on enemy attacks
-func calculate_damage(attacker, target) -> int:
+func calculate_damage(attacker, _target) -> int:
 	var final_damage = floor(randf_range(0.5 + attacker.modifier, 1.5 + attacker.modifier) * attacker.damage)
 	final_damage = max(final_damage, 0)
 	return final_damage
@@ -514,6 +514,7 @@ func process():
 					await self.textbox_closed
 					$RedRushSound2.play()
 					fly_away.play("fly_back")
+					await fly_away.animation_finished
 					red_rush_damage = await handle_redirect(red_rush_target, red_rush_damage)
 					await red_rush_target.took_damage(red_rush_damage)
 					await check_win()
@@ -526,12 +527,10 @@ func process():
 			else:
 				await enemy_turn(character)
 				await check_win()
-			await household_passive()		# We do not need this active is turned off right now
-			end_of_turn()
-
+#			await household_passive()		# We do not need this active is turned off right now
 			if game_over:
 				break
-
+			await end_of_turn()
 		display_text("End of round")
 		await self.textbox_closed
 
@@ -701,7 +700,7 @@ func household_passive():
 	await self.textbox_closed
 
 	life_steal(HP_dmg)  # Assuming life_steal function correctly updates health.
-	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
+
 
 	display_text("Your bat sacrificed itself so you could fight on, gaining %s health" % HP_dmg)
 	await self.textbox_closed
@@ -810,14 +809,35 @@ func apply_noble_charm(target):
 func end_of_turn():
 	if noble_charm_cd > 0:
 		noble_charm_cd -= 1
-	if vampiric_frenzy_active and vampiric_frenzy_cd > 0:
+		if noble_charm_cd == 0:
+			display_text("Noble Charm is now off cooldown.")
+			await self.textbox_closed
+			# Ensure this async call doesn't disrupt game flow, consider a non-blocking approach if necessary
+
+	if vampiric_frenzy_cd > 0:
 		vampiric_frenzy_cd -= 1
+		if vampiric_frenzy_cd == 0:
+			display_text("Vampiric Frenzy is now off cooldown.")
+			await self.textbox_closed
+
 	if fire_rain_cd > 0:
 		fire_rain_cd -= 1
+		if fire_rain_cd == 0:
+			display_text("Fire Rain is now off cooldown.")
+			await self.textbox_closed
+
 	if meteor_cd > 0:
 		meteor_cd -= 1
-	if hell_on_earth_active and hell_on_earth_cd > 0:
+		if meteor_cd == 0:
+			display_text("Meteor is now off cooldown.")
+			await self.textbox_closed
+
+	if hell_on_earth_cd > 0:
 		hell_on_earth_cd -= 1
+		if hell_on_earth_cd == 0:
+			display_text("Hell on Earth is now off cooldown.")
+			await self.textbox_closed
+
 
 
 #Inferno Spells 738-888
