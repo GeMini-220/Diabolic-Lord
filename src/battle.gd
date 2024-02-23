@@ -25,7 +25,11 @@ var is_flying = false
 var red_rush_target = null
 var red_rush_damage = 0
 var red_rush_cd = 0
-
+var hex_duration = 0
+var hex_effective_damage = 0
+var redirect_active = false
+var redirect_target = null
+var infernal_affliction_active = false
 
 @onready var screen_fade = $ScreenFade
 @onready var screen_fade_anim = $ScreenFade/ScreenFadeAnimPlayer
@@ -150,7 +154,13 @@ func enemy_turn(enemy):
 
 	# If the "Scorched Earth" debuff has expired, reset the DOT to 0
 	if not enemy.has_debuff("Scorched Earth"):
-		enemy.DOT = 0
+		if not enemy.has_debuff("Infernal Afliction"):
+			enemy.DOT = 0
+		else:
+			enemy.DOT = floor(Boss_damage / 3)
+
+
+		
 
 	# Check if the enemy is charmed and the charm effect should trigger this turn
 	if enemy.has_debuff("noble_charm"):
@@ -218,6 +228,10 @@ func enemy_turn(enemy):
 				#     await enemy_shield(enemy)
 				"hide":
 					await enemy_hide(enemy)
+				"hex":
+					await enemy_hex(enemy)
+				"redirect":
+					await enemy_redirect(enemy)
 
 #this is for a charmed enemy to select a random enemy that is not them selves
 func select_random_ally(charmed_enemy):
@@ -376,17 +390,77 @@ func enemy_stun(enemy):
 	#await self.textbox_closed
 	
 func enemy_hide(enemy):
-	if enemy.is_hiding == false:
-		enemy.is_hiding = true
-		display_text("The %s is hiding!" % enemy.name)
+	var allys = 0
+	for ally in enemies:
+		if not ally.dead:
+			allys += 1
+		
+	if allys <= 1:
+		display_text("The %s attempts to hide but realizes they are the only ones left with no where to run he attacks!" % enemy.name)
 		await self.textbox_closed
-		enemy.play_animation_player("hide")
-		display_text("The %s can no longer be targetted!" % enemy.name)
+		await enemy_attack(enemy)
+	else:
+		if enemy.is_hiding == false:
+			enemy.is_hiding = true
+			display_text("The %s is hiding!" % enemy.name)
+			await self.textbox_closed
+			enemy.play_animation_player("hide")
+			display_text("The %s can no longer be targetted!" % enemy.name)
+			await self.textbox_closed
+		else:
+			display_text("The %s is biding their time!" % enemy.name)
+			await self.textbox_closed
+			enemy.modifier +=1
+
+func enemy_hex(enemy):
+	if hex_duration == 0: # Check if Hex can be applied
+		display_text("The %s casts a Hex, weakening the Demon Lord's attacks!" % enemy.name)
+		await self.textbox_closed
+
+		# Apply the Hex effect
+		hex_effective_damage = 0.50 # Reduce damage to 75% of its original value
+		Boss_damage *= hex_effective_damage
+		hex_duration = 4 # Hex lasts for 2 rounds
+
+		display_text("The Demon Lord's attack power has been diminshed!")
 		await self.textbox_closed
 	else:
-		display_text("The %s is biding their time!" % enemy.name)
+		await enemy_attack(enemy)
+
+func enemy_redirect(enemy):
+	display_text("The %s prepares to redirect your attack!" % enemy.name)
+	await self.textbox_closed
+	
+	# Set up the redirection
+	redirect_active = true
+	redirect_target = enemy  # This enemy becomes the target for the next attack
+	
+	display_text("The %s will redirect the next attack to themselves!" % enemy.name)
+	await self.textbox_closed
+
+func handle_redirect(target, damage):
+	if not redirect_active:
+		return damage  # No redirection or self-redirect, return original damage
+
+	var magic_absorption = redirect_target.magic
+	var absorbed_damage = min(damage, magic_absorption)  # Absorb up to magic_absorption
+	var excess_damage = max(0, damage - absorbed_damage) 
+
+	if absorbed_damage > 0:
+		display_text("The %s redirects and absorbs %d damage!" % [redirect_target.name, absorbed_damage])
 		await self.textbox_closed
-		enemy.modifier +=1
+
+	if excess_damage > 0:
+		display_text("Excess damage of %d bypasses the redirect!" % excess_damage)
+		await self.textbox_closed
+	else:
+		display_text("All damage is absorbed by %s!" % redirect_target.name)
+		await self.textbox_closed
+		excess_damage = 0  # Ensure no negative values
+	
+	redirect_active = false  # Reset the redirect status after handling
+	return excess_damage  # Return the damage after redirect calculation
+
 
 func player_turn(player):
 	# Implement the player's turn logic here
@@ -438,15 +512,14 @@ func process():
 				if is_flying:
 					# Apply the Red Rush damage
 					display_text("Diving from the skies, the Vampire Lord strikes %s for %d damage!" % [red_rush_target.name, red_rush_damage])
+					await self.textbox_closed
 					$RedRushSound2.play()
 					fly_away.play("fly_back")
+					red_rush_damage = await handle_redirect(red_rush_target, red_rush_damage)
 					red_rush_target.took_damage(red_rush_damage)
 					is_flying = false  # Reset flying status
 					red_rush_target = null
 					red_rush_damage = 0
-					await self.textbox_closed
-				# Allow the Demonlord to choose the next move
-				$ActionsPanel.show()
 				await player_turn(character)
 			else:
 				await enemy_turn(character)
@@ -546,7 +619,8 @@ func _on_blood_siphon_pressed():
 		await self.textbox_closed
 
 	# Calculate Blood Siphon damage within a low to medium range
-	var blood_siphon_damage = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange)) # Adjust the range based on desired spell power
+	var blood_siphon_damage = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange))
+	blood_siphon_damage = await handle_redirect(target, blood_siphon_damage) # Adjust the range based on desired spell power
 	$VL_BS_Sound.play()
 	await target.took_damage(blood_siphon_damage)
 	
@@ -748,7 +822,8 @@ func _on_fireball_pressed():
 		await self.textbox_closed
 	$FireballSound.play()
 	# Calculate fireball damage within a medium range
-	var fireball_damage = floor(Boss_damage * randf_range(0.8, 1.2)) # Adjust the range based on desired spell power
+	var fireball_damage = floor(Boss_damage * randf_range(0.8, 1.2))
+	fireball_damage = await handle_redirect(target, fireball_damage) # Adjust the range based on desired spell power
 	await target.took_damage(fireball_damage)
 	
 	display_text("The fireball hits the %s, dealing %d damage." % [target.name, fireball_damage])
@@ -814,6 +889,7 @@ func _on_fire_rain_pressed():
 	# Apply Fire Rain effects to the selected targets
 	for target in targets:
 		var fire_rain_damage = floor(Boss_damage * randf_range(0.8, 1.1)) # Adjust range as desired
+		fire_rain_damage = await handle_redirect(target, fire_rain_damage)
 		$FireRainSound.play()
 		target.took_damage(fire_rain_damage)
 		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
@@ -844,6 +920,7 @@ func _on_meteor_pressed():
 	# Apply Meteor effects to the selected targets
 	for target in targets:
 		var meteor_damage = floor(Boss_damage * randf_range(1.0, 1.5))
+		meteor_damage = await handle_redirect(target, meteor_damage)
 		$MeteorSound.play() # Adjust range for desired spell power
 		target.took_damage(meteor_damage)
 		# Apply one stack of "Scorched Earth" debuff
@@ -875,6 +952,7 @@ func _on_hell_on_earth_pressed():
 	$HellOnEarthSound.play()
 	for target in targets:
 		var hell_on_earth_dmg = floor(Boss_damage * randf_range(0.3, 0.5)) # Adjust range as desired
+		hell_on_earth_dmg = await handle_redirect(target, hell_on_earth_dmg)
 		target.took_damage(hell_on_earth_dmg)
 		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
 		target.apply_debuff("Scorched Earth", 6)
@@ -924,7 +1002,7 @@ func _on_attack_pressed():
 		final_damage *= 0.5
 	if enemy_defending == true:
 		final_damage *= 0.75
-	final_damage = floor(final_damage)
+	final_damage = await handle_redirect(target, floor(final_damage))
 	
 	$SpellSound1.play()
 	await target.took_damage(final_damage)
@@ -958,7 +1036,6 @@ func _on_spells_pressed():
 func _on_infernal_affliction_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
-	
 	if target == null:
 		await select_enemy()
 	else:
@@ -973,6 +1050,9 @@ func _on_infernal_affliction_pressed():
 	await self.textbox_closed
 	display_text("The %s will take %s damage on each of its turns!" % [target.name, target.DOT])
 	await self.textbox_closed
+	
+
+	target.apply_debuff("Infernal Afliction", 100)  # Assuming a duration of 5 turns
 	target = null
 	emit_signal("action_taken")
 
