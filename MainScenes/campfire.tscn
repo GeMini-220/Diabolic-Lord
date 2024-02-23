@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://4hjr3fcl6odq"]
+[gd_scene load_steps=20 format=3 uid="uid://4hjr3fcl6odq"]
 
 [ext_resource type="Script" path="res://src/Campfire.gd" id="1_32l6o"]
 [ext_resource type="Texture2D" uid="uid://dyp8gqxrnk6ll" path="res://Image/campfire/BG-static.png" id="2_vqedm"]
@@ -13,6 +13,7 @@
 [ext_resource type="BitMap" uid="uid://dcyygrqnawjmu" path="res://Image/campfire/Upgrade-ClickMask.bmp" id="8_kcuar"]
 [ext_resource type="PackedScene" uid="uid://ycbqvltmppkh" path="res://MainScenes/skill_tree.tscn" id="12_li17o"]
 [ext_resource type="AudioStream" uid="uid://dsuq45efjulon" path="res://audio/DLOST_-_Diabolic_Lord.wav" id="13_i1idq"]
+[ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="14_uqnru"]
 
 [sub_resource type="Animation" id="Animation_nwpus"]
 length = 0.001
@@ -114,6 +115,14 @@ _data = {
 "fade_to_black": SubResource("Animation_ne8ly")
 }
 
+[sub_resource type="LabelSettings" id="LabelSettings_s66j6"]
+line_spacing = 4.0
+font = ExtResource("14_uqnru")
+font_size = 31
+font_color = Color(0.160784, 0.0862745, 0.054902, 1)
+outline_color = Color(0.356863, 0.239216, 0.211765, 0.792157)
+shadow_color = Color(0, 0, 0, 0.0588235)
+
 [node name="Campfire" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -184,6 +193,26 @@ autoplay = "fade_in"
 libraries = {
 "": SubResource("AnimationLibrary_nn8k5")
 }
+
+[node name="CultName" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.0095486
+anchor_top = -0.0401235
+anchor_right = 0.015625
+anchor_bottom = -0.0401235
+offset_left = 44.0
+offset_top = 342.0
+offset_right = 217.0
+offset_bottom = 377.0
+rotation = -0.163236
+scale = Vector2(0.95661, 3.84463)
+theme_override_font_sizes/font_size = 40
+text = "12345678912"
+label_settings = SubResource("LabelSettings_s66j6")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="Embark" to="." method="_on_embark_pressed"]
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]

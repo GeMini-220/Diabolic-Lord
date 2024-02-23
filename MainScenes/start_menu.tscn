@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bt0p0f1doph00"]
+[gd_scene load_steps=17 format=3 uid="uid://bt0p0f1doph00"]
 
 [ext_resource type="Script" path="res://src/start_menu.gd" id="1_yf0g8"]
 [ext_resource type="Texture2D" uid="uid://c71gg1jag5br4" path="res://Image/Mausoleum_Background.png" id="2_37vsj"]
@@ -90,6 +90,8 @@ _data = {
 "fade_in": SubResource("Animation_qsq1r"),
 "fade_out": SubResource("Animation_kd8jn")
 }
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_bswh1"]
 
 [node name="Start Menu" type="Control"]
 layout_mode = 3
@@ -194,7 +196,7 @@ anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = -8.0
-offset_bottom = -26.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
@@ -217,7 +219,7 @@ anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = -8.0
-offset_bottom = -26.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
@@ -260,6 +262,7 @@ dialog_autowrap = true
 cancel_button_text = "NO!!!!!"
 
 [node name="ScreenFade" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -277,6 +280,68 @@ libraries = {
 stream = ExtResource("6_s007r")
 autoplay = true
 
+[node name="CultNameEdit" type="LineEdit" parent="."]
+visible = false
+top_level = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -117.0
+offset_top = -35.0
+offset_right = 96.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.17353, 1.01685)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.721569)
+theme_override_colors/caret_color = Color(1, 1, 1, 1)
+theme_override_colors/selection_color = Color(0, 0, 0, 1)
+theme_override_colors/clear_button_color = Color(0, 0, 0, 1)
+theme_override_colors/clear_button_color_pressed = Color(0, 0, 0, 1)
+theme_override_constants/minimum_character_width = 14
+theme_override_constants/outline_size = 2
+theme_override_constants/caret_width = 1
+theme_override_fonts/font = ExtResource("2_wgoxx")
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxLine_bswh1")
+placeholder_text = "Name Your Cult"
+alignment = 1
+max_length = 12
+expand_to_text_length = true
+selecting_enabled = false
+
+[node name="CultConfirm" type="Button" parent="CultNameEdit"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -114.169
+offset_top = 7.69096
+offset_right = 70.8308
+offset_bottom = 38.691
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.20211, 1.6282)
+theme_override_colors/font_color = Color(0.298039, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.701961, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.960784, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0.545098, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.913725, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.298039, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.92549, 0.92549, 0.92549, 0.737255)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("3_7t56n")
+text = "let the Suffering Begin!"
+
 [connection signal="pressed" from="start_new_game" to="." method="_on_start_new_game_pressed"]
 [connection signal="pressed" from="load_game" to="." method="_on_load_game_pressed"]
 [connection signal="pressed" from="quit_game" to="." method="_on_quit_game_pressed"]
@@ -286,3 +351,4 @@ autoplay = true
 [connection signal="pressed" from="ConfirmationDialog/HBoxContainer/VBoxContainer/cancel_button" to="." method="_on_cancel_button_pressed"]
 [connection signal="canceled" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_canceled"]
 [connection signal="confirmed" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_confirmed"]
+[connection signal="pressed" from="CultNameEdit/CultConfirm" to="." method="_on_cult_confirm_pressed"]
