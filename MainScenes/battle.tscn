@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=3 uid="uid://cmm365jef52ho"]
+[gd_scene load_steps=92 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
@@ -14,12 +14,12 @@
 [ext_resource type="AudioStream" uid="uid://b2yvtc61ct3p4" path="res://audio/fout-02.wav" id="13_810fw"]
 [ext_resource type="AudioStream" uid="uid://cynsk6lk0dubg" path="res://audio/VampireSounds/vamp_lord_spell_2.wav" id="14_gl8q8"]
 [ext_resource type="AudioStream" uid="uid://bvwrth2sp64uj" path="res://audio/fout-03.wav" id="14_i752q"]
-[ext_resource type="AudioStream" uid="uid://cobv5jh56eh3k" path="res://audio/dk_spell_1_metal.mp3" id="14_uttlw"]
-[ext_resource type="AudioStream" uid="uid://bvyrqcrjquxyp" path="res://audio/dk_spell_1_thud.mp3" id="15_dn31c"]
-[ext_resource type="AudioStream" uid="uid://w3hit2t2w7nw" path="res://audio/dk_spell_2_guard.mp3" id="16_khjor"]
-[ext_resource type="AudioStream" uid="uid://d1mhg6xaqaalb" path="res://audio/dk_spell_2_counter.mp3" id="17_job4w"]
+[ext_resource type="AudioStream" uid="uid://cobv5jh56eh3k" path="res://audio/DemonSounds/dk_spell_1_metal.mp3" id="14_uttlw"]
 [ext_resource type="AudioStream" uid="uid://bwqv4xxs5lq0m" path="res://audio/VampireSounds/vamp_lord_spell_1.wav" id="15_3e52p"]
+[ext_resource type="AudioStream" uid="uid://bvyrqcrjquxyp" path="res://audio/DemonSounds/dk_spell_1_thud.mp3" id="15_dn31c"]
+[ext_resource type="AudioStream" uid="uid://w3hit2t2w7nw" path="res://audio/DemonSounds/dk_spell_2_guard.mp3" id="16_khjor"]
 [ext_resource type="AudioStream" uid="uid://6dcxc8ddlr3u" path="res://audio/VampireSounds/vamp_lord_spell_3.wav" id="16_kylpl"]
+[ext_resource type="AudioStream" uid="uid://d1mhg6xaqaalb" path="res://audio/DemonSounds/dk_spell_2_counter.mp3" id="17_job4w"]
 [ext_resource type="AudioStream" uid="uid://bpcyfhuli2elt" path="res://audio/VampireSounds/vamp_lord_spell_4.wav" id="17_qnygj"]
 [ext_resource type="AudioStream" uid="uid://b44sdob6noi7b" path="res://audio/VampireSounds/red_rush_1.wav" id="18_s6gls"]
 [ext_resource type="AudioStream" uid="uid://dbbcwg6o5sijc" path="res://audio/VampireSounds/red_rush_2.wav" id="19_26orp"]
@@ -830,6 +830,22 @@ text = "Fire
 Spells
 "
 
+[node name="DkSpells" type="Button" parent="SpellsPanel/Spells"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Knight
+Spells
+"
+
 [node name="Back" type="Button" parent="SpellsPanel/Spells"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -934,6 +950,107 @@ Frenzy
 "
 
 [node name="BackToSpells" type="Button" parent="VampSpellsPanel/VampSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Back"
+
+[node name="DkSpellsPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 150.0
+grow_horizontal = 2
+
+[node name="DkSpells" type="HBoxContainer" parent="DkSpellsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = 26.0
+offset_right = -26.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="ShatteringStrike" type="Button" parent="DkSpellsPanel/DkSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Shattering
+Strike
+"
+
+[node name="Counter" type="Button" parent="DkSpellsPanel/DkSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Counter
+"
+
+[node name="Guillotine" type="Button" parent="DkSpellsPanel/DkSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "Guillotine"
+
+[node name="TrueForm" type="Button" parent="DkSpellsPanel/DkSpells"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Damage the enemy and restore your health"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_5fkrt")
+theme_override_font_sizes/font_size = 42
+theme_override_styles/normal = SubResource("StyleBoxFlat_45ras")
+theme_override_styles/hover = SubResource("StyleBoxFlat_egerx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
+text = "True
+Form
+"
+
+[node name="BackToSpells" type="Button" parent="DkSpellsPanel/DkSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -1186,6 +1303,7 @@ stream = ExtResource("16_khjor")
 
 [node name="dk_spell_2_counter" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("17_job4w")
+
 [node name="VL_BS_Sound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("14_gl8q8")
 
@@ -1248,12 +1366,18 @@ autoplay = "fade_in"
 [connection signal="pressed" from="SpellsPanel/Spells/InfernalAffliction" to="." method="_on_infernal_affliction_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/VampSpells" to="." method="_on_vamp_spells_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/InfernoSpells" to="." method="_on_inferno_spells_pressed"]
+[connection signal="pressed" from="SpellsPanel/Spells/DkSpells" to="." method="_on_dk_spells_pressed"]
 [connection signal="pressed" from="SpellsPanel/Spells/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="VampSpellsPanel/VampSpells/BloodSiphon" to="." method="_on_blood_siphon_pressed"]
 [connection signal="pressed" from="VampSpellsPanel/VampSpells/RedRush" to="." method="_on_red_rush_pressed"]
 [connection signal="pressed" from="VampSpellsPanel/VampSpells/NobleCharm" to="." method="_on_noble_charm_pressed"]
 [connection signal="pressed" from="VampSpellsPanel/VampSpells/VampiricFrenzy" to="." method="_on_vampiric_frenzy_pressed"]
 [connection signal="pressed" from="VampSpellsPanel/VampSpells/BackToSpells" to="." method="_on_back_to_spells_pressed"]
+[connection signal="pressed" from="DkSpellsPanel/DkSpells/ShatteringStrike" to="." method="_on_shattering_strike_pressed"]
+[connection signal="pressed" from="DkSpellsPanel/DkSpells/Counter" to="." method="_on_counter_pressed"]
+[connection signal="pressed" from="DkSpellsPanel/DkSpells/Guillotine" to="." method="_on_guillotine_pressed"]
+[connection signal="pressed" from="DkSpellsPanel/DkSpells/TrueForm" to="." method="_on_true_form_pressed"]
+[connection signal="pressed" from="DkSpellsPanel/DkSpells/BackToSpells" to="." method="_on_back_to_spells_pressed"]
 [connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/Fireball" to="." method="_on_fireball_pressed"]
 [connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/Fire Rain" to="." method="_on_fire_rain_pressed"]
 [connection signal="pressed" from="InfernoSpellsPanel/InfernoSpells/Meteor" to="." method="_on_meteor_pressed"]

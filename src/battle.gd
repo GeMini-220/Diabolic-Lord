@@ -20,6 +20,10 @@ var Boss_speed = State.speed
 var guillotine_upperbound = 0.25
 var Boss_lifesteal = 0
 var true_form = 0
+var shattering_strike_cd = 0
+var counter_cd = 0
+var guillotine_cd = 0
+var true_form_cd = 6 # initial cd
 var noble_charm_cd = 0
 var vampiric_frenzy_active = false
 var vampiric_frenzy_cd = 0
@@ -149,6 +153,9 @@ func enemy_turn(enemy):
 		enemy.took_damage(enemy.DOT)
 		display_text("%s takes %d damage from the Scorched Earth." % [enemy.name, enemy.DOT])
 		await self.textbox_closed
+		
+		await take_lifesteal(enemy.DOT)
+		
 		if enemy.dead:
 			display_text("The %s gave in to the flames and has perished, only a pile of ash remains." % enemy.name)
 			await self.textbox_closed
@@ -204,6 +211,7 @@ func enemy_turn(enemy):
 		await enemy.turn()
 		if enemy.DOT > 0:
 			await enemy.took_damage(enemy.DOT)
+			await take_lifesteal(enemy.DOT)
 		if enemy.dead:
 			display_text("The %s burned to death!" % enemy.name)
 			await self.textbox_closed
@@ -479,6 +487,7 @@ func process():
 					red_rush_target = null
 					red_rush_damage = 0
 					await self.textbox_closed
+					await take_lifesteal(red_rush_damage)
 				# Allow the Demonlord to choose the next move
 				$ActionsPanel.show()
 				await player_turn(character)
@@ -554,16 +563,6 @@ func _input(event):
 	# Player attcks adventurers
 	# Add any other actions the player should take during their turn
 
-
-#VAMP LORD SKILLS 356-720
-func life_steal(damage: int):
-	State.current_health += damage
-	if State.current_health > State.max_health:
-		State.current_health = State.max_health
-	
-	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
-
-
 func _on_blood_siphon_pressed():
 	var LowDamageRange = 0.8
 	var HighDamageRange = 1.1
@@ -587,10 +586,7 @@ func _on_blood_siphon_pressed():
 	display_text("You cast Blood Siphon, draining life from your foe.")
 	await self.textbox_closed
 	
-	var life_steal = life_steal(blood_siphon_damage)
-
-	display_text("You healed for %s by siphoning the blood of your enemy." %blood_siphon_damage)
-	await self.textbox_closed
+	await take_lifesteal(blood_siphon_damage, 1, "You healed for %s by siphoning the blood of your enemy.")
 	
 	display_text("Blood Siphon dealt %d damage to the %s." % [blood_siphon_damage, target.name])
 	await self.textbox_closed
@@ -647,11 +643,7 @@ func household_passive():
 	display_text("Your bat has been summoned and flew at %s dealing %s damage, and restoring %s health" % [target.name, HP_dmg, HP_dmg])
 	await self.textbox_closed
 
-	life_steal(HP_dmg)  # Assuming life_steal function correctly updates health.
-	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
-
-	display_text("Your bat sacrificed itself so you could fight on, gaining %s health" % HP_dmg)
-	await self.textbox_closed
+	await take_lifesteal(HP_dmg, 1, "Your bat sacrificed itself so you could fight on, gaining %s health") 
 
 	if vampiric_frenzy_active and randf() < 0.5:
 		apply_noble_charm(target)
@@ -754,20 +746,30 @@ func apply_noble_charm(target):
 	if "noble_charm" not in target.debuffs:
 		target.debuffs["noble_charm"] = 3  # Lasts for 3 turns/actions
 
-
 func end_of_turn():
+	if shattering_strike_cd > 0:
+		shattering_strike_cd -= 1
+	if counter_cd > 0:
+		counter_cd -= 1
+	if guillotine_cd > 0:
+		guillotine_cd -= 1
+	if true_form_cd > 0:
+		true_form_cd -= 1
+
+	if red_rush_cd > 0:
+		red_rush_cd -= 1
 	if noble_charm_cd > 0:
 		noble_charm_cd -= 1
 	if vampiric_frenzy_active and vampiric_frenzy_cd > 0:
 		vampiric_frenzy_cd -= 1
+
 	if fire_rain_cd > 0:
 		fire_rain_cd -= 1
 	if meteor_cd > 0:
 		meteor_cd -= 1
 	if hell_on_earth_active and hell_on_earth_cd > 0:
 		hell_on_earth_cd -= 1
-
-
+	
 #Inferno Spells 738-888
 func _on_fireball_pressed():
 	$ActionsPanel.hide()
@@ -787,6 +789,8 @@ func _on_fireball_pressed():
 	
 	display_text("The fireball hits the %s, dealing %d damage." % [target.name, fireball_damage])
 	await self.textbox_closed
+	
+	await take_lifesteal(fireball_damage)
 
 	# Apply Scorched Earth debuff
 	var dot_damage = floor(Boss_damage * 0.25) # Damage over time effect
@@ -855,6 +859,9 @@ func _on_fire_rain_pressed():
 
 		display_text("Fire rains down upon %s, dealing %d damage and scorching the earth!" % [target.name, fire_rain_damage])
 		await self.textbox_closed
+		
+		await take_lifesteal(fire_rain_damage)
+		
 		if target.dead:
 			display_text("You killed the %s!" % target.name)
 			await self.textbox_closed
@@ -885,6 +892,9 @@ func _on_meteor_pressed():
 
 		display_text("A meteor strikes %s, dealing %d damage and scorching the earth!" % [target.name, meteor_damage])
 		await self.textbox_closed
+		
+		await take_lifesteal(meteor_damage)
+		
 		if target.dead:
 			display_text("You killed the %s!" % target.name)
 			await self.textbox_closed
@@ -907,13 +917,18 @@ func _on_hell_on_earth_pressed():
 	
 	var targets = get_available_targets()
 	$HellOnEarthSound.play()
+	var hell_on_earth_dmg_sum = 0
 	for target in targets:
 		var hell_on_earth_dmg = floor(Boss_damage * randf_range(0.3, 0.5)) # Adjust range as desired
+		hell_on_earth_dmg_sum += hell_on_earth_dmg
 		target.took_damage(hell_on_earth_dmg)
 		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
 		target.apply_debuff("Scorched Earth", 6)
 	display_text("A giant chasm tears open as you unleash Hell on Earth!")
 	await self.textbox_closed
+	
+	await take_lifesteal(hell_on_earth_dmg_sum)
+	
 	for target in targets:
 		if target.dead:
 			display_text("You killed the %s!" % target.name)
@@ -1016,7 +1031,11 @@ func _on_infernal_affliction_pressed():
 func _on_shattering_strike_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
-	
+	if shattering_strike_cd > 0:
+		display_text("Shattering Strike is still on cooldown for %d more turns." % [shattering_strike_cd])
+		await self.textbox_closed
+		return
+	$DkSpellsPanel.hide()
 	var enemy_defending = false
 	if target == null:
 		await select_enemy()
@@ -1026,6 +1045,8 @@ func _on_shattering_strike_pressed():
 		enemy_defending = true
 		
 	var final_damage = randf_range(0.5, 1.0) * Boss_damage
+	if vampiric_frenzy_active:
+		final_damage *= 1.2
 	if is_defending == true:
 		final_damage *= 0.5
 	if enemy_defending == true:
@@ -1056,21 +1077,33 @@ func _on_shattering_strike_pressed():
 		display_text("%s is stunned!" % target.name)
 		await self.textbox_closed
 		
+	shattering_strike_cd = 2
 	target = null
 	emit_signal("action_taken")
 	
 func _on_counter_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
+	if counter_cd > 0:
+		display_text("Counter is still on cooldown for %d more turns." % [counter_cd])
+		await self.textbox_closed
+		return
+	$DkSpellsPanel.hide()
 	$dk_spell_2_guard.play()
 	countering_turn += 1 + true_form
 	display_text("You deftly execute Counter, turning the next enemy's attack against them with twice the force!")
 	await self.textbox_closed
+	counter_cd = 3
 	emit_signal("action_taken")
 	
 func _on_guillotine_pressed(recast = false):
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
+	if !recast and guillotine_cd > 0:
+		display_text("Guillotine is still on cooldown for %d more turns." % [guillotine_cd])
+		await self.textbox_closed
+		return
+	$DkSpellsPanel.hide()
 	var enemy_defending = false
 	if target == null:
 		await select_enemy()
@@ -1080,6 +1113,8 @@ func _on_guillotine_pressed(recast = false):
 		enemy_defending = true
 	
 	var final_damage = randf_range(0.5, 1.5) * Boss_damage
+	if vampiric_frenzy_active:
+		final_damage *= 1.2
 	if is_defending == true:
 		final_damage *= 0.5
 	if enemy_defending == true:
@@ -1113,58 +1148,64 @@ func _on_guillotine_pressed(recast = false):
 			await self.textbox_closed
 			target = living_enemies[randi() % living_enemies.size()]
 			await _on_guillotine_pressed(true)
+	guillotine_cd = 3
 	target = null
 	emit_signal("action_taken")
 
 func _on_true_form_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
+	if true_form_cd > 0:
+		display_text("True Form is still on cooldown for %d more turns." % [true_form_cd])
+		await self.textbox_closed
+		return
+	$DkSpellsPanel.hide()
 	$SpellSound2.play() # TODO: Add sound
 	display_text("You embraced your True Form.")
 	await self.textbox_closed
 	Boss_damage *= 1.5
-	Boss_speed *= 1.5
+	Boss_speed = ceil(Boss_speed / 1.5)
 	Boss_magic *= 1.5
 	Boss_lifesteal += 0.2
 	true_form += 1
 	guillotine_upperbound = 0.35
+	true_form_cd = 6
 	emit_signal("action_taken")
 	
-func take_lifesteal(damage):
+func take_lifesteal(damage, temp_lifesteal = 0, text = ""):
+	Boss_lifesteal += temp_lifesteal
 	if Boss_lifesteal > 0 and State.max_health != State.current_health:
 		var health_restored = min(State.max_health - State.current_health, floor(damage * Boss_lifesteal))
+		if health_restored == 0:
+			Boss_lifesteal -= temp_lifesteal
+			return
 		State.current_health += health_restored
 		set_health(get_node("/root/Battle/PlayerPanel/ProgressBar"), State.current_health, State.max_health)
-		display_text("You restored %d health." % health_restored)
+		if text != "":
+			display_text(text % health_restored)
+		else:
+			display_text("You restored %d health." % health_restored)
 		await textbox_closed
+	Boss_lifesteal -= temp_lifesteal
 
 func _on_back_pressed():
 	$ActionsPanel.show()
 	$SpellsPanel.hide()
 
-
-
-
-
-
-
 func _on_vamp_spells_pressed():
 	$SpellsPanel.hide()
 	$VampSpellsPanel.show()
 
-
 func _on_back_to_spells_pressed():
 	$VampSpellsPanel.hide()
 	$InfernoSpellsPanel.hide()
+	$DkSpellsPanel.hide()
 	$SpellsPanel.show()
-
-
 
 func _on_inferno_spells_pressed():
 	$SpellsPanel.hide()
 	$InfernoSpellsPanel.show()
 
-
-
-
-
+func _on_dk_spells_pressed():
+	$SpellsPanel.hide()
+	$DkSpellsPanel.show()
