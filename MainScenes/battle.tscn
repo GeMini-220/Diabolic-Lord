@@ -1,7 +1,7 @@
 [gd_scene load_steps=88 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
-[ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
+[ext_resource type="Texture2D" uid="uid://bti8snfww6gou" path="res://Image/Battle-V1.png" id="2_okyx3"]
 [ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://MainScenes/enemy.tscn" id="3_bsfho"]
 [ext_resource type="Resource" uid="uid://ijiac1r710yp" path="res://src/Fighter.tres" id="4_ky74l"]
 [ext_resource type="Resource" uid="uid://djig52rnheww4" path="res://src/Cleric.tres" id="5_avpfh"]
@@ -339,7 +339,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(576, 343)]
+"values": [Vector2(850, 400)]
 }
 
 [sub_resource type="Animation" id="Animation_sd0so"]
@@ -352,10 +352,10 @@ tracks/0/path = NodePath(".:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.7, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(576, 343), Vector2(576, 250), Vector2(576, 343), Vector2(576, -100)]
+"values": [Vector2(850, 400), Vector2(850, 2.08165e-12)]
 }
 
 [sub_resource type="Animation" id="Animation_ipk00"]
@@ -370,7 +370,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(576, -100), Vector2(576, 343)]
+"values": [Vector2(850, 2.08165e-12), Vector2(850, 400)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4cudh"]
@@ -621,36 +621,45 @@ layout_mode = 0
 offset_top = 1.0
 offset_right = 1152.0
 offset_bottom = 649.0
-texture = ExtResource("2_i5jaq")
+texture = ExtResource("2_okyx3")
+
+[node name="EnemyContainer" type="HBoxContainer" parent="."]
+top_level = true
+layout_mode = 0
+offset_left = 33.0
+offset_top = 178.0
+offset_right = 718.0
+offset_bottom = 403.0
+alignment = 1
 
 [node name="Enemies" type="Node" parent="."]
-
-[node name="Defender" type="Node" parent="Enemies"]
-
-[node name="Fighter" parent="Enemies/Defender" instance=ExtResource("3_bsfho")]
-position = Vector2(168, 246)
-enemy = ExtResource("4_ky74l")
 
 [node name="Striker" type="Node" parent="Enemies"]
 
 [node name="Rogue" parent="Enemies/Striker" instance=ExtResource("3_bsfho")]
-position = Vector2(1000, 246)
+position = Vector2(2.08165e-12, 2.08165e-12)
 
 [node name="Mage" parent="Enemies/Striker" instance=ExtResource("3_bsfho")]
-position = Vector2(1000, 429)
+position = Vector2(2.08165e-12, 2.08165e-12)
 enemy = ExtResource("7_luad1")
 
 [node name="Supporter" type="Node" parent="Enemies"]
 
 [node name="Cleric" parent="Enemies/Supporter" instance=ExtResource("3_bsfho")]
-position = Vector2(168, 429)
+position = Vector2(2.08165e-12, 2.08165e-12)
 enemy = ExtResource("5_avpfh")
+
+[node name="Defender" type="Node" parent="Enemies"]
+
+[node name="Fighter" parent="Enemies/Defender" instance=ExtResource("3_bsfho")]
+position = Vector2(2.08165e-12, 2.08165e-12)
+enemy = ExtResource("4_ky74l")
 
 [node name="CurrentEnemies" type="Node" parent="."]
 
 [node name="DemonLord" type="AnimatedSprite2D" parent="."]
-position = Vector2(576, 343)
-scale = Vector2(14, 14)
+position = Vector2(850, 400)
+scale = Vector2(11.5334, 11.5334)
 sprite_frames = SubResource("SpriteFrames_o3t5s")
 animation = &"idle"
 
@@ -1210,6 +1219,7 @@ stream = ExtResource("24_5ib0j")
 volume_db = 10.0
 
 [node name="ScreenFade" type="ColorRect" parent="."]
+visible = false
 modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -1220,10 +1230,10 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ScreenFadeAnimPlayer" type="AnimationPlayer" parent="ScreenFade"]
+autoplay = "fade_in"
 libraries = {
 "": SubResource("AnimationLibrary_32g0i")
 }
-autoplay = "fade_in"
 
 [connection signal="pressed" from="ActionsPanel/Actions/Spells" to="." method="_on_spells_pressed"]
 [connection signal="pressed" from="ActionsPanel/Actions/Defend" to="." method="_on_defend_pressed"]

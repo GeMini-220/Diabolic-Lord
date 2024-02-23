@@ -31,6 +31,26 @@ var red_rush_cd = 0
 @onready var screen_fade_anim = $ScreenFade/ScreenFadeAnimPlayer
 @export var characters = {}
 @onready var fly_away = $DemonLord/FlyAway
+@onready var enemy_container = $EnemyContainer
+
+func fill_enemy_container():
+	var screen_resolution = get_tree().root.content_scale_size # Example: (1152, 648)
+	var num_current_enemies = len(enemies)
+	var max_enemies_per_row = 4
+
+	# Calculate the horizontal and vertical spacing based on the desired number of rows and columns
+	var horizontal_spacing = screen_resolution.x / (max_enemies_per_row + 1)
+	var vertical_spacing = screen_resolution.y / 3  # Dividing by 3 gives us space for two rows at the top
+
+	for i in range(num_current_enemies):
+		enemies[i].get_ready()  # Call any setup procedures necessary for the enemy
+		# Calculate the position for each enemy
+		var x_position = (i % max_enemies_per_row) * horizontal_spacing + horizontal_spacing / 2  # Start slightly to the right
+		var y_position = (i / max_enemies_per_row) * vertical_spacing + vertical_spacing / .5  # Start slightly down
+		
+		# Set the enemy's position to these calculated coordinates
+		enemies[i].position = Vector2(x_position, y_position)
+
 
 
 func start_fade_in():
@@ -46,23 +66,25 @@ func start_fade_out(next_scene_path: String):
 
 
 func _ready():
+	
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 	State.currentBattle += 1
-	start_fade_in()
 	$DemonLord.play("idle")
+	$BGMusic.play()
 	
 	randomize()
 	enemies = choose_random_enemies()
 	all_characters = enemies.duplicate()
 	all_characters.append($DemonLord)
 	
-	var screen_resolution = get_tree().root.content_scale_size # (1152, 648)
-	for i in len(enemies):
-		enemies[i].get_ready()
-		enemies[i].position = Vector2(screen_resolution.x / (num_current_enemies + 1) * (i + 1), screen_resolution.y / 2)
+	
+	fill_enemy_container()
+#	var screen_resolution = get_tree().root.content_scale_size # (1152, 648)
+#	for i in len(enemies):
+#		enemies[i].get_ready()
+#		enemies[i].position = Vector2(screen_resolution.x / (num_current_enemies + 1) * (i + 1), screen_resolution.y / 2)
 		# temporary alignment of enemies
-	#Enable/Disable buttons based on if skill is obtained
-
+	
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 	$VampSpellsPanel.hide()
@@ -73,7 +95,8 @@ func _ready():
 	display_text("This is the final battle!")
 	await self.textbox_closed
 	await process()
-	
+
+
 func choose_random_enemies():
 	for e in $CurrentEnemies.get_children():
 		e.queue_free()
@@ -523,7 +546,7 @@ func _input(event):
 
 #VAMP LORD SKILLS 356-720
 func life_steal(damage: int):
-	State.current_health += damage
+	State.current_health += damage * .25
 	if State.current_health > State.max_health:
 		State.current_health = State.max_health
 	
@@ -777,7 +800,7 @@ func select_multiple_targets(max_targets : int) -> Array:
 	var num_targets_to_select = min(available_targets.size(), max_targets)
 
 	for i in range(num_targets_to_select):
-		display_text("Select target %d of %d for the ability." % [i + 1, num_targets_to_select])
+#		display_text("Select target %d of %d for the ability." % [i + 1, num_targets_to_select])
 		await select_enemy()
 		if target != null:
 			selected_targets.append(target)
@@ -807,13 +830,14 @@ func _on_fire_rain_pressed():
 		return
 
 	$InfernoSpellsPanel.hide()
-
+	display_text("Select two targets for fire rain.")
+	await self.textbox_closed
 	# Use the new function to select up to 2 targets
 	var targets = await select_multiple_targets(2)
 
 	# Apply Fire Rain effects to the selected targets
 	for target in targets:
-		var fire_rain_damage = floor(Boss_damage * randf_range(0.8, 1.1)) # Adjust range as desired
+		var fire_rain_damage = floor(Boss_damage * randf_range(0.4, 0.8)) # Adjust range as desired
 		$FireRainSound.play()
 		target.took_damage(fire_rain_damage)
 		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
@@ -825,7 +849,7 @@ func _on_fire_rain_pressed():
 			display_text("You killed the %s!" % target.name)
 			await self.textbox_closed
 			enemies.erase(target)  # Remove the target from the enemies list
-			await check_win() 
+	await check_win() 
 	fire_rain_cd = 3  # Set the ability's cooldown
 	emit_signal("action_taken")
 
@@ -855,7 +879,7 @@ func _on_meteor_pressed():
 			display_text("You killed the %s!" % target.name)
 			await self.textbox_closed
 			enemies.erase(target)  # Remove the target from the enemies list
-			await check_win() 
+		await check_win() 
 
 	meteor_cd = 3  # Set the ability's cooldown
 	emit_signal("action_taken")
