@@ -194,6 +194,9 @@ alignment = 1
 
 [node name="Damage" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
+tooltip_text = "Strength
+Generic Upgrade
+Effect: Improves your base Damage."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("4_yvpm1")
@@ -204,6 +207,9 @@ texture_disabled = ExtResource("5_ngw3d")
 [node name="Speed" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
 size_flags_horizontal = 8
+tooltip_text = "Agility 
+Generic Upgrade
+Effect: Improves your base Speed."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("7_es6u5")
@@ -212,6 +218,9 @@ texture_disabled = ExtResource("7_1ly5m")
 
 [node name="Magic" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
+tooltip_text = "Wisdom
+Generic Upgrade: 
+Improves your base Magic."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("10_fqjwd")
@@ -221,6 +230,9 @@ texture_disabled = ExtResource("9_wquwx")
 
 [node name="Health" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1"]
 layout_mode = 2
+tooltip_text = "Constitution 
+Generic Upgrade
+Effect: Improves your maximum and current Health."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("13_rnodm")
@@ -234,18 +246,24 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Counter" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2"]
+[node name="Shattering Strike" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2"]
 layout_mode = 2
 size_flags_horizontal = 4
+tooltip_text = "Shattering Strike
+Tier 1 Spell
+Effect: Deal damage to an enemy and stun them for 1 turn "
 disabled = true
 toggle_mode = true
-texture_normal = ExtResource("16_ntukx")
-texture_pressed = ExtResource("2_2uve7")
-texture_hover = ExtResource("2_2uve7")
-texture_disabled = ExtResource("5_dnau8")
+texture_normal = ExtResource("24_5nm54")
+texture_pressed = ExtResource("4_6o348")
+texture_hover = ExtResource("4_6o348")
+texture_disabled = ExtResource("10_fpb5p")
 
 [node name="Fireball" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2"]
 layout_mode = 2
+tooltip_text = "Fireball
+Tier 1 Spell
+Effect: Hurl a fireball at that enemy, dealing damage on impact"
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("19_jthe1")
@@ -255,6 +273,9 @@ texture_disabled = ExtResource("7_7mik7")
 
 [node name="Blood Siphon" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2"]
 layout_mode = 2
+tooltip_text = "Blood Siphon
+Tier 1 Spell:
+Choose an enemy. They take damage while you heal the damage taken"
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("22_i2mcc")
@@ -309,18 +330,24 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Shattering Strike" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4"]
+[node name="Counter" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4"]
 layout_mode = 2
 size_flags_horizontal = 4
+tooltip_text = "Counter
+Tier 2 Spell
+Effect: Guard for 1 turn. Return 2x the pre-mitigation damage dealt to you "
 disabled = true
 toggle_mode = true
-texture_normal = ExtResource("24_5nm54")
-texture_pressed = ExtResource("4_6o348")
-texture_hover = ExtResource("4_6o348")
-texture_disabled = ExtResource("10_fpb5p")
+texture_normal = ExtResource("16_ntukx")
+texture_pressed = ExtResource("2_2uve7")
+texture_hover = ExtResource("2_2uve7")
+texture_disabled = ExtResource("5_dnau8")
 
 [node name="Fire Rain" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4"]
 layout_mode = 2
+tooltip_text = "Fire Rain
+Tier 2 Spell
+Effect: Select 2 enemies. Those enemies are applied 3 stacks of Scorched Earth "
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("27_u5jll")
@@ -330,6 +357,10 @@ texture_disabled = ExtResource("11_m3i6t")
 
 [node name="Red Rush" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4"]
 layout_mode = 2
+tooltip_text = "Red Rush
+Tier 2 Spell
+Effect: Choose a target.
+Fly up into the air, causing all attacks to miss, then dive bomb one enemy, dealing massive damage"
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("31_l1uj8")
@@ -387,6 +418,9 @@ alignment = 1
 [node name="Guillotine" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 6"]
 layout_mode = 2
 size_flags_horizontal = 4
+tooltip_text = "Guillotine
+Tier 3 Spell
+Effect: If the enemy is below 25% hp, they take double damage from this ability. If they die, recast on a random target "
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("30_hgjui")
@@ -396,6 +430,9 @@ texture_disabled = ExtResource("13_52jj6")
 
 [node name="Meteor" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 6"]
 layout_mode = 2
+tooltip_text = "Meteor
+Tier 3 Spell
+Effect: Deal Heavy Damage to 3 random enemies"
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("33_qn66g")
@@ -405,6 +442,9 @@ texture_disabled = ExtResource("15_0nmsp")
 
 [node name="Noble Charm" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 6"]
 layout_mode = 2
+tooltip_text = "Noble Charm
+Tier 3 Spell
+Effect: Choose 1 enemy. For the next 3 turns, they attack their allies."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("40_sqlll")
@@ -462,6 +502,10 @@ alignment = 1
 [node name="True Form" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 8"]
 layout_mode = 2
 size_flags_horizontal = 4
+tooltip_text = "True Form
+Tier 4 Spell
+Effect: All your stats increase by 50% for the rest of the fight 
+Gain 20% lifesteal"
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("36_agbuu")
@@ -471,6 +515,9 @@ texture_disabled = ExtResource("17_k4pg6")
 
 [node name="Hell on Earth" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 8"]
 layout_mode = 2
+tooltip_text = "Hell on Earth
+Tier 4 Spell
+Effect: Scorched Earth is now applied every turn, with increasing damage every turn. "
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("39_4syqt")
@@ -480,6 +527,10 @@ texture_disabled = ExtResource("19_4mlua")
 
 [node name="Vampiric Frenzy" type="TextureButton" parent="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 8"]
 layout_mode = 2
+tooltip_text = "Vampiric Frenzy
+Tier 4 Spell
+Effect: For 5 turns, all your attacks and skills heal you for the full amount and do 20% more damage. 
+Enemies you damage have a 50% chance to become charmed"
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("49_kemt3")
@@ -533,14 +584,14 @@ texture_disabled = ExtResource("11_ltef1")
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1/Speed" to="." method="_on_generic_pressed" binds= ["Speed", 1]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1/Magic" to="." method="_on_generic_pressed" binds= ["Magic", 1]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1/Health" to="." method="_on_generic_pressed" binds= ["Health", 1]]
-[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2/Counter" to="." method="_on_tier_pressed" binds= ["Demon Knight", 1]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2/Shattering Strike" to="." method="_on_tier_pressed" binds= ["Demon Knight", 1]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2/Fireball" to="." method="_on_tier_pressed" binds= ["Inferno", 1]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 2/Blood Siphon" to="." method="_on_tier_pressed" binds= ["Vampire Lord", 1]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3/Damage" to="." method="_on_generic_pressed" binds= ["Damage", 3]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3/Speed" to="." method="_on_generic_pressed" binds= ["Speed", 3]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3/Magic" to="." method="_on_generic_pressed" binds= ["Magic", 3]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 3/Health" to="." method="_on_generic_pressed" binds= ["Health", 3]]
-[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4/Shattering Strike" to="." method="_on_tier_pressed" binds= ["Demon Knight", 2]]
+[connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4/Counter" to="." method="_on_tier_pressed" binds= ["Demon Knight", 2]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4/Fire Rain" to="." method="_on_tier_pressed" binds= ["Inferno", 2]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 4/Red Rush" to="." method="_on_tier_pressed" binds= ["Vampire Lord", 2]]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 5/Damage" to="." method="_on_generic_pressed" binds= ["Damage", 5]]

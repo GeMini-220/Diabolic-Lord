@@ -9,13 +9,13 @@ var GENERIC_UPGRADES = {
 	"Damage": 8,  # Increase damage by 8
 	"Speed": -5,   # Decrease speed by 5
 	"Magic": 5,   # Increase magic by 5
-	"Health": 200  # Increase current health by 200
+	"Health": 111  # Increase max and current health by 111
 }
 
 # Define the structure of the skill tree
 var skill_tree = {
-	INFERNO: {1: "Fireball", 2: "Fire Rain", 3: "Meteor", 4: "Hell On Earth"},
-	DEMON_KNIGHT: {1: "Counter", 2: "Shattering Strike", 3: "Guillotine", 4: "True Form"},
+	INFERNO: {1: "Fireball", 2: "Fire Rain", 3: "Meteor", 4: "Hell on Earth"},
+	DEMON_KNIGHT: {1: "Shattering Strike", 2: "Counter", 3: "Guillotine", 4: "True Form"},
 	VAMPIRE_LORD: {1: "Blood Siphon", 2: "Red Rush", 3: "Noble Charm", 4: "Vampiric Frenzy"}
 }
 
@@ -45,12 +45,12 @@ func level_up():
 	State.player_level = State.currentBattle
 	upgrade_available = true
 	State.tier_unlocked = floor(State.player_level / 2)
-	# var level_label = get_node("Tree/HBoxContainer/Labels/Label%s" % State.player_level)
 
 # Function to check and handle upgrades
 func check_for_upgrades():
 	print(State.spells_unlocked)
 	print(State.generic_unlocked)
+	print(upgrade_available)
 	if upgrade_available:
 		$TextBoxes/Explanation.text = "You have an upgrade available! Choose an upgrade from level %s." % State.player_level
 	else:
@@ -62,7 +62,7 @@ func check_for_upgrades():
 			button.button_group = button_groups[level_num]
 			button.button_pressed = button.name in State.spells_unlocked or button.name == current_generic
 			button.disabled = level_num > State.player_level or (level_num % 2 == 1 and current_generic != '' and button.name != current_generic)
-			if button.disabled == false:
+			if button.disabled == false and level_num == State.player_level:
 				await animate_button(button, "unlock")
 
 func get_upgrade(button_name, level):
@@ -109,7 +109,8 @@ func _on_generic_pressed(upgrade_choice, level):
 			"Magic":
 				State.magic += GENERIC_UPGRADES["Magic"]
 			"Health":
-				State.current_health = min(State.max_health, State.current_health + GENERIC_UPGRADES["Health"])
+				State.max_health += GENERIC_UPGRADES["Health"]
+				State.current_health += GENERIC_UPGRADES["Health"]
 		get_upgrade(upgrade_choice, level)
 		$TextBoxes/Upgrade.text = "You've increased your %s!" % upgrade_choice
 		for upgrade in get_node("Tree/PanelContainer/HBoxContainer/Tree Levels/Level %s" % level).get_children():

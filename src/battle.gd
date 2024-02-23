@@ -488,7 +488,6 @@ func end_game():
 			await self.textbox_closed
 			start_fade_out("res://MainScenes/start_menu.tscn")
 		else:
-			State.player_level += 1
 			State.save_player_data()
 			start_fade_out("res://MainScenes/campfire.tscn")
 

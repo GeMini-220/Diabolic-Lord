@@ -848,7 +848,7 @@ alignment = 1
 [node name="1" type="Button" parent="TierSpellsPanel/TierSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
-tooltip_text = "Damage the enemy and restore your health"
+tooltip_text = "Placeholder"
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -865,7 +865,7 @@ Siphon
 [node name="2" type="Button" parent="TierSpellsPanel/TierSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
-tooltip_text = "Damage the enemy and restore your health"
+tooltip_text = "Placeholder"
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -882,7 +882,7 @@ Rush
 [node name="3" type="Button" parent="TierSpellsPanel/TierSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
-tooltip_text = "Damage the enemy and restore your health"
+tooltip_text = "Placeholder"
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -899,7 +899,7 @@ Charm
 [node name="4" type="Button" parent="TierSpellsPanel/TierSpells"]
 layout_mode = 2
 size_flags_horizontal = 3
-tooltip_text = "Damage the enemy and restore your health"
+tooltip_text = "Placeholder"
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -1092,6 +1092,7 @@ stream = ExtResource("24_5ib0j")
 volume_db = 10.0
 
 [node name="ScreenFade" type="ColorRect" parent="."]
+visible = false
 modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 15
