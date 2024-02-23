@@ -19,6 +19,8 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dd4pb"]
 
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_bswh1"]
+
 [sub_resource type="Animation" id="Animation_qsq1r"]
 resource_name = "fade_in"
 tracks/0/type = "value"
@@ -90,8 +92,6 @@ _data = {
 "fade_in": SubResource("Animation_qsq1r"),
 "fade_out": SubResource("Animation_kd8jn")
 }
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_bswh1"]
 
 [node name="Start Menu" type="Control"]
 layout_mode = 3
@@ -261,25 +261,6 @@ will be DELETED."
 dialog_autowrap = true
 cancel_button_text = "NO!!!!!"
 
-[node name="ScreenFade" type="ColorRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="ScreenFadeAnim" type="AnimationPlayer" parent="ScreenFade"]
-libraries = {
-"": SubResource("AnimationLibrary_xnham")
-}
-
-[node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_s007r")
-autoplay = true
-
 [node name="CultNameEdit" type="LineEdit" parent="."]
 visible = false
 top_level = true
@@ -341,6 +322,25 @@ theme_override_colors/font_outline_color = Color(0.92549, 0.92549, 0.92549, 0.73
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("3_7t56n")
 text = "let the Suffering Begin!"
+
+[node name="ScreenFade" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScreenFadeAnim" type="AnimationPlayer" parent="ScreenFade"]
+libraries = {
+"": SubResource("AnimationLibrary_xnham")
+}
+
+[node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_s007r")
+autoplay = true
 
 [connection signal="pressed" from="start_new_game" to="." method="_on_start_new_game_pressed"]
 [connection signal="pressed" from="load_game" to="." method="_on_load_game_pressed"]
