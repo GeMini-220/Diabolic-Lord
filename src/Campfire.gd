@@ -5,10 +5,14 @@ var skill_tree_opened = false
 @onready var bg_music = $BGMusic
 @onready var screen_fade = $ScreenFade
 @onready var screen_fade_anim = $ScreenFade/ScreenFadeAnim
+@onready var cult_name_sign = $CultName
+@onready var level_label = $CultName/LevelLabel
 
 
 
 func _ready():
+	cult_name_sign.text = State.user_name
+	level_label.text = "Level " + str(State.player_level)
 	screen_fade.visible = true
 	screen_fade_anim.play("fade_in")
 	await screen_fade_anim.animation_finished

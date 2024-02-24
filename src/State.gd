@@ -9,6 +9,7 @@ func _ready():
 func _process(delta):
 	pass
 
+var user_name = "Demon Lord"
 var current_health
 var max_health
 var damage
@@ -41,6 +42,7 @@ func get_player_save_data() -> Dictionary:
 		"tier_unlocked": tier_unlocked,
 		"spells_unlocked": spells_unlocked,
 		"generic_unlocked": generic_unlocked,
+		"user_name": user_name,
 		
 	}
 
@@ -104,4 +106,5 @@ func apply_player_data(player_data: Dictionary) -> void:
 	tier_unlocked = player_data["tier_unlocked"]
 	spells_unlocked = player_data["spells_unlocked"]
 	generic_unlocked = player_data["generic_unlocked"]
+	user_name = player_data.get("user_name", "Demon Lord")
 	# Update any other player state or UI elements as necessary

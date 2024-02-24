@@ -30,11 +30,41 @@ var hex_effective_damage = 0
 var redirect_active = false
 var redirect_target = null
 var infernal_affliction_active = false
+var user_name = State.user_name
 
 @onready var screen_fade = $ScreenFade
 @onready var screen_fade_anim = $ScreenFade/ScreenFadeAnimPlayer
 @export var characters = {}
 @onready var fly_away = $DemonLord/FlyAway
+@onready var enemy_container = $EnemyContainer
+
+
+func fill_battle_with_enemies():
+	var screen_resolution = get_tree().root.content_scale_size # Example: (1152, 648)
+	var num_current_enemies = len(enemies)
+	var max_enemies_per_row = 4
+	var left_buffer = 60
+
+	# Calculate the horizontal and vertical spacing based on the desired number of rows and columns
+	var horizontal_spacing = (screen_resolution.x - left_buffer) / (max_enemies_per_row + 2)
+	var vertical_spacing = screen_resolution.y / 3  # Dividing by 3 gives us space for two rows at the top
+
+	for i in range(num_current_enemies):
+		enemies[i].get_ready()  # Call any setup procedures necessary for the enemy
+		# Calculate the position for each enemy
+		var x_position = (i % max_enemies_per_row) * horizontal_spacing + horizontal_spacing / 3 + left_buffer # Start slightly to the right
+		
+		# Determine the row index (0 for the bottom row, 1 for the top row)
+		var row_index = i / max_enemies_per_row
+		var y_position = 0
+		if row_index >= 1:  # If the index is 1 or higher, place in the top row
+			y_position = vertical_spacing * 1.25  # The top row position
+		else:  # Otherwise, place in the bottom row
+			y_position = vertical_spacing + vertical_spacing  # The bottom row position
+		
+		# Set the enemy's position to these calculated coordinates
+		enemies[i].position = Vector2(x_position, y_position)
+
 
 
 func start_fade_in():
@@ -50,34 +80,37 @@ func start_fade_out(next_scene_path: String):
 
 
 func _ready():
+	
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 	State.currentBattle += 1
-	start_fade_in()
 	$DemonLord.play("idle")
+	$BGMusic.play()
 	
 	randomize()
 	enemies = choose_random_enemies()
 	all_characters = enemies.duplicate()
 	all_characters.append($DemonLord)
 	
-	var screen_resolution = get_tree().root.content_scale_size # (1152, 648)
-	for i in len(enemies):
-		enemies[i].get_ready()
-		enemies[i].position = Vector2(screen_resolution.x / (num_current_enemies + 1) * (i + 1), screen_resolution.y / 2)
+	
+	fill_battle_with_enemies()
+#	var screen_resolution = get_tree().root.content_scale_size # (1152, 648)
+#	for i in len(enemies):
+#		enemies[i].get_ready()
+#		enemies[i].position = Vector2(screen_resolution.x / (num_current_enemies + 1) * (i + 1), screen_resolution.y / 2)
 		# temporary alignment of enemies
-	#Enable/Disable buttons based on if skill is obtained
-
+	
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 	$VampSpellsPanel.hide()
-	display_text("Summoned by your loyal cultists, you, the Demon Lord, have awoken!")
+	display_text("Summoned by your loyal cultists, you, %s, have awoken!" % user_name)
 	await self.textbox_closed
 	display_text("These %s adventurers wish to return you to your eternal slumber." % num_current_enemies)
 	await self.textbox_closed
 	display_text("This is the final battle!")
 	await self.textbox_closed
 	await process()
-	
+
+
 func choose_random_enemies():
 	for e in $CurrentEnemies.get_children():
 		e.queue_free()
@@ -422,7 +455,7 @@ func enemy_hide(enemy):
 
 func enemy_hex(enemy):
 	if hex_duration == 0: # Check if Hex can be applied
-		display_text("The %s casts a Hex, weakening the Demon Lord's attacks!" % enemy.name)
+		display_text("The %s casts a Hex, weakening %s attacks!" % user_name)
 		await self.textbox_closed
 
 		# Apply the Hex effect
@@ -430,7 +463,7 @@ func enemy_hex(enemy):
 		Boss_damage *= hex_effective_damage
 		hex_duration = 4 # Hex lasts for 2 rounds
 
-		display_text("The Demon Lord's attack power has been diminshed!")
+		display_text("The %s attack power has been diminshed!" %user_name)
 		await self.textbox_closed
 	else:
 		await enemy_attack(enemy)
@@ -515,7 +548,7 @@ func process():
 				# Check if the Dempn Lord is returning from a "Red Rush" dive
 				if is_flying:
 					# Apply the Red Rush damage
-					display_text("Diving from the skies, the Vampire Lord strikes %s for %d damage!" % [red_rush_target.name, red_rush_damage])
+					display_text("Diving from the skies, %s strikes %s for %d damage!" % [user_name, red_rush_target.name, red_rush_damage])
 					await self.textbox_closed
 					$RedRushSound2.play()
 					fly_away.play("fly_back")
@@ -558,7 +591,7 @@ func end_game():
 		display_text("Against your unstoppable might, the heroes have lost.")
 		await self.textbox_closed
 		if State.currentBattle >= 10:
-			display_text("The world will see a dark age under your rule.")
+			display_text("The world will see a dark age under the rule of %s." %user_name)
 			await self.textbox_closed
 			display_text("The living will suffer, and the dead will rise.")
 			await self.textbox_closed
@@ -647,7 +680,7 @@ func _on_blood_siphon_pressed():
 	await target.took_damage(blood_siphon_damage)
 
 	var life_steal_amt = life_steal(blood_siphon_damage)
-	display_text("The Demon Lord cast Blood Siphon, you drain the life force of your enemy dealing %s damage. You have regenerated %d health." % [blood_siphon_damage, life_steal_amt])
+	display_text("The %s cast Blood Siphon, you drain the life force of your enemy dealing %s damage. You have regenerated %d health." % [user_name, blood_siphon_damage, life_steal_amt])
 	await self.textbox_closed
 
 
@@ -750,7 +783,7 @@ func _on_red_rush_pressed():
 	red_rush_target = target
 	is_flying = true
 	
-	display_text("The Vampire Lord spreads his wings and takes to the skies, becoming untouchable.")
+	display_text("%s spreads their wings and takes to the skies, becoming untouchable." %user_name)
 	await self.textbox_closed
 	
 	$RedRushSound1.play()

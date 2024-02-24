@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=35 format=3 uid="uid://d73g8js0kugg"]
+[gd_resource type="Resource" load_steps=35 format=3 uid="uid://v4yf46oaub15"]
 
 [ext_resource type="Texture2D" uid="uid://ew2nku2d7v5l" path="res://Image/Artificer-A1-Sheet.png" id="1_4fi0d"]
 [ext_resource type="AudioStream" uid="uid://ct7cjg0kltgp5" path="res://audio/artificer_sound_1.wav" id="2_fv2sb"]

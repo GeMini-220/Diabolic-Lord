@@ -1,4 +1,5 @@
 extends Control
+signal cult_name_confirmed
 
 @onready var battle_scene = preload("res://MainScenes/campfire.tscn") as PackedScene
 @onready var confirmation_dialog = $ConfirmationDialog
@@ -6,6 +7,8 @@ extends Control
 @onready var screen_fade = $ScreenFade
 @onready var screen_fade_anim = $ScreenFade/ScreenFadeAnim
 
+@onready var username_edit = $UsernameEdit
+@onready var username_confirm = $UsernameEdit/UsernameConfirm
 
 
 
@@ -34,13 +37,19 @@ func start_fade_out(next_scene_path: String, is_packed_scene: bool = false):
 
 # Use this function for starting a new game with a pre-packed scene
 func _on_start_new_game_pressed():
-	var save_file = FileAccess.open(State.FILE_PATH, FileAccess.READ)
-	if save_file:
-		$newGameConfirmationDialog.popup()
+	if FileAccess.file_exists(State.FILE_PATH):
+		$newGameConfirmationDialog.popup()  # Ask for confirmation if a save exists
+	else:
+		State.initialize_player_data()  # Initialize player data if no save file exists
+		username_edit.show()  # Show the cult name input
+		username_confirm.grab_focus() 
+
 
 func _on_new_game_confirmation_dialog_confirmed():
-	State.initialize_player_data()
-	get_tree().change_scene_to_packed(battle_scene)
+	$newGameConfirmationDialog.hide()
+	username_edit.show()
+	await username_confirm.pressed
+	
 	
 func _on_new_game_confirmation_dialog_canceled():
 	$newGameConfirmationDialog.hide()
@@ -67,7 +76,25 @@ func _on_confirm_button_pressed():
 func _on_cancel_button_pressed():
 	confirmation_dialog.hide()
 
-
+func _on_username_confirm_pressed():
+	username_edit.hide()
+	var user_name = username_edit.text.strip_edges()
+	if user_name != "":
+		State.initialize_player_data()
+		State.user_name = user_name  # Update the cult name in the State
+		print("User name set to: ", user_name)  # Optional: Confirm the change in the output
+		emit_signal("cult_name_confirmed")  # Emit the signal indicating the name has been set
+		username_edit.hide()
+		screen_fade_anim.play("fade_out")
+		await screen_fade_anim.animation_finished
+		get_tree().change_scene_to_packed(battle_scene) # Optionally hide the LineEdit after confirmation
+	else:
+		State.initialize_player_data()
+		screen_fade_anim.play("fade_out")
+		await screen_fade_anim.animation_finished
+		get_tree().change_scene_to_packed(battle_scene)
+		
+		
 
 
 
