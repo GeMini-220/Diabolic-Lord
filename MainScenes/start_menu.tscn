@@ -262,6 +262,7 @@ dialog_autowrap = true
 cancel_button_text = "NO!!!!!"
 
 [node name="UsernameEdit" type="LineEdit" parent="."]
+visible = false
 top_level = true
 layout_mode = 1
 anchors_preset = 8

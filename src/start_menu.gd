@@ -21,7 +21,7 @@ func _ready():
 	var save_file = FileAccess.open(State.FILE_PATH, FileAccess.READ)
 	if save_file:
 		load_game.visible = true
-		save_file.close
+		save_file.close()
 	else:
 		load_game.visible = false
 	start_fade_in()

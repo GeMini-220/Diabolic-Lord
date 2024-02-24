@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cjwf6oqv1k4ce" path="res://Image/campfire/Upgrade-Hover.png" id="8_1p5o3"]
 [ext_resource type="BitMap" uid="uid://dcyygrqnawjmu" path="res://Image/campfire/Upgrade-ClickMask.bmp" id="8_kcuar"]
 [ext_resource type="PackedScene" uid="uid://ycbqvltmppkh" path="res://MainScenes/skill_tree.tscn" id="12_li17o"]
-[ext_resource type="AudioStream" uid="uid://dsuq45efjulon" path="res://audio/DLOST_-_Diabolic_Lord.wav" id="13_i1idq"]
+[ext_resource type="AudioStream" uid="uid://cifm7ympalqay" path="res://audio/The_Campfire.wav" id="12_nmil0"]
 [ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="14_uqnru"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="15_o41gg"]
 
@@ -177,12 +177,8 @@ texture_hover = ExtResource("8_1p5o3")
 texture_click_mask = ExtResource("8_kcuar")
 stretch_mode = 4
 
-[node name="Skill Tree" parent="." instance=ExtResource("12_li17o")]
-visible = false
-layout_mode = 1
-
 [node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("13_i1idq")
+stream = ExtResource("12_nmil0")
 volume_db = -80.0
 autoplay = true
 
@@ -227,6 +223,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
+[node name="Skill Tree" parent="." instance=ExtResource("12_li17o")]
+visible = false
+layout_mode = 1
+
 [node name="ScreenFade" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
@@ -238,10 +238,10 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ScreenFadeAnim" type="AnimationPlayer" parent="ScreenFade"]
-autoplay = "fade_in"
 libraries = {
 "": SubResource("AnimationLibrary_nn8k5")
 }
+autoplay = "fade_in"
 
 [connection signal="pressed" from="Embark" to="." method="_on_embark_pressed"]
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
