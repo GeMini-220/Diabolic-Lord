@@ -1,12 +1,14 @@
-[gd_scene load_steps=88 format=3 uid="uid://cmm365jef52ho"]
+[gd_scene load_steps=90 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bajpej7cwruxm" path="res://Image/BG-A2.png" id="2_i5jaq"]
 [ext_resource type="PackedScene" uid="uid://dv2ejdyrw8bpk" path="res://MainScenes/enemy.tscn" id="3_bsfho"]
 [ext_resource type="Resource" uid="uid://ijiac1r710yp" path="res://src/Fighter.tres" id="4_ky74l"]
+[ext_resource type="Resource" uid="uid://d73g8js0kugg" path="res://src/Artificer.tres" id="5_6bmna"]
 [ext_resource type="Resource" uid="uid://djig52rnheww4" path="res://src/Cleric.tres" id="5_avpfh"]
 [ext_resource type="Resource" uid="uid://dywgcsu2hj36k" path="res://src/Mage.tres" id="7_luad1"]
 [ext_resource type="Texture2D" uid="uid://bqgttrqxpwnl4" path="res://Image/Demon-Animated-1-Sheet.png" id="8_axo2t"]
+[ext_resource type="Resource" uid="uid://c2bx5njerbbu6" path="res://src/Witch.tres" id="8_xbknf"]
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="9_5fkrt"]
 [ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="10_o7qsd"]
 [ext_resource type="AudioStream" uid="uid://buhqm80u3i41o" path="res://audio/Defending_the_Camp.wav" id="10_wh8s1"]
@@ -631,6 +633,10 @@ texture = ExtResource("2_i5jaq")
 position = Vector2(168, 246)
 enemy = ExtResource("4_ky74l")
 
+[node name="Artificer" parent="Enemies/Defender" instance=ExtResource("3_bsfho")]
+position = Vector2(819, 493)
+enemy = ExtResource("5_6bmna")
+
 [node name="Striker" type="Node" parent="Enemies"]
 
 [node name="Rogue" parent="Enemies/Striker" instance=ExtResource("3_bsfho")]
@@ -645,6 +651,10 @@ enemy = ExtResource("7_luad1")
 [node name="Cleric" parent="Enemies/Supporter" instance=ExtResource("3_bsfho")]
 position = Vector2(168, 429)
 enemy = ExtResource("5_avpfh")
+
+[node name="Witch" parent="Enemies/Supporter" instance=ExtResource("3_bsfho")]
+position = Vector2(365, 484)
+enemy = ExtResource("8_xbknf")
 
 [node name="CurrentEnemies" type="Node" parent="."]
 
@@ -1161,6 +1171,7 @@ anchor_mode = 0
 
 [node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_wh8s1")
+volume_db = -80.0
 
 [node name="SpellSound1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("12_hjm0n")
@@ -1220,10 +1231,10 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ScreenFadeAnimPlayer" type="AnimationPlayer" parent="ScreenFade"]
+autoplay = "fade_in"
 libraries = {
 "": SubResource("AnimationLibrary_32g0i")
 }
-autoplay = "fade_in"
 
 [connection signal="pressed" from="ActionsPanel/Actions/Spells" to="." method="_on_spells_pressed"]
 [connection signal="pressed" from="ActionsPanel/Actions/Defend" to="." method="_on_defend_pressed"]

@@ -1,0 +1,152 @@
+[gd_resource type="Resource" load_steps=23 format=3 uid="uid://c2bx5njerbbu6"]
+
+[ext_resource type="Texture2D" uid="uid://cmqf41kvo2m3v" path="res://Image/Witch-A1-Sheet.png" id="1_nocg3"]
+[ext_resource type="AudioStream" uid="uid://bulglx7vbq2me" path="res://audio/witch_sound.wav" id="2_xjp5h"]
+[ext_resource type="Script" path="res://src/BaseEnemy.gd" id="3_hcam4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s3pl0"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mf1s1"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bn4bj"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ff23"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rbqqf"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fv3fv"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_10ei1"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s235n"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0st3"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(128, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1u2tn"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(144, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rusut"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(160, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vvvt"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(176, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vekg3"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(192, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ht1f7"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(208, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cq8xj"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(224, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okoqk"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(240, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3npcr"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(256, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wiy54"]
+atlas = ExtResource("1_nocg3")
+region = Rect2(272, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_irb5q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s3pl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mf1s1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bn4bj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ff23")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rbqqf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fv3fv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_10ei1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s235n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0st3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1u2tn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rusut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vvvt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vekg3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ht1f7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cq8xj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_okoqk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3npcr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wiy54")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 12.0
+}]
+
+[resource]
+script = ExtResource("3_hcam4")
+name = "Witch"
+type = "Supporter"
+animation = SubResource("SpriteFrames_irb5q")
+health = 80
+current_health = 80
+damage = 22
+speed = 28
+magic = 20
+actions = ["attack", "heal", "hex", "help"]
+audio = ExtResource("2_xjp5h")
