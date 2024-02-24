@@ -1139,10 +1139,10 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ScreenFadeAnimPlayer" type="AnimationPlayer" parent="ScreenFade"]
+autoplay = "fade_in"
 libraries = {
 "": SubResource("AnimationLibrary_32g0i")
 }
-autoplay = "fade_in"
 
 [connection signal="pressed" from="ActionsPanel/Actions/Spells" to="." method="_on_spells_pressed"]
 [connection signal="pressed" from="ActionsPanel/Actions/Defend" to="." method="_on_defend_pressed"]

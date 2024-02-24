@@ -238,10 +238,10 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ScreenFadeAnim" type="AnimationPlayer" parent="ScreenFade"]
+autoplay = "fade_in"
 libraries = {
 "": SubResource("AnimationLibrary_nn8k5")
 }
-autoplay = "fade_in"
 
 [connection signal="pressed" from="Embark" to="." method="_on_embark_pressed"]
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
