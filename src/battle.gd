@@ -206,7 +206,6 @@ func enemy_turn(enemy):
 	if not enemy.has_debuff("Scorched Earth"):
 		if not enemy.has_debuff("Infernal Afliction"):
 			enemy.DOT = 0
-			display_text("The flames have subsided and the %s fights on!" % enemy.name)
 			await self.textbox_closed
 		else:
 			enemy.DOT = floor(Boss_damage / 3)
@@ -248,10 +247,7 @@ func enemy_turn(enemy):
 					target = null
 				await check_win()
 				return
-		# Check if charm effect wears off
-		if noble_charm_cd <= 0:
-			display_text("The %s shakes off the effects of Noble Charm." % enemy.name)
-			await self.textbox_closed
+		
 	else:
 		# Proceed with the normal turn actions
 		await enemy.turn()
