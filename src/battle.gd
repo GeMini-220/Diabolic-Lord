@@ -117,7 +117,7 @@ func _ready():
 	await self.textbox_closed
 	display_text("These %s adventurers wish to return you to your eternal slumber." % num_current_enemies)
 	await self.textbox_closed
-	display_text("This is the final battle!")
+	display_text("This is their final battle!")
 	await self.textbox_closed
 	await process()
 
@@ -257,13 +257,13 @@ func enemy_turn(enemy):
 		await enemy.turn()
 		if enemy.DOT > 0:
 			await enemy.took_damage(enemy.DOT)
-			if enemy.dead:
-				display_text("The %s burned to death!" % enemy.name)
-				await self.textbox_closed
-				enemies.erase(enemy)
-				target = null
-				await check_win()
-				return
+		if enemy.dead:
+			display_text("The %s burned to death!" % enemy.name)
+			await self.textbox_closed
+			enemies.erase(enemy)
+			target = null
+			await check_win()
+			return
 		else:
 			if enemy.stunned_turn > 0:
 				enemy.stunned_turn -= 1
@@ -499,7 +499,7 @@ func enemy_hide(enemy):
 
 func enemy_hex(enemy):
 	if hex_duration == 0: # Check if Hex can be applied
-		display_text("The %s casts a Hex, weakening %s attacks!" % user_name)
+		display_text("The %s casts a Hex, weakening %s attacks!" % [enemy.name, user_name])
 		await self.textbox_closed
 
 		# Apply the Hex effect

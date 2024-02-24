@@ -54,9 +54,9 @@ func initialize_player_data() -> void:
 		"damage": 30,
 		"speed": 25,
 		"magic": 25,
-		"currentBattle": 9,
-		"player_level": 9,
-		"tier_unlocked": 4,
+		"currentBattle": 0,
+		"player_level": 0,
+		"tier_unlocked": 0,
 		"spells_unlocked": ['', '', '', ''],
 		"generic_unlocked": ['', '', '', '', ''],
 	}
