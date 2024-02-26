@@ -7,7 +7,7 @@ const VAMPIRE_LORD = "Vampire Lord"
 
 var GENERIC_UPGRADES = {
 	"Damage": 8,  # Increase damage by 8
-	"Speed": -5,   # Decrease speed by 5
+	"Speed": 5,   # Decrease speed by 5
 	"Magic": 5,   # Increase magic by 5
 	"Health": 111  # Increase max and current health by 111
 }
@@ -103,14 +103,19 @@ func _on_generic_pressed(upgrade_choice, level):
 		match upgrade_choice:
 			"Damage":
 				State.damage += GENERIC_UPGRADES["Damage"]
+				print(State.damage)
 			"Speed":
-				State.speed += GENERIC_UPGRADES["Speed"]
-				GENERIC_UPGRADES["Speed"] += 1 # ensures the player gains 1 turn per round for every speed upgrade
+				State.speed -= GENERIC_UPGRADES["Speed"]
+				GENERIC_UPGRADES["Speed"] -= 1 # ensures the player gains 1 turn per round for every speed upgrade
+				print(State.speed)
+				print(GENERIC_UPGRADES["Speed"])
 			"Magic":
 				State.magic += GENERIC_UPGRADES["Magic"]
+				print(State.magic)
 			"Health":
 				State.max_health += GENERIC_UPGRADES["Health"]
 				State.current_health += GENERIC_UPGRADES["Health"]
+				print(State.max_health)
 		get_upgrade(upgrade_choice, level)
 		$TextBoxes/Upgrade.text = "You've increased your %s!" % upgrade_choice
 		for upgrade in get_node("Tree/PanelContainer/HBoxContainer/Tree Levels/Level %s" % level).get_children():

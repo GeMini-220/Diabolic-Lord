@@ -44,6 +44,9 @@ func took_damage(taken_damage) -> bool:
 		await play_animation_player("died")
 		self.visible = false
 		dead = true
+		for turnLabel in get_node("/root/Battle/Timeline/TurnList/TurnLabels").get_children():
+			if turnLabel.text.get_slice(": ", 1) == enemy.name:
+				turnLabel.queue_free()
 	return dead
 	
 func recieve_healing(healing):
