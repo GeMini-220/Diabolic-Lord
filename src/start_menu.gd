@@ -82,7 +82,7 @@ func _on_username_confirm_pressed():
 	if user_name != "":
 		State.initialize_player_data()
 		State.user_name = user_name  # Update the cult name in the State
-		print("User name set to: ", user_name)  # Optional: Confirm the change in the output
+		# print("User name set to: ", user_name)  # Optional: Confirm the change in the output
 		emit_signal("cult_name_confirmed")  # Emit the signal indicating the name has been set
 		username_edit.hide()
 		screen_fade_anim.play("fade_out")
