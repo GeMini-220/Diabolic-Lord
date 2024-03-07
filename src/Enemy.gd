@@ -45,7 +45,7 @@ func took_damage(taken_damage) -> bool:
 		self.visible = false
 		dead = true
 		for turnLabel in get_node("/root/Battle/Timeline/TurnList/TurnLabels").get_children():
-			if turnLabel.text.get_slice(": ", 1) == enemy.name:
+			if turnLabel.text.get_slice(" ", 1) == enemy.name:
 				turnLabel.queue_free()
 	return dead
 	

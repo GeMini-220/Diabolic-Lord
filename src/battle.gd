@@ -561,6 +561,7 @@ func process():
 		var actions = {}
 		var turn_order = []
 		
+		$Timeline.visible = true
 		for n in $Timeline/TurnList/TurnLabels.get_children():
 			$Timeline/TurnList/TurnLabels.remove_child(n)
 			n.queue_free()
@@ -588,7 +589,7 @@ func process():
 				turn_order.append(character) 
 				
 				var turnLabel = Label.new()
-				turnLabel.text = "%d: %s" % [i, character.name]
+				turnLabel.text = "[%d] %s" % [i, character.name]
 				var font = FontFile.new()
 				font.font_data = load("res://fonts/NESCyrillic.ttf")
 				turnLabel.add_theme_font_override("font", font)
@@ -603,7 +604,7 @@ func process():
 			await self.textbox_closed
 			
 			for turnLabel in $Timeline/TurnList/TurnLabels.get_children():
-				if turnLabel.text.get_slice(": ", 1) == character.name and not turnLabel.has_theme_color_override("font_color"):
+				if turnLabel.text.get_slice(" ", 1) == character.name and not turnLabel.has_theme_color_override("font_color"):
 					turnLabel.add_theme_color_override("font_color", Color.AQUA)
 					break
 				else:

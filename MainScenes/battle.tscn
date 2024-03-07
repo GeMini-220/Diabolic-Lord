@@ -639,6 +639,7 @@ offset_bottom = 403.0
 alignment = 1
 
 [node name="Timeline" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -646,8 +647,8 @@ anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = -120.0
-offset_top = -140.0
-offset_bottom = 140.0
+offset_top = -139.0
+offset_bottom = 165.0
 grow_horizontal = 0
 grow_vertical = 2
 
@@ -656,6 +657,14 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("10_o7qsd")
 text = "Turn Order"
 horizontal_alignment = 1
+
+[node name="TU Character" type="Label" parent="Timeline"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_5fkrt")
+text = "[TU] Character"
+
+[node name="HSeparator" type="HSeparator" parent="Timeline"]
+layout_mode = 2
 
 [node name="TurnList" type="ScrollContainer" parent="Timeline"]
 custom_minimum_size = Vector2(120, 260)
