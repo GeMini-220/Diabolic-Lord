@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=3 uid="uid://cmm365jef52ho"]
+[gd_scene load_steps=76 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bti8snfww6gou" path="res://Image/Battle-V1.png" id="2_okyx3"]
@@ -12,24 +12,6 @@
 [ext_resource type="FontFile" uid="uid://7jvdsijkjmcl" path="res://fonts/NESCyrillic.ttf" id="9_5fkrt"]
 [ext_resource type="FontFile" uid="uid://cvy4ahqpj54t0" path="res://fonts/Adventurer.ttf" id="10_o7qsd"]
 [ext_resource type="AudioStream" uid="uid://buhqm80u3i41o" path="res://audio/Defending_the_Camp.wav" id="10_wh8s1"]
-[ext_resource type="AudioStream" uid="uid://cais5n0j5tw3m" path="res://audio/fout-01.wav" id="12_hjm0n"]
-[ext_resource type="AudioStream" uid="uid://b2yvtc61ct3p4" path="res://audio/fout-02.wav" id="13_810fw"]
-[ext_resource type="AudioStream" uid="uid://cynsk6lk0dubg" path="res://audio/VampireSounds/vamp_lord_spell_2.wav" id="14_gl8q8"]
-[ext_resource type="AudioStream" uid="uid://bvwrth2sp64uj" path="res://audio/fout-03.wav" id="14_i752q"]
-[ext_resource type="AudioStream" uid="uid://cobv5jh56eh3k" path="res://audio/DemonSounds/dk_spell_1_metal.mp3" id="14_uttlw"]
-[ext_resource type="AudioStream" uid="uid://bwqv4xxs5lq0m" path="res://audio/VampireSounds/vamp_lord_spell_1.wav" id="15_3e52p"]
-[ext_resource type="AudioStream" uid="uid://bvyrqcrjquxyp" path="res://audio/DemonSounds/dk_spell_1_thud.mp3" id="15_dn31c"]
-[ext_resource type="AudioStream" uid="uid://w3hit2t2w7nw" path="res://audio/DemonSounds/dk_spell_2_guard.mp3" id="16_khjor"]
-[ext_resource type="AudioStream" uid="uid://6dcxc8ddlr3u" path="res://audio/VampireSounds/vamp_lord_spell_3.wav" id="16_kylpl"]
-[ext_resource type="AudioStream" uid="uid://d1mhg6xaqaalb" path="res://audio/DemonSounds/dk_spell_2_counter.mp3" id="17_job4w"]
-[ext_resource type="AudioStream" uid="uid://bpcyfhuli2elt" path="res://audio/VampireSounds/vamp_lord_spell_4.wav" id="17_qnygj"]
-[ext_resource type="AudioStream" uid="uid://b44sdob6noi7b" path="res://audio/VampireSounds/red_rush_1.wav" id="18_s6gls"]
-[ext_resource type="AudioStream" uid="uid://dbbcwg6o5sijc" path="res://audio/VampireSounds/red_rush_2.wav" id="19_26orp"]
-[ext_resource type="AudioStream" uid="uid://2qubk27f6hrk" path="res://audio/InfernoSounds/scorched_earth.wav" id="20_utnpk"]
-[ext_resource type="AudioStream" uid="uid://db6md3jcocfby" path="res://audio/InfernoSounds/fireball_sound.wav" id="21_51i50"]
-[ext_resource type="AudioStream" uid="uid://c441ccykxnspj" path="res://audio/InfernoSounds/fire_rain_sound.wav" id="22_fl6dg"]
-[ext_resource type="AudioStream" uid="uid://cif6qqqfk4xxh" path="res://audio/InfernoSounds/meteor_sound.wav" id="23_fle55"]
-[ext_resource type="AudioStream" uid="uid://cunk365utjae6" path="res://audio/InfernoSounds/hell_on_earth_sound.wav" id="24_5ib0j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xcjfb"]
 atlas = ExtResource("8_axo2t")
@@ -750,7 +732,6 @@ text = "Items"
 expand_icon = true
 
 [node name="SpellsPanel" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -848,6 +829,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
 text = "Back"
 
 [node name="TierSpellsPanel" type="Panel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -1068,64 +1050,7 @@ anchor_mode = 0
 stream = ExtResource("10_wh8s1")
 volume_db = -80.0
 
-[node name="SpellSound1" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("12_hjm0n")
-
-[node name="SpellSound2" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("13_810fw")
-
-[node name="SpellSound3" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("14_i752q")
-
-[node name="dk_spell_1_metal" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("14_uttlw")
-
-[node name="dk_spell_1_thud" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("15_dn31c")
-
-[node name="dk_spell_2_guard" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("16_khjor")
-
-[node name="dk_spell_2_counter" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("17_job4w")
-
-[node name="VL_BS_Sound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("14_gl8q8")
-
-[node name="VL_HH_Sound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("15_3e52p")
-
-[node name="VL_NC_Sound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("16_kylpl")
-
-[node name="VL_VF_Sound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("17_qnygj")
-
-[node name="RedRushSound1" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("18_s6gls")
-volume_db = 5.0
-
-[node name="RedRushSound2" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("19_26orp")
-volume_db = 5.0
-
-[node name="ScorchedEarthSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("20_utnpk")
-volume_db = 10.0
-
-[node name="FireballSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("21_51i50")
-volume_db = 15.0
-
-[node name="FireRainSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("22_fl6dg")
-
-[node name="MeteorSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("23_fle55")
-
-[node name="HellOnEarthSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("24_5ib0j")
-volume_db = 10.0
+[node name="SpellSoundPlayer" type="AudioStreamPlayer2D" parent="."]
 
 [node name="ScreenFade" type="ColorRect" parent="."]
 visible = false
@@ -1139,10 +1064,10 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ScreenFadeAnimPlayer" type="AnimationPlayer" parent="ScreenFade"]
+autoplay = "fade_in"
 libraries = {
 "": SubResource("AnimationLibrary_32g0i")
 }
-autoplay = "fade_in"
 
 [connection signal="pressed" from="ActionsPanel/Actions/Spells" to="." method="_on_spells_pressed"]
 [connection signal="pressed" from="ActionsPanel/Actions/Defend" to="." method="_on_defend_pressed"]

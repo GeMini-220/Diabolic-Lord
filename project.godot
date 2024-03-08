@@ -12,12 +12,13 @@ config_version=5
 
 config/name="OneBossLeft"
 run/main_scene="res://MainScenes/start_menu.tscn"
-config/features=PackedStringArray("4.2", "Forward Plus")
+config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 State="*res://src/State.gd"
+SpellSoundManager="*res://singleton/spell_sound_manager.gd"
 
 [display]
 

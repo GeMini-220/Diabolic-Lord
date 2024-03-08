@@ -47,6 +47,7 @@ var user_name = State.user_name
 @export var characters = {}
 @onready var fly_away = $DemonLord/FlyAway
 @onready var enemy_container = $EnemyContainer
+@onready var spell_sound_player = $SpellSoundPlayer
 
 
 func fill_battle_with_enemies():
@@ -182,7 +183,8 @@ func enemy_turn(enemy):
 		enemy.DOT *= 1.2
 
 	if enemy.has_debuff("Scorched Earth") and enemy.DOT > 0:
-		$ScorchedEarthSound.play()
+		SpellSoundManager.play_clip(spell_sound_player, "scorched_earth")
+#		$ScorchedEarthSound.play()
 		enemy.took_damage(enemy.DOT)
 		display_text("%s takes %d damage from the Scorched Earth." % [enemy.name, enemy.DOT])
 		await self.textbox_closed
@@ -347,7 +349,8 @@ func enemy_attack(enemy):
 		var countering_damage = final_damage * 2
 
 		countering_turn -= 1
-		$dk_spell_2_counter.play()
+		SpellSoundManager.play_clip(spell_sound_player, "dk_spell_2_counter")
+#		$dk_spell_2_counter.play()
 		await enemy.took_damage(countering_damage)
 		display_text("You countered the attack!")
 		await self.textbox_closed
@@ -590,7 +593,8 @@ func process():
 					# Apply the Red Rush damage
 					display_text("Diving from the skies, %s strikes %s for %d damage!" % [user_name, red_rush_target.name, red_rush_damage])
 					await self.textbox_closed
-					$RedRushSound2.play()
+					SpellSoundManager.play_clip(spell_sound_player, "red_rush_back")
+#					$RedRushSound2.play()
 					fly_away.play("fly_back")
 					await fly_away.animation_finished
 					red_rush_damage = await handle_redirect(red_rush_target, red_rush_damage)
@@ -732,7 +736,8 @@ func _on_blood_siphon_pressed():
 	# Calculate Blood Siphon damage within a low to medium range
 	var blood_siphon_damage = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange))
 	blood_siphon_damage = await handle_redirect(target, blood_siphon_damage) # Adjust the range based on desired spell power
-	$VL_BS_Sound.play()
+	SpellSoundManager.play_clip(spell_sound_player, "blood_sihpon")
+#	$VL_BS_Sound.play()
 	await target.took_damage(blood_siphon_damage)
 
 	display_text("The %s cast Blood Siphon, you drain the life force of your enemy dealing %s damage." % [user_name, blood_siphon_damage])
@@ -787,7 +792,9 @@ func household_passive():
 		return  # Exit if no target was selected after all.
 
 	var HP_dmg = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange))
-	$VL_HH_Sound.play()
+	
+	SpellSoundManager.play_clip(spell_sound_player, "houeshold")
+#	$VL_HH_Sound.play()
 	await target.took_damage(HP_dmg)
 
 	display_text("Your bat has been summoned and flew at %s dealing %s damage, and restoring %s health" % [target.name, HP_dmg, HP_dmg])
@@ -840,8 +847,9 @@ func _on_red_rush_pressed():
 
 	display_text("%s spreads their wings and takes to the skies, becoming untouchable." %user_name)
 	await self.textbox_closed
-
-	$RedRushSound1.play()
+	
+	SpellSoundManager.play_clip(spell_sound_player, "red_rush_leave")
+#	$RedRushSound1.play()
 	fly_away.play("fly_away")
 
 	red_rush_cd = 3
@@ -864,7 +872,8 @@ func _on_noble_charm_pressed():
 	display_text("Select an enemy to bewitch with Noble Charm.")
 	await select_enemy()
 	if target != null:
-		$VL_NC_Sound.play()
+		SpellSoundManager.play_clip(spell_sound_player, "noble_charm")
+#		$VL_NC_Sound.play()
 		apply_noble_charm(target)
 		display_text("The %s is now charmed and will attack their allies!" % target.name)
 		noble_charm_cd = 3  # Set the cooldown
@@ -887,7 +896,8 @@ func _on_vampiric_frenzy_pressed():
 		return
 	$TierSpellsPanel.hide()
 	activate_vampiric_frenzy()
-	$VL_VF_Sound.play()
+	SpellSoundManager.play_clip(spell_sound_player, "vampiric_frenzy")
+#	$VL_VF_Sound.play()
 	display_text("Vampiric Frenzy activated! Vampire Lord abilities will now heal you for 100% of the damage you deal and have a chance 50% to charm the enemy.")
 	await self.textbox_closed
 	emit_signal("action_taken")
@@ -946,7 +956,8 @@ func _on_fireball_pressed():
 	else:
 		display_text("You conjure a mighty fireball and hurl it at %s!" % target.name)
 		await self.textbox_closed
-	$FireballSound.play()
+	SpellSoundManager.play_clip(spell_sound_player, "fireball")
+#	$FireballSound.play()
 	# Calculate fireball damage within a medium range
 	var fireball_damage = floor(Boss_damage * randf_range(0.7, 1.0))
 	fireball_damage = await handle_redirect(target, fireball_damage) # Adjust the range based on desired spell power
@@ -1020,7 +1031,8 @@ func _on_fire_rain_pressed():
 	for target in targets:
 		var fire_rain_damage = floor(Boss_damage * randf_range(0.5, 0.8)) # Adjust damage range as desired
 		fire_rain_damage = await handle_redirect(target, fire_rain_damage)
-		$FireRainSound.play()
+		SpellSoundManager.play_clip(spell_sound_player, "fire_rain")
+#		$FireRainSound.play()
 		var is_dead = await target.took_damage(fire_rain_damage) # Assume took_damage can return a death boolean
 		target.DOT += floor(Boss_damage * 0.15) # Apply one stack of DOT
 		target.apply_debuff("Scorched Earth", 2) # Apply debuff for 3 turns
@@ -1060,7 +1072,8 @@ func _on_meteor_pressed():
 	for target in targets:
 		var meteor_damage = floor(Boss_damage * randf_range(0.8, 1.2))
 		meteor_damage = await handle_redirect(target, meteor_damage) # Assume this adjusts damage as needed
-		$MeteorSound.play()
+		SpellSoundManager.play_clip(spell_sound_player, "meteor")
+#		$MeteorSound.play()
 		var is_dead = await target.took_damage(meteor_damage) # Assume took_damage returns a boolean for death
 		target.apply_debuff("Scorched Earth", 2) # Apply debuff
 
@@ -1095,7 +1108,8 @@ func _on_hell_on_earth_pressed():
 	var dead_enemies = [] # To track enemies that die due to this spell
 
 	for target in targets:
-		$HellOnEarthSound.play()
+		SpellSoundManager.play_clip(spell_sound_player, "hell_on_earth")
+#		$HellOnEarthSound.play()
 		var hell_on_earth_dmg = floor(Boss_damage * randf_range(0.3, 0.5)) # Adjust range as desired
 		hell_on_earth_dmg = await handle_redirect(target, hell_on_earth_dmg)
 		var is_dead = await target.took_damage(hell_on_earth_dmg) # Assume took_damage returns a boolean indicating if the target died
@@ -1125,7 +1139,8 @@ func _on_defend_pressed():
 func _on_dread_forge_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
-	$SpellSound2.play()
+	SpellSoundManager.play_clip(spell_sound_player, "dreadforge")
+	#$SpellSound2.play()
 	display_text("You have become stronger!")
 	await self.textbox_closed
 	Boss_damage *= 1.25
@@ -1154,7 +1169,8 @@ func _on_attack_pressed():
 		final_damage *= 0.75
 	final_damage = await handle_redirect(target, floor(final_damage))
 
-	$SpellSound1.play()
+	#$SpellSound1.play()
+	SpellSoundManager.play_clip(spell_sound_player, "fiendish_fury")
 	await target.took_damage(final_damage)
 	display_text("You shoot out a dark magical blast!")
 	await self.textbox_closed
@@ -1200,7 +1216,8 @@ func _on_infernal_affliction_pressed():
 		target.DOT += floor(Boss_damage / 3) * 1.2
 	else:
 		target.DOT += floor(Boss_damage / 3)
-	$SpellSound3.play()
+	SpellSoundManager.play_clip(spell_sound_player, "infernal_affliction")
+	#$SpellSound3.play()
 	display_text("The %s is engulfed in hellfire!" % target.name)
 	await self.textbox_closed
 	display_text("The %s will take %s damage on each of its turns!" % [target.name, target.DOT])
@@ -1241,9 +1258,11 @@ func _on_shattering_strike_pressed():
 	final_damage = await handle_redirect(target, final_damage)
 
 	if target.type == "Defender":
-		$dk_spell_1_metal.play()
+		SpellSoundManager.play_clip(spell_sound_player, "dk_spell_1_block")
+#		$dk_spell_1_metal.play()
 	else:
-		$dk_spell_1_thud.play()
+		SpellSoundManager.play_clip(spell_sound_player, "dk_spell_1_hit")
+#		$dk_spell_1_thud.play()
 	await target.took_damage(final_damage)
 
 	display_text("You delivered a Shattering Strike to %s!" % target.name)
@@ -1276,7 +1295,8 @@ func _on_counter_pressed():
 		await self.textbox_closed
 		return
 	$TierSpellsPanel.hide()
-	$dk_spell_2_guard.play()
+	SpellSoundManager.play_clip(spell_sound_player, "dk_spell_2_guard")
+#	$dk_spell_2_guard.play()
 	countering_turn += 1 + true_form
 	display_text("You deftly execute Counter, turning the next enemy's attack against them with twice the force!")
 	await self.textbox_closed
@@ -1317,7 +1337,7 @@ func _on_guillotine_pressed(recast = false):
 	
 	final_damage = await handle_redirect(target, final_damage)
 
-	$SpellSound1.play() # TODO: add sound
+	SpellSoundManager.play_clip(spell_sound_player, "fiendish_fury")
 	await target.took_damage(final_damage)
 
 	display_text("You dealt %d damage to the %s!" % [final_damage, target.name])
@@ -1351,7 +1371,8 @@ func _on_true_form_pressed():
 		await self.textbox_closed
 		return
 	$TierSpellsPanel.hide()
-	$SpellSound2.play() # TODO: Add sound
+	SpellSoundManager.play_clip(spell_sound_player, "fiendish_fury")
+#	$SpellSound2.play() # TODO: Add sound
 	display_text("You embraced your True Form.")
 	await self.textbox_closed
 	Boss_damage *= ceil(Boss_damage * 1.5)
