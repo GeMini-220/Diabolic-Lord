@@ -51,7 +51,7 @@ func initialize_player_data() -> void:
 	var new_player_data = {
 		"current_health": 666,
 		"max_health": 666,
-		"damage": 30,
+		"damage": 80,
 		"speed": 25,
 		"magic": 25,
 		"currentBattle": 0,

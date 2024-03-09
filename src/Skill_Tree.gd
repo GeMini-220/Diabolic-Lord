@@ -5,7 +5,7 @@ const INFERNO = "Inferno"
 const DEMON_KNIGHT = "Demon Knight"
 const VAMPIRE_LORD = "Vampire Lord"
 
-var GENERIC_UPGRADES = {
+const GENERIC_UPGRADES = {
 	"Damage": 8,  # Increase damage by 8
 	"Speed": 5,   # Decrease speed by 5
 	"Magic": 5,   # Increase magic by 5
@@ -99,16 +99,13 @@ func _on_tier_pressed(path, tier):
 func _on_generic_pressed(upgrade_choice, level):
 	var num_upgrade = State.generic_unlocked[ceil(level / 2.0)-1]
 	if upgrade_available and num_upgrade != upgrade_choice:
-		State.generic_unlocked[ceil(level / 2.0)-1] = upgrade_choice
 		match upgrade_choice:
 			"Damage":
 				State.damage += GENERIC_UPGRADES["Damage"]
 				print(State.damage)
 			"Speed":
-				State.speed -= GENERIC_UPGRADES["Speed"]
-				GENERIC_UPGRADES["Speed"] -= 1 # ensures the player gains 1 turn per round for every speed upgrade
+				State.speed -= GENERIC_UPGRADES["Speed"] - State.generic_unlocked.count("Speed") # ensures the player gains 1 turn per round for every speed upgrade
 				print(State.speed)
-				print(GENERIC_UPGRADES["Speed"])
 			"Magic":
 				State.magic += GENERIC_UPGRADES["Magic"]
 				print(State.magic)
@@ -116,6 +113,7 @@ func _on_generic_pressed(upgrade_choice, level):
 				State.max_health += GENERIC_UPGRADES["Health"]
 				State.current_health += GENERIC_UPGRADES["Health"]
 				print(State.max_health)
+		State.generic_unlocked[ceil(level / 2.0)-1] = upgrade_choice
 		get_upgrade(upgrade_choice, level)
 		$TextBoxes/Upgrade.text = "You've increased your %s!" % upgrade_choice
 		for upgrade in get_node("Tree/PanelContainer/HBoxContainer/Tree Levels/Level %s" % level).get_children():
