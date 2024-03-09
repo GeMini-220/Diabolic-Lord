@@ -1188,3 +1188,4 @@ autoplay = "fade_in"
 [connection signal="pressed" from="TierSpellsPanel/TierSpells/3" to="." method="_on_tier_pressed" binds= [3]]
 [connection signal="pressed" from="TierSpellsPanel/TierSpells/4" to="." method="_on_tier_pressed" binds= [4]]
 [connection signal="pressed" from="TierSpellsPanel/TierSpells/BackToSpells" to="." method="_on_back_to_spells_pressed"]
+[connection signal="finished" from="BGMusic" to="." method="_on_bg_music_finished"]

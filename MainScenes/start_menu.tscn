@@ -342,3 +342,4 @@ autoplay = true
 [connection signal="close_requested" from="UsernameWindow" to="." method="_on_username_window_close_requested"]
 [connection signal="focus_entered" from="UsernameWindow/HBoxContainer/VBoxContainer/UsernameEdit" to="." method="_on_username_edit_focus_entered"]
 [connection signal="pressed" from="UsernameWindow/HBoxContainer/VBoxContainer/UsernameConfirm" to="." method="_on_username_confirm_pressed"]
+[connection signal="finished" from="BGMusic" to="." method="_on_bg_music_finished"]

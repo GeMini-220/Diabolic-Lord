@@ -102,3 +102,7 @@ func _on_username_window_close_requested():
 
 func _on_username_edit_focus_entered():
 	username_edit.text = ""
+
+
+func _on_bg_music_finished():
+	$BGMusic.play()
