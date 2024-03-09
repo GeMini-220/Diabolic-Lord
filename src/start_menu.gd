@@ -48,6 +48,7 @@ func _on_start_new_game_pressed():
 func _on_new_game_confirmation_dialog_confirmed():
 	$newGameConfirmationDialog.hide()
 	$UsernameWindow.show()
+	username_edit.text = "Demon Lord"
 	await username_confirm.pressed
 	
 	
@@ -98,4 +99,6 @@ func _on_username_confirm_pressed():
 
 func _on_username_window_close_requested():
 	$UsernameWindow.hide()
+
+func _on_username_edit_focus_entered():
 	username_edit.text = ""

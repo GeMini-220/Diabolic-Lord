@@ -301,7 +301,6 @@ theme_override_constants/caret_width = 1
 theme_override_fonts/font = ExtResource("2_wgoxx")
 theme_override_font_sizes/font_size = 38
 theme_override_styles/normal = SubResource("StyleBoxEmpty_bp2ec")
-placeholder_text = "Demon Lord"
 alignment = 1
 max_length = 12
 expand_to_text_length = true
@@ -341,4 +340,5 @@ autoplay = true
 [connection signal="canceled" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_canceled"]
 [connection signal="confirmed" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_confirmed"]
 [connection signal="close_requested" from="UsernameWindow" to="." method="_on_username_window_close_requested"]
+[connection signal="focus_entered" from="UsernameWindow/HBoxContainer/VBoxContainer/UsernameEdit" to="." method="_on_username_edit_focus_entered"]
 [connection signal="pressed" from="UsernameWindow/HBoxContainer/VBoxContainer/UsernameConfirm" to="." method="_on_username_confirm_pressed"]
