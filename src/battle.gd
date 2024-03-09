@@ -156,10 +156,26 @@ func update_tooltip():
 	$SpellsPanel/Spells/Attack.tooltip_text = "Basic attack, deals %s damage to one target." % floor(Boss_damage)
 	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increases your damage by %s%% for the remainder of the battle." % Boss_magic
 	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
-	#$SpellsPanel/Spells/ShatteringStrike.tooltip_text = "Deals %s damage to one target and stun them for %s turn." % [floor(Boss_damage * 0.75), 1 + true_form]
-	#$SpellsPanel/Spells/Counter.tooltip_text = "Guard for %s turn. Return 2x the pre-mitigation damage dealt to you." % 1 + true_form
-	#$SpellsPanel/Spells/Guillotine.tooltip_text = "Deals %s damage to one target. If the target is below %s%% hp, they take double damage from this ability. If they die, recast on a random target." % [floor(Boss_damage), guillotine_upperbound * 100]
-	#$SpellsPanel/Spells/TrueForm.tooltip_text = "All your stats by 50%% for the rest of the fight. Gain 20%% lifesteal. Shattering Strike and Counter buff/debuff increases by 1 turn. Guillotine %s%% -> 35%%." % (guillotine_upperbound * 100)
+	var tier_spells_defs = {
+		"Fireball": "Hurl a fireball at that enemy, dealing damage on impact.",
+		"Fire Rain": "Select 2 enemies. Those enemies are applied 3 stacks of Scorched Earth.",
+		"Meteor": "Deal Heavy Damage to 3 random enemies.",
+		"Hell on Earth": "Scorched Earth is now applied every turn, with increasing damage every turn.",
+		"Shattering Strike": "Deals %s damage to one target and stun them for %s turn." % [floor(Boss_damage * 0.75), 1 + true_form],
+		"Counter": "Guard for %s turn. Return 2x the pre-mitigation damage dealt to you." % (1 + true_form),
+		"Guillotine": "Deals %s damage to one target. If the target is below %s%% hp, they take double damage from this ability. If they die, recast on a random target." % [floor(Boss_damage), guillotine_upperbound * 100],
+		"True Form": "All your stats by 50%% for the rest of the fight. Gain 20%% lifesteal. Shattering Strike and Counter buff/debuff increases by 1 turn. Guillotine %s%% -> 35%%." % (guillotine_upperbound * 100),
+		"Blood Siphon": "Choose an enemy. They take damage while you heal the damage taken.",
+		"Red Rush": "Choose a target. Fly up into the air, causing all attacks to miss, then dive bomb one enemy, dealing massive damage.",
+		"Noble Charm": "Choose 1 enemy. For the next 3 turns, they attack their allies.",
+		"Vampiric Frenzy": "For 5 turns, all your attacks and skills heal you for the full amount and do 20% more damage. Enemies you damage have a 50% chance to become charmed.",
+	}
+	for i in range(4):
+		var spell = get_node("TierSpellsPanel/TierSpells/%s" % str(i+1))
+		if spell.text in tier_spells_defs:
+			spell.tooltip_text = tier_spells_defs[spell.text]
+		else:
+			spell.tooltip_text = "Not yet unlocked."
 
 func set_health(progress_bar, health, max_health):
 	progress_bar.value = health
@@ -870,6 +886,12 @@ func _on_red_rush_pressed():
 		return
 
 	red_rush_damage = floor(Boss_damage * randf_range(0.8, 1.4))
+	
+	if vampiric_frenzy_active:
+		red_rush_damage *= 1.5
+	if is_defending == true:
+		red_rush_damage *= 0.5
+	
 	red_rush_target = target
 	is_flying = true
 
@@ -965,7 +987,7 @@ func end_of_turn():
 		hex_duration -= 1
 		if hex_duration == 0:
 			Boss_damage += hex_damage
-			display_text("You recovered from the Hex, gaining back your power")
+			display_text("You recovered from the Hex, gaining back your power.")
 			await self.textbox_closed
 
 #Inferno Spells 738-888
@@ -977,14 +999,24 @@ func _on_fireball_pressed():
 
 	$TierSpellsPanel.hide()
 
+	var enemy_defending = false
 	if target == null:
 		await select_enemy()
 	else:
 		display_text("You conjure a mighty fireball and hurl it at %s!" % target.name)
 		await self.textbox_closed
+		enemy_defending = true
 	$FireballSound.play()
 	# Calculate fireball damage within a medium range
 	var fireball_damage = floor(Boss_damage * randf_range(0.7, 1.0))
+	
+	if vampiric_frenzy_active:
+		fireball_damage *= 1.2
+	if is_defending == true:
+		fireball_damage *= 0.5
+	if enemy_defending == true:
+		fireball_damage *= 0.75
+	
 	fireball_damage = await handle_redirect(target, fireball_damage) # Adjust the range based on desired spell power
 	await target.took_damage(fireball_damage)
 
@@ -1055,6 +1087,10 @@ func _on_fire_rain_pressed():
 	# Apply Fire Rain effects to the selected targets
 	for target in targets:
 		var fire_rain_damage = floor(Boss_damage * randf_range(0.5, 0.8)) # Adjust damage range as desired
+		if vampiric_frenzy_active:
+			fire_rain_damage *= 1.2
+		if is_defending == true:
+			fire_rain_damage *= 0.5
 		fire_rain_damage = await handle_redirect(target, fire_rain_damage)
 		$FireRainSound.play()
 		var is_dead = await target.took_damage(fire_rain_damage) # Assume took_damage can return a death boolean
@@ -1095,6 +1131,10 @@ func _on_meteor_pressed():
 	# Apply Meteor effects to the selected targets
 	for target in targets:
 		var meteor_damage = floor(Boss_damage * randf_range(0.8, 1.2))
+		if vampiric_frenzy_active:
+			meteor_damage *= 1.2
+		if is_defending == true:
+			meteor_damage *= 0.5
 		meteor_damage = await handle_redirect(target, meteor_damage) # Assume this adjusts damage as needed
 		$MeteorSound.play()
 		var is_dead = await target.took_damage(meteor_damage) # Assume took_damage returns a boolean for death
@@ -1133,6 +1173,10 @@ func _on_hell_on_earth_pressed():
 	for target in targets:
 		$HellOnEarthSound.play()
 		var hell_on_earth_dmg = floor(Boss_damage * randf_range(0.3, 0.5)) # Adjust range as desired
+		if vampiric_frenzy_active:
+			hell_on_earth_dmg *= 1.2
+		if is_defending == true:
+			hell_on_earth_dmg *= 0.5
 		hell_on_earth_dmg = await handle_redirect(target, hell_on_earth_dmg)
 		var is_dead = await target.took_damage(hell_on_earth_dmg) # Assume took_damage returns a boolean indicating if the target died
 		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
@@ -1149,8 +1193,6 @@ func _on_hell_on_earth_pressed():
 
 	await check_win() # Check win condition after all effects are processed
 	emit_signal("action_taken")
-
-
 
 func _on_defend_pressed():
 	is_defending = true

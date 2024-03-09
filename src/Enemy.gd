@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var speed = enemy.speed
 @onready var magic = enemy.magic
 @onready var actions = enemy.actions
+@onready var quote = enemy.quote
 var dead = false
 var current_action
 var audio
@@ -32,7 +33,7 @@ func create_tooltip():
 	for i in actions:
 		actionString += str(i) + ". "
 	actionString = actionString.capitalize()
-	$Control.tooltip_text = "Class: %s\nDamage: %s\nSpeed: %s\nMagic: %s\nActions: %s" % [enemy.name, damage, speed, magic, actionString]
+	$Control.tooltip_text = "Class: %s\nDamage: %s\nSpeed: %s\nMagic: %s\nActions: %s\n%s" % [enemy.name, damage, speed, magic, actionString, quote]
 
 func took_damage(taken_damage) -> bool:
 	current_health = max(0,current_health - taken_damage)
