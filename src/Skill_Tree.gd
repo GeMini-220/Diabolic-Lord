@@ -48,9 +48,9 @@ func level_up():
 
 # Function to check and handle upgrades
 func check_for_upgrades():
-	print(State.spells_unlocked)
-	print(State.generic_unlocked)
-	print(upgrade_available)
+	# print(State.spells_unlocked)
+	# print(State.generic_unlocked)
+	# print(upgrade_available)
 	if upgrade_available:
 		$TextBoxes/Explanation.text = "You have an upgrade available! Choose an upgrade from level %s." % State.player_level
 	else:
@@ -92,7 +92,7 @@ func _on_tier_pressed(path, tier):
 		State.spells_unlocked[tier-1] = spell_name
 		# State.upgrade_points -= 1
 		$TextBoxes/Upgrade.text = "You have chosen the \"%s\" spell from the \"%s\" path as your Tier %s spell." % [spell_name.capitalize(), path.capitalize(), tier]
-		print(State.spells_unlocked)
+		# print(State.spells_unlocked)
 	else:
 		$TextBoxes/Upgrade.text = "An error has occurred!"
 
@@ -121,7 +121,10 @@ func _on_generic_pressed(upgrade_choice, level):
 		for upgrade in get_node("Tree/PanelContainer/HBoxContainer/Tree Levels/Level %s" % level).get_children():
 			upgrade.disabled = upgrade.name != upgrade_choice
 	else:
-		$TextBoxes/Upgrade.text = "You can't choose that!"
+		if get_node("Tree/PanelContainer/HBoxContainer/Tree Levels/Level %s/%s" % [level, upgrade_choice]).button_pressed:
+			$TextBoxes/Upgrade.text = "You've already chosen that!"
+		else:
+			$TextBoxes/Upgrade.text = "You can't choose that!"
 	
 	#State.generic_unlocked[ceil(level / 2)] = upgrade_choice
 	#for upgrade in State.generic_unlocked:
@@ -141,4 +144,5 @@ func _on_generic_pressed(upgrade_choice, level):
 func _on_back_pressed():
 	#get_tree().change_scene_to_file("res://MainScenes/campfire.tscn")
 	State.save_player_data()
+	$TextBoxes/Upgrade.text = "Current level: %s\nCurrent spell tier: %s" % [State.player_level, State.tier_unlocked]
 	self.visible = false

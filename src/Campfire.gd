@@ -17,9 +17,9 @@ func _ready():
 	screen_fade_anim.play("fade_in")
 	await screen_fade_anim.animation_finished
 	skill_tree_opened = false
-	State.current_health = min(State.max_health, State.current_health + 200)
 
 func _on_embark_pressed():
+	State.current_health = min(State.max_health, State.current_health + 200)
 	start_fade_out("res://MainScenes/battle.tscn")
 
 func _on_main_menu_pressed():
