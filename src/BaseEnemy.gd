@@ -10,3 +10,4 @@ extends Resource
 @export var magic: int = 0
 @export var actions: Array = ["attack"]
 @export var audio: AudioStream = null
+@export var quote: String = ""

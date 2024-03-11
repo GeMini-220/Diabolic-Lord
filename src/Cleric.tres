@@ -178,3 +178,4 @@ speed = 32
 magic = 30
 actions = ["attack", "help", "heal", "rally"]
 audio = ExtResource("2_1fa0y")
+quote = "\"This should help.\""

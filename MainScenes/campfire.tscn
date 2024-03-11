@@ -246,3 +246,4 @@ autoplay = "fade_in"
 [connection signal="pressed" from="Embark" to="." method="_on_embark_pressed"]
 [connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="Upgrade" to="." method="_on_upgrade_pressed"]
+[connection signal="finished" from="BGMusic" to="." method="_on_bg_music_finished"]

@@ -1369,16 +1369,58 @@ offset_right = 1152.0
 offset_bottom = 649.0
 texture = ExtResource("2_okyx3")
 
+[node name="EnemyContainer" type="HBoxContainer" parent="."]
+top_level = true
+layout_mode = 0
+offset_left = 33.0
+offset_top = 178.0
+offset_right = 718.0
+offset_bottom = 403.0
+alignment = 1
+
+[node name="Timeline" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -139.0
+offset_bottom = 165.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="TurnOrder" type="Label" parent="Timeline"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_o7qsd")
+text = "Turn Order"
+horizontal_alignment = 1
+
+[node name="TU Character" type="Label" parent="Timeline"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_5fkrt")
+text = "[TU] Character"
+
+[node name="HSeparator" type="HSeparator" parent="Timeline"]
+layout_mode = 2
+
+[node name="TurnList" type="ScrollContainer" parent="Timeline"]
+custom_minimum_size = Vector2(120, 260)
+layout_mode = 2
+
+[node name="TurnLabels" type="VBoxContainer" parent="Timeline/TurnList"]
+layout_mode = 2
+
 [node name="Enemies" type="Node" parent="."]
 
 [node name="Defender" type="Node" parent="Enemies"]
 
 [node name="Fighter" parent="Enemies/Defender" instance=ExtResource("3_bsfho")]
-position = Vector2(168, 246)
 enemy = ExtResource("4_ky74l")
 
 [node name="Artificer" parent="Enemies/Defender" instance=ExtResource("3_bsfho")]
-position = Vector2(819, 493)
 enemy = ExtResource("5_6bmna")
 
 [node name="Striker" type="Node" parent="Enemies"]
@@ -1397,7 +1439,6 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 enemy = ExtResource("5_avpfh")
 
 [node name="Witch" parent="Enemies/Supporter" instance=ExtResource("3_bsfho")]
-position = Vector2(365, 484)
 enemy = ExtResource("8_xbknf")
 
 [node name="CurrentEnemies" type="Node" parent="."]
@@ -1692,7 +1733,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_pdryl")
 text = "Back"
 
 [node name="Textbox" type="Panel" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -1898,3 +1938,4 @@ autoplay = "fade_in"
 [connection signal="pressed" from="TierSpellsPanel/TierSpells/3" to="." method="_on_tier_pressed" binds= [3]]
 [connection signal="pressed" from="TierSpellsPanel/TierSpells/4" to="." method="_on_tier_pressed" binds= [4]]
 [connection signal="pressed" from="TierSpellsPanel/TierSpells/BackToSpells" to="." method="_on_back_to_spells_pressed"]
+[connection signal="finished" from="BGMusic" to="." method="_on_bg_music_finished"]

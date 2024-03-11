@@ -248,3 +248,4 @@ speed = 40
 magic = 30
 actions = ["attack", "stun"]
 audio = ExtResource("2_lsq8s")
+quote = "\"What an exciting campaign!\""
