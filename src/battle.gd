@@ -560,8 +560,18 @@ func process():
 	while not game_over:
 		var actions = {}
 		var turn_order = []
+		
+		$Timeline.visible = true
+		for n in $Timeline/TurnList/TurnLabels.get_children():
+			$Timeline/TurnList/TurnLabels.remove_child(n)
+			n.queue_free()
+		
 		# Create a list of enemies with their corresponding accumulated time
 		for character in all_characters:
+			
+			if !is_instance_valid(character) or !character.visible:
+				continue
+			
 			actions[character.name] = []
 			for i in range(1,101):
 				var speed
@@ -574,9 +584,17 @@ func process():
 				actions[character.name].append(i*speed)
 		for i in range(0,101):
 			for character in all_characters:
-				if actions[character.name].is_empty() or actions[character.name][0]!=i:
+				if !is_instance_valid(character) or !character.visible or actions[character.name].is_empty() or actions[character.name][0]!=i:
 					continue
-				turn_order.append(character)
+				turn_order.append(character) 
+				
+				var turnLabel = Label.new()
+				turnLabel.text = "[%d] %s" % [i, character.name]
+				var font = FontFile.new()
+				font.font_data = load("res://fonts/NESCyrillic.ttf")
+				turnLabel.add_theme_font_override("font", font)
+				$Timeline/TurnList/TurnLabels.add_child(turnLabel)
+				
 				actions[character.name].remove_at(0)
 		for i in turn_order.size():
 			var character = turn_order[i]
@@ -584,6 +602,14 @@ func process():
 				continue
 			display_text("It's the %s's turn!" % character.name)
 			await self.textbox_closed
+			
+			for turnLabel in $Timeline/TurnList/TurnLabels.get_children():
+				if turnLabel.text.get_slice(" ", 1) == character.name and not turnLabel.has_theme_color_override("font_color"):
+					turnLabel.add_theme_color_override("font_color", Color.AQUA)
+					break
+				else:
+					turnLabel.add_theme_color_override("font_color", Color.WHITE)
+			
 			if character.name == 'DemonLord':
 				# Check if the Dempn Lord is returning from a "Red Rush" dive
 				if is_flying:
