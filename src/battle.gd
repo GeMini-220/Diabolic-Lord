@@ -36,7 +36,7 @@ var red_rush_target = null
 var red_rush_damage = 0
 var red_rush_cd = 0
 var hex_duration = 0
-var hex_effective_damage = 0
+var hex_damage = 0
 var redirect_active = false
 var redirect_target = null
 var infernal_affliction_active = false
@@ -156,10 +156,26 @@ func update_tooltip():
 	$SpellsPanel/Spells/Attack.tooltip_text = "Basic attack, deals %s damage to one target." % floor(Boss_damage)
 	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increases your damage by %s%% for the remainder of the battle." % Boss_magic
 	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
-	#$SpellsPanel/Spells/ShatteringStrike.tooltip_text = "Deals %s damage to one target and stun them for %s turn." % [floor(Boss_damage * 0.75), 1 + true_form]
-	#$SpellsPanel/Spells/Counter.tooltip_text = "Guard for %s turn. Return 2x the pre-mitigation damage dealt to you." % 1 + true_form
-	#$SpellsPanel/Spells/Guillotine.tooltip_text = "Deals %s damage to one target. If the target is below %s%% hp, they take double damage from this ability. If they die, recast on a random target." % [floor(Boss_damage), guillotine_upperbound * 100]
-	#$SpellsPanel/Spells/TrueForm.tooltip_text = "All your stats by 50%% for the rest of the fight. Gain 20%% lifesteal. Shattering Strike and Counter buff/debuff increases by 1 turn. Guillotine %s%% -> 35%%." % (guillotine_upperbound * 100)
+	var tier_spells_defs = {
+		"Fireball": "Hurl a fireball at that enemy, dealing damage on impact.",
+		"Fire Rain": "Select 2 enemies. Those enemies are applied 3 stacks of Scorched Earth.",
+		"Meteor": "Deal Heavy Damage to 3 random enemies.",
+		"Hell on Earth": "Scorched Earth is now applied every turn, with increasing damage every turn.",
+		"Shattering Strike": "Deals %s damage to one target and stun them for %s turn." % [floor(Boss_damage * 0.75), 1 + true_form],
+		"Counter": "Guard for %s turn. Return 2x the pre-mitigation damage dealt to you." % (1 + true_form),
+		"Guillotine": "Deals %s damage to one target. If the target is below %s%% hp, they take double damage from this ability. If they die, recast on a random target." % [floor(Boss_damage), guillotine_upperbound * 100],
+		"True Form": "All your stats by 50%% for the rest of the fight. Gain 20%% lifesteal. Shattering Strike and Counter buff/debuff increases by 1 turn. Guillotine %s%% -> 35%%." % (guillotine_upperbound * 100),
+		"Blood Siphon": "Choose an enemy. They take damage while you heal the damage taken.",
+		"Red Rush": "Choose a target. Fly up into the air, causing all attacks to miss, then dive bomb one enemy, dealing massive damage.",
+		"Noble Charm": "Choose 1 enemy. For the next 3 turns, they attack their allies.",
+		"Vampiric Frenzy": "For 5 turns, all your attacks and skills heal you for the full amount and do 20% more damage. Enemies you damage have a 50% chance to become charmed.",
+	}
+	for i in range(4):
+		var spell = get_node("TierSpellsPanel/TierSpells/%s" % str(i+1))
+		if spell.text in tier_spells_defs:
+			spell.tooltip_text = tier_spells_defs[spell.text]
+		else:
+			spell.tooltip_text = "Not yet unlocked."
 
 func set_health(progress_bar, health, max_health):
 	progress_bar.value = health
@@ -200,17 +216,7 @@ func enemy_turn(enemy):
 			if game_over:
 				end_game()  # Exit the function early since the enemy is dead and cannot take further actions
 
-	enemy.reduce_debuff_duration("Scorched Earth")  # Reduce the DOT duration
-
-	# If the "Scorched Earth" debuff has expired, reset the DOT to 0
-	if not enemy.has_debuff("Scorched Earth"):
-		if not enemy.has_debuff("Infernal Afliction"):
-			enemy.DOT = 0
-		else:
-			enemy.DOT = floor(Boss_damage / 3)
-
-
-
+	enemy.reduce_debuff_duration()  # Reduce the DOT duration
 
 	# Check if the enemy is charmed and the charm effect should trigger this turn
 	if enemy.has_debuff("noble_charm"):
@@ -401,12 +407,19 @@ func enemy_heal(enemy):
 		await self.textbox_closed
 
 func enemy_block(enemy):
-	target = enemy
-	display_text("The %s is defending their allies!" % enemy.name)
-	await self.textbox_closed
-	await enemy.play_animation("attack")
-	display_text("The %s is going to take the next attack!" % enemy.name)
-	await self.textbox_closed
+	var allys = 0
+	for ally in enemies:
+		if not ally.dead:
+			allys += 1
+	if allys <= 1:
+		await enemy_attack(enemy)
+	else:
+		target = enemy
+		display_text("The %s is defending their allies!" % enemy.name)
+		await self.textbox_closed
+		await enemy.play_animation("attack")
+		display_text("The %s is going to take the next attack!" % enemy.name)
+		await self.textbox_closed
 
 func enemy_help(enemy):
 	var highest_dot = 0
@@ -501,9 +514,10 @@ func enemy_hex(enemy):
 		await self.textbox_closed
 
 		# Apply the Hex effect
-		hex_effective_damage = 0.50 # Reduce damage to 75% of its original value
-		Boss_damage *= hex_effective_damage
-		hex_duration = 4 # Hex lasts for 2 rounds
+		var hex_percent = 0.25 # Reduce damage to 75% of its original value
+		hex_damage = hex_percent * Boss_damage
+		Boss_damage -= hex_damage
+		hex_duration = 2 # Hex lasts for 2 rounds
 
 		display_text("The %s attack power has been diminshed!" %user_name)
 		await self.textbox_closed
@@ -560,18 +574,18 @@ func process():
 	while not game_over:
 		var actions = {}
 		var turn_order = []
-		
+
 		$Timeline.visible = true
 		for n in $Timeline/TurnList/TurnLabels.get_children():
 			$Timeline/TurnList/TurnLabels.remove_child(n)
 			n.queue_free()
-		
+
 		# Create a list of enemies with their corresponding accumulated time
 		for character in all_characters:
-			
+
 			if !is_instance_valid(character) or !character.visible:
 				continue
-			
+
 			actions[character.name] = []
 			for i in range(1,101):
 				var speed
@@ -586,15 +600,15 @@ func process():
 			for character in all_characters:
 				if !is_instance_valid(character) or !character.visible or actions[character.name].is_empty() or actions[character.name][0]!=i:
 					continue
-				turn_order.append(character) 
-				
+				turn_order.append(character)
+
 				var turnLabel = Label.new()
 				turnLabel.text = "[%d] %s" % [i, character.name]
 				var font = FontFile.new()
 				font.font_data = load("res://fonts/NESCyrillic.ttf")
 				turnLabel.add_theme_font_override("font", font)
 				$Timeline/TurnList/TurnLabels.add_child(turnLabel)
-				
+
 				actions[character.name].remove_at(0)
 		for i in turn_order.size():
 			var character = turn_order[i]
@@ -602,14 +616,14 @@ func process():
 				continue
 			display_text("It's the %s's turn!" % character.name)
 			await self.textbox_closed
-			
+
 			for turnLabel in $Timeline/TurnList/TurnLabels.get_children():
 				if turnLabel.text.get_slice(" ", 1) == character.name and not turnLabel.has_theme_color_override("font_color"):
 					turnLabel.add_theme_color_override("font_color", Color.AQUA)
 					break
 				else:
 					turnLabel.add_theme_color_override("font_color", Color.WHITE)
-			
+
 			if character.name == 'DemonLord':
 				# Check if the Dempn Lord is returning from a "Red Rush" dive
 				if is_flying:
@@ -628,13 +642,13 @@ func process():
 					red_rush_target = null
 					red_rush_damage = 0
 				await player_turn(character)
+				await end_of_turn()
 			else:
 				await enemy_turn(character)
 				await check_win()
 #			await household_passive()		# We do not need this active is turned off right now
 			if game_over:
 				break
-			await end_of_turn()
 		display_text("End of round")
 		await self.textbox_closed
 
@@ -692,7 +706,8 @@ func stop_selecting():
 	emit_signal("target_selected")
 
 func _input(event):
-	if (Input.is_action_just_pressed("ui_accept") or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)) and $Textbox.visible:
+	#if (Input.is_action_just_pressed("ui_accept") or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)) and $Textbox.visible:
+	if Input.is_action_just_released("click") and $Textbox.visible:
 		$Textbox.hide()
 		emit_signal("textbox_closed")
 	# Player attcks adventurers
@@ -749,11 +764,21 @@ func _on_blood_siphon_pressed():
 	if vampiric_frenzy_active:
 		LowDamageRange *= 1.5
 		HighDamageRange *= 1.5
+
+	var enemy_defending = false	
 	if target == null:
 		await select_enemy()
 	else:
 		display_text("The %s senses the impending danger and prepares to counter!" % target.name)
+		enemy_defending = true
 		await self.textbox_closed
+
+	if is_defending == true:
+		LowDamageRange *= 0.5
+		HighDamageRange *= 0.5
+	if enemy_defending == true:
+		LowDamageRange *= 0.75
+		HighDamageRange *= 0.75
 
 	# Calculate Blood Siphon damage within a low to medium range
 	var blood_siphon_damage = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange))
@@ -861,6 +886,12 @@ func _on_red_rush_pressed():
 		return
 
 	red_rush_damage = floor(Boss_damage * randf_range(0.8, 1.4))
+	
+	if vampiric_frenzy_active:
+		red_rush_damage *= 1.5
+	if is_defending == true:
+		red_rush_damage *= 0.5
+	
 	red_rush_target = target
 	is_flying = true
 
@@ -926,7 +957,7 @@ func activate_vampiric_frenzy():
 
 func apply_noble_charm(target):
 	if "noble_charm" not in target.debuffs:
-		target.debuffs["noble_charm"] = 3  # Lasts for 3 turns/actions
+		target.debuffs["noble_charm"] = [3, 0]  # Lasts for 3 turns/actions
 
 func end_of_turn():
 	if shattering_strike_cd > 0:
@@ -942,21 +973,22 @@ func end_of_turn():
 		red_rush_cd -= 1
 	if noble_charm_cd > 0:
 		noble_charm_cd -= 1
-
-
 	if vampiric_frenzy_cd > 0:
 		vampiric_frenzy_cd -= 1
 
 	if fire_rain_cd > 0:
 		fire_rain_cd -= 1
-
-
 	if meteor_cd > 0:
 		meteor_cd -= 1
-
-
 	if hell_on_earth_cd > 0:
 		hell_on_earth_cd -= 1
+
+	if hex_duration > 0:
+		hex_duration -= 1
+		if hex_duration == 0:
+			Boss_damage += hex_damage
+			display_text("You recovered from the Hex, gaining back your power.")
+			await self.textbox_closed
 
 #Inferno Spells 738-888
 func _on_fireball_pressed():
@@ -967,14 +999,24 @@ func _on_fireball_pressed():
 
 	$TierSpellsPanel.hide()
 
+	var enemy_defending = false
 	if target == null:
 		await select_enemy()
 	else:
 		display_text("You conjure a mighty fireball and hurl it at %s!" % target.name)
 		await self.textbox_closed
+		enemy_defending = true
 	$FireballSound.play()
 	# Calculate fireball damage within a medium range
 	var fireball_damage = floor(Boss_damage * randf_range(0.7, 1.0))
+	
+	if vampiric_frenzy_active:
+		fireball_damage *= 1.2
+	if is_defending == true:
+		fireball_damage *= 0.5
+	if enemy_defending == true:
+		fireball_damage *= 0.75
+	
 	fireball_damage = await handle_redirect(target, fireball_damage) # Adjust the range based on desired spell power
 	await target.took_damage(fireball_damage)
 
@@ -986,7 +1028,7 @@ func _on_fireball_pressed():
 	# Apply Scorched Earth debuff
 	var dot_damage = floor(Boss_damage * 0.15) # Damage over time effect
 	target.DOT += dot_damage # Set the DOT value on the enemy
-	target.apply_debuff("Scorched Earth", 2) # Apply debuff for 3 turns
+	target.apply_debuff("Scorched Earth", 2, dot_damage) # Apply debuff for 3 turns
 
 	display_text("The ground beneath %s scorches, igniting them with a lingering flame!" % target.name)
 	await self.textbox_closed
@@ -1045,11 +1087,15 @@ func _on_fire_rain_pressed():
 	# Apply Fire Rain effects to the selected targets
 	for target in targets:
 		var fire_rain_damage = floor(Boss_damage * randf_range(0.5, 0.8)) # Adjust damage range as desired
+		if vampiric_frenzy_active:
+			fire_rain_damage *= 1.2
+		if is_defending == true:
+			fire_rain_damage *= 0.5
 		fire_rain_damage = await handle_redirect(target, fire_rain_damage)
 		$FireRainSound.play()
 		var is_dead = await target.took_damage(fire_rain_damage) # Assume took_damage can return a death boolean
 		target.DOT += floor(Boss_damage * 0.15) # Apply one stack of DOT
-		target.apply_debuff("Scorched Earth", 2) # Apply debuff for 3 turns
+		target.apply_debuff("Scorched Earth", 2, Boss_damage * 0.15) # Apply debuff for 3 turns
 
 		display_text("Fire rains down upon %s, dealing %d damage and scorching the earth!" % [target.name, fire_rain_damage])
 		await self.textbox_closed
@@ -1085,10 +1131,14 @@ func _on_meteor_pressed():
 	# Apply Meteor effects to the selected targets
 	for target in targets:
 		var meteor_damage = floor(Boss_damage * randf_range(0.8, 1.2))
+		if vampiric_frenzy_active:
+			meteor_damage *= 1.2
+		if is_defending == true:
+			meteor_damage *= 0.5
 		meteor_damage = await handle_redirect(target, meteor_damage) # Assume this adjusts damage as needed
 		$MeteorSound.play()
 		var is_dead = await target.took_damage(meteor_damage) # Assume took_damage returns a boolean for death
-		target.apply_debuff("Scorched Earth", 2) # Apply debuff
+		target.apply_debuff("Scorched Earth", 2, 0) # Apply debuff
 
 		display_text("A meteor strikes %s, dealing %d damage and scorching the earth!" % [target.name, meteor_damage])
 		await self.textbox_closed
@@ -1123,10 +1173,14 @@ func _on_hell_on_earth_pressed():
 	for target in targets:
 		$HellOnEarthSound.play()
 		var hell_on_earth_dmg = floor(Boss_damage * randf_range(0.3, 0.5)) # Adjust range as desired
+		if vampiric_frenzy_active:
+			hell_on_earth_dmg *= 1.2
+		if is_defending == true:
+			hell_on_earth_dmg *= 0.5
 		hell_on_earth_dmg = await handle_redirect(target, hell_on_earth_dmg)
 		var is_dead = await target.took_damage(hell_on_earth_dmg) # Assume took_damage returns a boolean indicating if the target died
 		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
-		target.apply_debuff("Scorched Earth", 4)
+		target.apply_debuff("Scorched Earth", 4, Boss_damage * 0.25)
 		if is_dead:
 			dead_enemies.append(target)
 
@@ -1139,8 +1193,6 @@ func _on_hell_on_earth_pressed():
 
 	await check_win() # Check win condition after all effects are processed
 	emit_signal("action_taken")
-
-
 
 func _on_defend_pressed():
 	is_defending = true
@@ -1222,10 +1274,13 @@ func _on_infernal_affliction_pressed():
 	else:
 		display_text("The %s rushed in to defend its allies!" % target.name)
 		await self.textbox_closed
+	
+	var dotdamage = 0
 	if vampiric_frenzy_active:
-		target.DOT += floor(Boss_damage / 3) * 1.2
+		dotdamage = floor(Boss_damage / 3) * 1.2
 	else:
-		target.DOT += floor(Boss_damage / 3)
+		dotdamage += floor(Boss_damage / 3)
+	target.DOT += dotdamage
 	$SpellSound3.play()
 	display_text("The %s is engulfed in hellfire!" % target.name)
 	await self.textbox_closed
@@ -1233,7 +1288,7 @@ func _on_infernal_affliction_pressed():
 	await self.textbox_closed
 
 
-	target.apply_debuff("Infernal Afliction", 100)  # Assuming a duration of 5 turns
+	target.apply_debuff("Infernal Afliction", 100, dotdamage)  # Assuming a duration of 5 turns
 	target = null
 	emit_signal("action_taken")
 
@@ -1263,7 +1318,7 @@ func _on_shattering_strike_pressed():
 	if enemy_defending == true:
 		final_damage *= 0.75
 	final_damage = floor(final_damage)
-	
+
 	final_damage = await handle_redirect(target, final_damage)
 
 	if target.type == "Defender":
@@ -1340,7 +1395,7 @@ func _on_guillotine_pressed(recast = false):
 		display_text("The target's health dwindles below 25%, unleashing the full might of Guillotine.")
 		await self.textbox_closed
 	final_damage = floor(final_damage)
-	
+
 	final_damage = await handle_redirect(target, final_damage)
 
 	$SpellSound1.play() # TODO: add sound
@@ -1430,3 +1485,7 @@ func _on_tier_pressed(extra_arg_0):
 	else:
 		display_text("You haven't unlocked a spell of tier %s yet!" % extra_arg_0)
 		await self.textbox_closed
+
+
+func _on_bg_music_finished():
+	$BGMusic.play()

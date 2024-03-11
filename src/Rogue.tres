@@ -248,3 +248,4 @@ speed = 11
 magic = 0
 actions = ["attack", "hide", "help"]
 audio = ExtResource("2_5gryv")
+quote = "\"I’ll need double for this.\""

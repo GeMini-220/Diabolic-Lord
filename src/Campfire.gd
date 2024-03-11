@@ -36,4 +36,6 @@ func start_fade_out(next_scene_path: String):
 	screen_fade_anim.play("fade_to_black")
 	await screen_fade_anim.animation_finished
 	get_tree().change_scene_to_file(next_scene_path)
-	
+
+func _on_bg_music_finished():
+	$BGMusic.play()

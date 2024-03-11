@@ -7,8 +7,8 @@ signal cult_name_confirmed
 @onready var screen_fade = $ScreenFade
 @onready var screen_fade_anim = $ScreenFade/ScreenFadeAnim
 
-@onready var username_edit = $UsernameEdit
-@onready var username_confirm = $UsernameEdit/UsernameConfirm
+@onready var username_edit = $UsernameWindow/HBoxContainer/VBoxContainer/UsernameEdit
+@onready var username_confirm = $UsernameWindow/HBoxContainer/VBoxContainer/UsernameConfirm
 
 
 
@@ -47,7 +47,8 @@ func _on_start_new_game_pressed():
 
 func _on_new_game_confirmation_dialog_confirmed():
 	$newGameConfirmationDialog.hide()
-	username_edit.show()
+	$UsernameWindow.show()
+	username_edit.text = "Demon Lord"
 	await username_confirm.pressed
 	
 	
@@ -77,11 +78,12 @@ func _on_cancel_button_pressed():
 	confirmation_dialog.hide()
 
 func _on_username_confirm_pressed():
-	username_edit.hide()
+	$UsernameWindow.hide()
 	var user_name = username_edit.text.strip_edges()
 	if user_name != "":
 		State.initialize_player_data()
 		State.user_name = user_name  # Update the cult name in the State
+		State.save_player_data()
 		# print("User name set to: ", user_name)  # Optional: Confirm the change in the output
 		emit_signal("cult_name_confirmed")  # Emit the signal indicating the name has been set
 		username_edit.hide()
@@ -90,11 +92,17 @@ func _on_username_confirm_pressed():
 		get_tree().change_scene_to_packed(battle_scene) # Optionally hide the LineEdit after confirmation
 	else:
 		State.initialize_player_data()
+		State.save_player_data()
 		screen_fade_anim.play("fade_out")
 		await screen_fade_anim.animation_finished
 		get_tree().change_scene_to_packed(battle_scene)
-		
-		
+
+func _on_username_window_close_requested():
+	$UsernameWindow.hide()
+
+func _on_username_edit_focus_entered():
+	username_edit.text = ""
 
 
-
+func _on_bg_music_finished():
+	$BGMusic.play()

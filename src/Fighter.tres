@@ -136,3 +136,4 @@ speed = 23
 magic = 20
 actions = ["attack", "rally", "block", "stun"]
 audio = ExtResource("2_ciwue")
+quote = "\"For the kingdom!\""

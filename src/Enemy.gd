@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var speed = enemy.speed
 @onready var magic = enemy.magic
 @onready var actions = enemy.actions
+@onready var quote = enemy.quote
 var dead = false
 var current_action
 var audio
@@ -32,7 +33,7 @@ func create_tooltip():
 	for i in actions:
 		actionString += str(i) + ". "
 	actionString = actionString.capitalize()
-	$Control.tooltip_text = "Class: %s\nDamage: %s\nSpeed: %s\nMagic: %s\nActions: %s" % [enemy.name, damage, speed, magic, actionString]
+	$Control.tooltip_text = "Class: %s\nDamage: %s\nSpeed: %s\nMagic: %s\nActions: %s\n%s" % [enemy.name, damage, speed, magic, actionString, quote]
 
 func took_damage(taken_damage) -> bool:
 	current_health = max(0,current_health - taken_damage)
@@ -75,17 +76,18 @@ func _on_button_pressed():
 	battle.target = self
 	battle.stop_selecting()
 
-func apply_debuff(name: String, duration: int):
-	debuffs[name] = duration
+func apply_debuff(name: String, duration: int, dotdamage: int):
+	debuffs[name] = [duration, dotdamage]
 
-func reduce_debuff_duration(debuff_name: String):
+func reduce_debuff_duration():
 	var keys_to_delete = []
 	for debuff in debuffs.keys():
-		debuffs[debuff] -= 1
-		if debuffs[debuff] <= 0:
+		debuffs[debuff][0] -= 1
+		if debuffs[debuff][0] <= 0:
+			enemy.DOT = max(0, enemy.DOT - debuffs[debuff][1])
 			keys_to_delete.append(debuff)
 	for key in keys_to_delete:
 		debuffs.erase(key)
 
 func has_debuff(debuff_name: String) -> bool:
-	return debuff_name in debuffs and debuffs[debuff_name] > 0
+	return debuff_name in debuffs and debuffs[debuff_name][0] > 0

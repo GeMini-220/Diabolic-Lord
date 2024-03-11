@@ -261,22 +261,33 @@ will be DELETED."
 dialog_autowrap = true
 cancel_button_text = "NO!!!!!"
 
-[node name="UsernameEdit" type="LineEdit" parent="."]
+[node name="UsernameWindow" type="Window" parent="."]
+title = "Enter Your Name"
+initial_position = 1
+size = Vector2i(500, 124)
 visible = false
-top_level = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -213.0
-offset_top = -35.0
-offset_right = 193.0
-offset_bottom = 35.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.17353, 1.01685)
+wrap_controls = true
+theme = ExtResource("4_tvqsd")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UsernameWindow"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 46
+alignment = 1
+
+[node name="Control" type="Control" parent="UsernameWindow/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UsernameWindow/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Control" type="Control" parent="UsernameWindow/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="UsernameEdit" type="LineEdit" parent="UsernameWindow/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 theme_override_colors/font_color = Color(0.960784, 0.580392, 0.705882, 1)
 theme_override_colors/font_selected_color = Color(0.960784, 0.580392, 0.705882, 1)
 theme_override_colors/font_uneditable_color = Color(0.960784, 0.580392, 0.705882, 1)
@@ -290,36 +301,14 @@ theme_override_constants/caret_width = 1
 theme_override_fonts/font = ExtResource("2_wgoxx")
 theme_override_font_sizes/font_size = 38
 theme_override_styles/normal = SubResource("StyleBoxEmpty_bp2ec")
-placeholder_text = "Username"
 alignment = 1
 max_length = 12
 expand_to_text_length = true
 selecting_enabled = false
 
-[node name="UsernameConfirm" type="Button" parent="UsernameEdit"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -154.855
-offset_top = 6.70746
-offset_right = 98.1453
-offset_bottom = 37.7075
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(1.20211, 1.6282)
-theme_override_colors/font_color = Color(0.309804, 0.0941176, 0.027451, 0.945098)
-theme_override_colors/font_pressed_color = Color(0.792157, 0.231373, 0.466667, 1)
-theme_override_colors/font_hover_color = Color(0.847059, 0, 0.254902, 1)
-theme_override_colors/font_focus_color = Color(0.792157, 0.231373, 0.466667, 1)
-theme_override_colors/font_hover_pressed_color = Color(0.866667, 0.290196, 0.52549, 1)
-theme_override_colors/font_disabled_color = Color(0.298039, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0.890196, 0.564706, 0.670588, 0.745098)
-theme_override_constants/outline_size = 5
-theme_override_fonts/font = ExtResource("3_7t56n")
-theme_override_font_sizes/font_size = 22
+[node name="UsernameConfirm" type="Button" parent="UsernameWindow/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("4_tvqsd")
 text = "let the Suffering Begin!"
 
 [node name="ScreenFade" type="ColorRect" parent="."]
@@ -350,4 +339,7 @@ autoplay = true
 [connection signal="pressed" from="ConfirmationDialog/HBoxContainer/VBoxContainer/cancel_button" to="." method="_on_cancel_button_pressed"]
 [connection signal="canceled" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_canceled"]
 [connection signal="confirmed" from="newGameConfirmationDialog" to="." method="_on_new_game_confirmation_dialog_confirmed"]
-[connection signal="pressed" from="UsernameEdit/UsernameConfirm" to="." method="_on_username_confirm_pressed"]
+[connection signal="close_requested" from="UsernameWindow" to="." method="_on_username_window_close_requested"]
+[connection signal="focus_entered" from="UsernameWindow/HBoxContainer/VBoxContainer/UsernameEdit" to="." method="_on_username_edit_focus_entered"]
+[connection signal="pressed" from="UsernameWindow/HBoxContainer/VBoxContainer/UsernameConfirm" to="." method="_on_username_confirm_pressed"]
+[connection signal="finished" from="BGMusic" to="." method="_on_bg_music_finished"]

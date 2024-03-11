@@ -57,7 +57,7 @@ func initialize_player_data() -> void:
 		"currentBattle": 0,
 		"player_level": 0,
 		"tier_unlocked": 0,
-		"spells_unlocked": ['', '', '', ''],
+		"spells_unlocked": ['', '', 'Guillotine', ''],
 		"generic_unlocked": ['', '', '', '', ''],
 	}
 	apply_player_data(new_player_data)
