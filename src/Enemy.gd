@@ -35,10 +35,11 @@ func create_tooltip():
 	actionString = actionString.capitalize()
 	$Control.tooltip_text = "Class: %s\nDamage: %s\nSpeed: %s\nMagic: %s\nActions: %s\n%s" % [enemy.name, damage, speed, magic, actionString, quote]
 
-func took_damage(taken_damage) -> bool:
+func took_damage(taken_damage, anim="default") -> bool:
 	current_health = max(0,current_health - taken_damage)
 	battle.set_health($ProgressBar, current_health, health)
 	
+	await effect_animation(anim)
 	await play_animation_player("damaged")
 	
 	if current_health == 0:
@@ -62,6 +63,15 @@ func recieve_shielding(shielding):
 func turn():
 	var target_number = randi() % actions.size()
 	current_action = actions[target_number]
+
+func effect_animation(animation):
+	var anim_node
+	if animation in ["guillotine", "meteor"]:
+		anim_node = $EffectAnimationLarge
+	else:
+		anim_node = $EffectAnimation
+	anim_node.play(animation)
+	await anim_node.animation_finished
 
 func play_animation(animation):
 	$AnimatedSprite2D.play(animation)
