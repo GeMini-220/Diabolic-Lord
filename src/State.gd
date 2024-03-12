@@ -57,7 +57,22 @@ func initialize_player_data() -> void:
 		"currentBattle": 0,
 		"player_level": 0,
 		"tier_unlocked": 0,
-		"spells_unlocked": ['', '', 'Guillotine', ''],
+		"spells_unlocked": ['', '', '', ''],
+		"generic_unlocked": ['', '', '', '', ''],
+	}
+	apply_player_data(new_player_data)
+	
+func initialize_cheater_data() -> void:
+	var new_player_data = {
+		"current_health": 666,
+		"max_health": 666,
+		"damage": 30,
+		"speed": 25,
+		"magic": 25,
+		"currentBattle": 0,
+		"player_level": 9,
+		"tier_unlocked": 4,
+		"spells_unlocked": ['', '', '', ''],
 		"generic_unlocked": ['', '', '', '', ''],
 	}
 	apply_player_data(new_player_data)
