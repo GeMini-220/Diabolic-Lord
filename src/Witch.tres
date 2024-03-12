@@ -150,3 +150,4 @@ speed = 28
 magic = 20
 actions = ["attack", "heal", "hex", "help"]
 audio = ExtResource("2_xjp5h")
+quote = ""

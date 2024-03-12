@@ -158,17 +158,17 @@ func update_tooltip():
 	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
 	var tier_spells_defs = {
 		"Fireball": "Hurl a fireball at that enemy, dealing damage on impact.",
-		"Fire Rain": "Select 2 enemies. Those enemies are applied 3 stacks of Scorched Earth.",
+		"Fire\nRain": "Select 2 enemies. Those enemies are applied 3 stacks of Scorched Earth.",
 		"Meteor": "Deal Heavy Damage to 3 random enemies.",
-		"Hell on Earth": "Scorched Earth is now applied every turn, with increasing damage every turn.",
-		"Shattering Strike": "Deals %s damage to one target and stun them for %s turn." % [floor(Boss_damage * 0.75), 1 + true_form],
+		"Hell\non\nEarth": "Scorched Earth is now applied every turn, with increasing damage every turn.",
+		"Shattering\nStrike": "Deals %s damage to one target and stun them for %s turn." % [floor(Boss_damage * 0.75), 1 + true_form],
 		"Counter": "Guard for %s turn. Return 2x the pre-mitigation damage dealt to you." % (1 + true_form),
 		"Guillotine": "Deals %s damage to one target. If the target is below %s%% hp, they take double damage from this ability. If they die, recast on a random target." % [floor(Boss_damage), guillotine_upperbound * 100],
-		"True Form": "All your stats by 50%% for the rest of the fight. Gain 20%% lifesteal. Shattering Strike and Counter buff/debuff increases by 1 turn. Guillotine %s%% -> 35%%." % (guillotine_upperbound * 100),
-		"Blood Siphon": "Choose an enemy. They take damage while you heal the damage taken.",
-		"Red Rush": "Choose a target. Fly up into the air, causing all attacks to miss, then dive bomb one enemy, dealing massive damage.",
-		"Noble Charm": "Choose 1 enemy. For the next 3 turns, they attack their allies.",
-		"Vampiric Frenzy": "For 5 turns, all your attacks and skills heal you for the full amount and do 20% more damage. Enemies you damage have a 50% chance to become charmed.",
+		"True\nForm": "All your stats by 50%% for the rest of the fight. Gain 20%% lifesteal. Shattering Strike and Counter buff/debuff increases by 1 turn. Guillotine %s%% -> 35%%." % (guillotine_upperbound * 100),
+		"Blood\nSiphon": "Choose an enemy. They take damage while you heal the damage taken.",
+		"Red\nRush": "Choose a target. Fly up into the air, causing all attacks to miss, then dive bomb one enemy, dealing massive damage.",
+		"Noble\nCharm": "Choose 1 enemy. For the next 3 turns, they attack their allies.",
+		"Vampiric\nFrenzy": "For 5 turns, all your attacks and skills heal you for the full amount and do 20% more damage. Enemies you damage have a 50% chance to become charmed.",
 	}
 	for i in range(4):
 		var spell = get_node("TierSpellsPanel/TierSpells/%s" % str(i+1))

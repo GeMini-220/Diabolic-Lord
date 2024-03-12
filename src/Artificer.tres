@@ -234,3 +234,4 @@ speed = 25
 magic = 20
 actions = ["attack", "redirect", "rally"]
 audio = ExtResource("2_fv2sb")
+quote = ""
