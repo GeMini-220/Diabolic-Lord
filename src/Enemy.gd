@@ -94,7 +94,7 @@ func reduce_debuff_duration():
 	for debuff in debuffs.keys():
 		debuffs[debuff][0] -= 1
 		if debuffs[debuff][0] <= 0:
-			enemy.DOT = max(0, enemy.DOT - debuffs[debuff][1])
+			DOT = max(0, DOT - debuffs[debuff][1])
 			keys_to_delete.append(debuff)
 	for key in keys_to_delete:
 		debuffs.erase(key)

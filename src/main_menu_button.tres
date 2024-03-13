@@ -4,7 +4,7 @@
 
 [resource]
 default_font = ExtResource("1_umgg1")
-default_font_size = 30
+default_font_size = 35
 Button/colors/font_hover_color = Color(1, 0.278431, 0.494118, 1)
 Button/fonts/font = ExtResource("1_umgg1")
 Label/font_sizes/font_size = 30

@@ -251,7 +251,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 tooltip_text = "Shattering Strike
 Tier 1 Spell
-Effect: Deal damage to an enemy and stun them for 1 turn "
+Effect: Deal low-medium damage to a target and stun them for 1 turn."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("24_5nm54")
@@ -263,7 +263,7 @@ texture_disabled = ExtResource("10_fpb5p")
 layout_mode = 2
 tooltip_text = "Fireball
 Tier 1 Spell
-Effect: Hurl a fireball at that enemy, dealing damage on impact"
+Effect: Hurl a fireball at a target, dealing medium damage on impact."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("19_jthe1")
@@ -275,7 +275,7 @@ texture_disabled = ExtResource("7_7mik7")
 layout_mode = 2
 tooltip_text = "Blood Siphon
 Tier 1 Spell:
-Choose an enemy. They take damage while you heal the damage taken"
+Choose a target. They take low-medium damage while you heal the damage taken."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("22_i2mcc")
@@ -335,7 +335,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 tooltip_text = "Counter
 Tier 2 Spell
-Effect: Guard for 1 turn. Return 2x the pre-mitigation damage dealt to you "
+Effect: Guard for 1 turn. Return 2x the pre-mitigation damage dealt to you."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("16_ntukx")
@@ -347,7 +347,7 @@ texture_disabled = ExtResource("5_dnau8")
 layout_mode = 2
 tooltip_text = "Fire Rain
 Tier 2 Spell
-Effect: Select 2 enemies. Those enemies are applied 3 stacks of Scorched Earth "
+Effect: Select 2 enemies. Those enemies are applied 3 stacks of Scorched Earth."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("27_u5jll")
@@ -359,8 +359,7 @@ texture_disabled = ExtResource("11_m3i6t")
 layout_mode = 2
 tooltip_text = "Red Rush
 Tier 2 Spell
-Effect: Choose a target.
-Fly up into the air, causing all attacks to miss, then dive bomb one enemy, dealing massive damage"
+Effect: Fly up into the air, causing all attacks to miss, then dive bomb a target, dealing heavy damage."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("31_l1uj8")
@@ -420,7 +419,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 tooltip_text = "Guillotine
 Tier 3 Spell
-Effect: If the enemy is below 25% hp, they take double damage from this ability. If they die, recast on a random target "
+Effect: If the enemy is below Magic% hp, they take double damage from this ability. If they die, recast on a random target."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("30_hgjui")
@@ -432,7 +431,7 @@ texture_disabled = ExtResource("13_52jj6")
 layout_mode = 2
 tooltip_text = "Meteor
 Tier 3 Spell
-Effect: Deal Heavy Damage to 3 random enemies"
+Effect: Deal heavy damage to 3 random enemies."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("33_qn66g")
@@ -444,7 +443,7 @@ texture_disabled = ExtResource("15_0nmsp")
 layout_mode = 2
 tooltip_text = "Noble Charm
 Tier 3 Spell
-Effect: Choose 1 enemy. For the next 3 turns, they attack their allies."
+Effect: Choose a target. For the next 3 turns, they attack their allies."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("40_sqlll")
@@ -504,8 +503,9 @@ layout_mode = 2
 size_flags_horizontal = 4
 tooltip_text = "True Form
 Tier 4 Spell
-Effect: All your stats increase by 50% for the rest of the fight 
-Gain 20% lifesteal"
+Effect: All your stats increase by 50% for the rest of the fight.
+Gain Magic% lifesteal.
+Shattering Strike and Counter buff/debuff increases by 1 turn."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("36_agbuu")
@@ -517,7 +517,7 @@ texture_disabled = ExtResource("17_k4pg6")
 layout_mode = 2
 tooltip_text = "Hell on Earth
 Tier 4 Spell
-Effect: Scorched Earth is now applied every turn, with increasing damage every turn. "
+Effect: Scorched Earth is now applied every turn with Magic% increasing damage."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("39_4syqt")
@@ -529,8 +529,8 @@ texture_disabled = ExtResource("19_4mlua")
 layout_mode = 2
 tooltip_text = "Vampiric Frenzy
 Tier 4 Spell
-Effect: For 5 turns, all your attacks and skills heal you for the full amount and do 20% more damage. 
-Enemies you damage have a 50% chance to become charmed"
+Effect: For 5 turns, all your attacks and skills heal you for the full amount and do Magic% more damage. 
+Enemies you damage have a 50% chance to become charmed."
 disabled = true
 toggle_mode = true
 texture_normal = ExtResource("49_kemt3")

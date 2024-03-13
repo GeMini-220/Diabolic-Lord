@@ -1,4 +1,4 @@
-[gd_scene load_steps=245 format=3 uid="uid://dv2ejdyrw8bpk"]
+[gd_scene load_steps=296 format=3 uid="uid://dv2ejdyrw8bpk"]
 
 [ext_resource type="Script" path="res://src/Enemy.gd" id="1_ix17e"]
 [ext_resource type="Resource" uid="uid://bl8lqjm2q317l" path="res://src/Rogue.tres" id="2_fuon7"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://bp4sd4wuxnixq" path="res://Image/Fighter-A1-Sheet.png" id="4_i2v28"]
 [ext_resource type="Texture2D" uid="uid://bwu5ye0vatx75" path="res://Image/Healer-A2-Sheet.png" id="5_xtehj"]
 [ext_resource type="Texture2D" uid="uid://bgogba3c60tn0" path="res://Image/Mage-A1-Sheet.png" id="6_2m6li"]
+[ext_resource type="Texture2D" uid="uid://25mq5j6lpbt3" path="res://Image/select_hover.png" id="7_gmccv"]
+[ext_resource type="Texture2D" uid="uid://ew2nku2d7v5l" path="res://Image/Artificer-A1-Sheet.png" id="7_khd2s"]
+[ext_resource type="Texture2D" uid="uid://cmqf41kvo2m3v" path="res://Image/Witch-A1-Sheet.png" id="8_0vaid"]
 [ext_resource type="Texture2D" uid="uid://cnuictnqjx24t" path="res://Image/spells/C1-BloodSiphon-Sheet.png" id="8_smy3q"]
 [ext_resource type="Texture2D" uid="uid://vcto8gn1wc0g" path="res://Image/spells/B2c-Counter(trigger,VFXonTargetEnemy)-Sheet.png" id="9_qv31p"]
 [ext_resource type="Texture2D" uid="uid://ds4secgfjw06m" path="res://Image/spells/A1-Fireball-Sheet.png" id="10_p2h2b"]
@@ -16,9 +19,6 @@
 [ext_resource type="Texture2D" uid="uid://c4dhrageecnpx" path="res://Image/spells/C3-NobleCharm-Sheet.png" id="14_5d51n"]
 [ext_resource type="Texture2D" uid="uid://dml8iyq8vr007" path="res://Image/spells/C2b-RedRush(Damage)-Sheet.png" id="15_t2csg"]
 [ext_resource type="Texture2D" uid="uid://56x4l64741wj" path="res://Image/spells/B1-ShatteringStrike-Sheet.png" id="16_b0r32"]
-[ext_resource type="Texture2D" uid="uid://25mq5j6lpbt3" path="res://Image/select_hover.png" id="7_gmccv"]
-[ext_resource type="Texture2D" uid="uid://ew2nku2d7v5l" path="res://Image/Artificer-A1-Sheet.png" id="7_khd2s"]
-[ext_resource type="Texture2D" uid="uid://cmqf41kvo2m3v" path="res://Image/Witch-A1-Sheet.png" id="8_0vaid"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sw7vv"]
 size = Vector2(230, 229)

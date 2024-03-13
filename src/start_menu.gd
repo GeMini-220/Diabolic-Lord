@@ -93,9 +93,10 @@ func _on_username_confirm_pressed():
 	else:
 		State.initialize_player_data()
 	State.save_player_data()
-	screen_fade_anim.play("fade_out")
-	await screen_fade_anim.animation_finished
-	get_tree().change_scene_to_packed(battle_scene)
+	#screen_fade_anim.play("fade_out")
+	#await screen_fade_anim.animation_finished
+	#get_tree().change_scene_to_packed(battle_scene)
+	start_fade_out("res://MainScenes/lore.tscn")
 
 func _on_username_window_close_requested():
 	$UsernameWindow.hide()
