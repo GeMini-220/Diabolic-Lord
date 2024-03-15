@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=3 uid="uid://cmm365jef52ho"]
+[gd_scene load_steps=96 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bti8snfww6gou" path="res://Image/Battle-V1.png" id="2_okyx3"]
@@ -30,6 +30,8 @@
 [ext_resource type="AudioStream" uid="uid://c441ccykxnspj" path="res://audio/InfernoSounds/fire_rain_sound.wav" id="22_fl6dg"]
 [ext_resource type="AudioStream" uid="uid://cif6qqqfk4xxh" path="res://audio/InfernoSounds/meteor_sound.wav" id="23_fle55"]
 [ext_resource type="AudioStream" uid="uid://cunk365utjae6" path="res://audio/InfernoSounds/hell_on_earth_sound.wav" id="24_5ib0j"]
+[ext_resource type="AudioStream" uid="uid://bm4kdosa31v6g" path="res://audio/EndBattle/Player_Wins.wav" id="31_0chx7"]
+[ext_resource type="AudioStream" uid="uid://t6ytv7akbi21" path="res://audio/EndBattle/Player_Loses.wav" id="32_ve8cu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xcjfb"]
 atlas = ExtResource("8_axo2t")
@@ -714,6 +716,22 @@ libraries = {
 "": SubResource("AnimationLibrary_4cudh")
 }
 
+[node name="DemonTooltip" type="Control" parent="DemonLord"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -26.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+tooltip_text = "Placeholder"
+
 [node name="ActionsPanel" type="Panel" parent="."]
 visible = false
 layout_mode = 1
@@ -1098,6 +1116,7 @@ anchor_mode = 0
 [node name="BGMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_wh8s1")
 volume_db = -80.0
+autoplay = true
 
 [node name="SpellSound1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("12_hjm0n")
@@ -1174,6 +1193,12 @@ libraries = {
 "": SubResource("AnimationLibrary_32g0i")
 }
 autoplay = "fade_in"
+
+[node name="PlayerWins" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("31_0chx7")
+
+[node name="PlayerLoses" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("32_ve8cu")
 
 [connection signal="pressed" from="ActionsPanel/Actions/Spells" to="." method="_on_spells_pressed"]
 [connection signal="pressed" from="ActionsPanel/Actions/Defend" to="." method="_on_defend_pressed"]

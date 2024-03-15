@@ -87,6 +87,7 @@ func animate_button(button, anim):
 # Function for the player to choose a spell from a specific path and tier
 func _on_tier_pressed(path, tier):
 	if path in [INFERNO, DEMON_KNIGHT, VAMPIRE_LORD] and tier <= State.tier_unlocked:
+		$Fire.play()
 		var spell_name = skill_tree[path][tier]
 		get_upgrade(spell_name, tier * 2)
 		State.spells_unlocked[tier-1] = spell_name
@@ -99,6 +100,7 @@ func _on_tier_pressed(path, tier):
 func _on_generic_pressed(upgrade_choice, level):
 	var num_upgrade = State.generic_unlocked[ceil(level / 2.0)-1]
 	if upgrade_available and num_upgrade != upgrade_choice:
+		$Fire.play()
 		match upgrade_choice:
 			"Damage":
 				State.damage += GENERIC_UPGRADES["Damage"]
