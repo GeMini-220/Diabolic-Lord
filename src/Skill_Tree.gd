@@ -8,7 +8,7 @@ const VAMPIRE_LORD = "Vampire Lord"
 const GENERIC_UPGRADES = {
 	"Damage": 8,  # Increase damage by 8
 	"Speed": 5,   # Decrease speed by 5
-	"Magic": 5,   # Increase magic by 5
+	"Magic": 10,   # Increase magic by 10
 	"Health": 111  # Increase max and current health by 111
 }
 
@@ -39,6 +39,9 @@ func _ready():
 	if State.player_level < State.currentBattle:
 		level_up()
 	$TextBoxes/Upgrade.text = "Current level: %s\nCurrent spell tier: %s" % [State.player_level, State.tier_unlocked]
+	for i in ["3", "5", "7", "9"]:
+		for j in ["Damage", "Speed", "Magic", "Health"]:
+			get_node("Tree/PanelContainer/HBoxContainer/Tree Levels/Level %s/%s" % [i, j]).tooltip_text = get_node("Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1/%s" % j).tooltip_text
 
 # Function to handle leveling up
 func level_up():
@@ -71,7 +74,7 @@ func get_upgrade(button_name, level):
 	upgrade_available = is_tier and State.spells_unlocked[the_tier] != ''
 	if !upgrade_available:
 		$TextBoxes/Explanation.text = explanation_text
-	
+
 	var button = get_node("Tree/PanelContainer/HBoxContainer/Tree Levels/Level %s/%s" % [level, button_name])
 	animate_button(button, "burn")
 
@@ -99,22 +102,25 @@ func _on_tier_pressed(path, tier):
 
 func _on_generic_pressed(upgrade_choice, level):
 	var num_upgrade = State.generic_unlocked[ceil(level / 2.0)-1]
+	if State.user_name == "Cheater":
+		upgrade_available = true
 	if upgrade_available and num_upgrade != upgrade_choice:
 		$Fire.play()
 		match upgrade_choice:
 			"Damage":
 				State.damage += GENERIC_UPGRADES["Damage"]
-				print(State.damage)
+				# print(State.damage)
 			"Speed":
 				State.speed -= GENERIC_UPGRADES["Speed"] - State.generic_unlocked.count("Speed") # ensures the player gains 1 turn per round for every speed upgrade
-				print(State.speed)
+				# print(State.speed)
 			"Magic":
 				State.magic += GENERIC_UPGRADES["Magic"]
-				print(State.magic)
+				# print(State.magic)
 			"Health":
 				State.max_health += GENERIC_UPGRADES["Health"]
 				State.current_health += GENERIC_UPGRADES["Health"]
-				print(State.max_health)
+				# print(State.max_health)
+				# print(State.current_health)
 		State.generic_unlocked[ceil(level / 2.0)-1] = upgrade_choice
 		get_upgrade(upgrade_choice, level)
 		$TextBoxes/Upgrade.text = "You've increased your %s!" % upgrade_choice
@@ -122,10 +128,11 @@ func _on_generic_pressed(upgrade_choice, level):
 			upgrade.disabled = upgrade.name != upgrade_choice
 	else:
 		if get_node("Tree/PanelContainer/HBoxContainer/Tree Levels/Level %s/%s" % [level, upgrade_choice]).button_pressed:
-			$TextBoxes/Upgrade.text = "You've already chosen that!"
+			#$TextBoxes/Upgrade.text = "You've already chosen that!"
+			pass
 		else:
 			$TextBoxes/Upgrade.text = "You can't choose that!"
-	
+
 	#State.generic_unlocked[ceil(level / 2)] = upgrade_choice
 	#for upgrade in State.generic_unlocked:
 		#match upgrade:

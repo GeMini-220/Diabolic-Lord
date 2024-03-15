@@ -80,22 +80,23 @@ func _on_cancel_button_pressed():
 func _on_username_confirm_pressed():
 	$UsernameWindow.hide()
 	var user_name = username_edit.text.strip_edges()
-	if user_name != "":
-		State.initialize_player_data()
-		State.user_name = user_name  # Update the cult name in the State
-		State.save_player_data()
-		# print("User name set to: ", user_name)  # Optional: Confirm the change in the output
+	if user_name == "Cheater":
+		State.initialize_cheater_data()
+		State.user_name = user_name
 		emit_signal("cult_name_confirmed")  # Emit the signal indicating the name has been set
 		username_edit.hide()
-		screen_fade_anim.play("fade_out")
-		await screen_fade_anim.animation_finished
-		get_tree().change_scene_to_packed(battle_scene) # Optionally hide the LineEdit after confirmation
+	elif user_name != "":
+		State.initialize_player_data()
+		State.user_name = user_name  # Update the cult name in the State
+		emit_signal("cult_name_confirmed")  # Emit the signal indicating the name has been set
+		username_edit.hide()
 	else:
 		State.initialize_player_data()
-		State.save_player_data()
-		screen_fade_anim.play("fade_out")
-		await screen_fade_anim.animation_finished
-		get_tree().change_scene_to_packed(battle_scene)
+	State.save_player_data()
+	#screen_fade_anim.play("fade_out")
+	#await screen_fade_anim.animation_finished
+	#get_tree().change_scene_to_packed(battle_scene)
+	start_fade_out("res://MainScenes/lore.tscn")
 
 func _on_username_window_close_requested():
 	$UsernameWindow.hide()

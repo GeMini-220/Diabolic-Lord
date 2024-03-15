@@ -17,7 +17,6 @@ var stunned = false
 var Boss_damage = State.damage
 var Boss_magic = State.magic
 var Boss_speed = State.speed
-var guillotine_upperbound = 0.25
 var Boss_lifesteal = 0
 var true_form = 0
 var shattering_strike_cd = 0
@@ -41,6 +40,7 @@ var redirect_active = false
 var redirect_target = null
 var infernal_affliction_active = false
 var user_name = State.user_name
+var dread_forge_cd = 0
 
 @onready var screen_fade = $ScreenFade
 @onready var screen_fade_anim = $ScreenFade/ScreenFadeAnimPlayer
@@ -90,7 +90,7 @@ func start_fade_out(next_scene_path: String):
 
 
 func _ready():
-
+	$PlayerPanel/PlayerData/Label.text = State.user_name
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 	State.currentBattle += 1
 	$DemonLord.play("idle")
@@ -154,22 +154,22 @@ func choose_random_enemies():
 
 func update_tooltip():
 	$SpellsPanel/Spells/Attack.tooltip_text = "Basic attack, deals %s damage to one target." % floor(Boss_damage)
-	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increases your damage by %s%% for the remainder of the battle." % Boss_magic
-	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Traps one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
+	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increase your damage by Magic% for the remainder of the battle."
+	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Trap one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
 	$DemonLord/DemonTooltip.tooltip_text = "Name: %s\nDamage: %s\nSpeed: %s\nMagic: %s\nLifesteal: %s" % [user_name, Boss_damage, Boss_speed, Boss_magic, Boss_lifesteal]
 	var tier_spells_defs = {
-		"Fireball": "Hurl a fireball at that enemy, dealing damage on impact.",
-		"Fire Rain": "Select 2 enemies. Those enemies are applied 3 stacks of Scorched Earth.",
-		"Meteor": "Deal Heavy Damage to 3 random enemies.",
-		"Hell on Earth": "Scorched Earth is now applied every turn, with increasing damage every turn.",
-		"Shattering Strike": "Deals %s damage to one target and stun them for %s turn." % [floor(Boss_damage * 0.75), 1 + true_form],
-		"Counter": "Guard for %s turn. Return 2x the pre-mitigation damage dealt to you." % (1 + true_form),
-		"Guillotine": "Deals %s damage to one target. If the target is below %s%% hp, they take double damage from this ability. If they die, recast on a random target." % [floor(Boss_damage), guillotine_upperbound * 100],
-		"True Form": "All your stats by 50%% for the rest of the fight. Gain 20%% lifesteal. Shattering Strike and Counter buff/debuff increases by 1 turn. Guillotine %s%% -> 35%%." % (guillotine_upperbound * 100),
-		"Blood Siphon": "Choose an enemy. They take damage while you heal the damage taken.",
-		"Red Rush": "Choose a target. Fly up into the air, causing all attacks to miss, then dive bomb one enemy, dealing massive damage.",
-		"Noble Charm": "Choose 1 enemy. For the next 3 turns, they attack their allies.",
-		"Vampiric Frenzy": "For 5 turns, all your attacks and skills heal you for the full amount and do 20% more damage. Enemies you damage have a 50% chance to become charmed.",
+		"Fireball": "Hurl a fireball at a target, dealing medium damage on impact.",
+		"Fire\nRain": "Select 2 targets.\nThose enemies are applied 3 stacks of Scorched Earth.",
+		"Meteor": "Deal heavy damage to 3 random enemies.",
+		"Hell\non\nEarth": "Scorched Earth is now applied every turn with Magic% increasing damage.",
+		"Shattering\nStrike": "Deal low-medium damage to a target,\nand stun them for %s turn." % [1 + true_form],
+		"Counter": "Guard for %s turn.\nReturn 2x the pre-mitigation damage dealt to you." % (1 + true_form),
+		"Guillotine": "Deal medium damage to a target.\nIf the target is below Magic% hp, they take double damage from this ability.\nIf they die, recast on a random target.",
+		"True\nForm": "All your stats increase by 50% for the rest of the fight.\nGain Magic% lifesteal.\nShattering Strike and Counter buff/debuff increases by 1 turn.",
+		"Blood\nSiphon": "Choose a target.\nThey take low-medium damage while you heal the damage taken.",
+		"Red\nRush": "Fly up into the air, causing all attacks to miss,\nthen dive bomb a target, dealing heavy damage.",
+		"Noble\nCharm": "Choose a target.\nFor the next 3 turns, they attack their allies.",
+		"Vampiric\nFrenzy": "For 5 turns, all your attacks and skills heal you for the full amount and do Magic% more damage.\nEnemies you damage have a 50% chance to become charmed.",
 	}
 	for i in range(4):
 		var spell = get_node("TierSpellsPanel/TierSpells/%s" % str(i+1))
@@ -196,7 +196,7 @@ func enemy_turn(enemy):
 
 	# Apply "Scorched Earth" DOT effect if it's active before any actions are taken
 	if hell_on_earth_active:
-		enemy.DOT *= 1.2
+		enemy.DOT *= 1 + Boss_magic / 100
 
 	if enemy.has_debuff("Scorched Earth") and enemy.DOT > 0:
 		$ScorchedEarthSound.play()
@@ -354,8 +354,9 @@ func enemy_attack(enemy):
 		var countering_damage = final_damage * 2
 
 		countering_turn -= 1
+		$DemonLord/EffectAnimation.play("counter trigger")
 		$dk_spell_2_counter.play()
-		await enemy.took_damage(countering_damage)
+		await enemy.took_damage(countering_damage, "counter")
 		display_text("You countered the attack!")
 		await self.textbox_closed
 
@@ -434,7 +435,10 @@ func enemy_help(enemy):
 	else:
 		help_target.DOT = max(0, help_target.DOT - 5)
 		help_target.DOT = floor(help_target.DOT)
-		display_text("The %s is saving %s from their infernal prison!" % [enemy.name, help_target.name])
+		if enemy.name == help_target.name:
+			display_text("The %s is saving themself from their infernal prison!" % [enemy.name])
+		else:
+			display_text("The %s is saving %s from their infernal prison!" % [enemy.name, help_target.name])
 		await self.textbox_closed
 		await enemy.play_animation("attack")
 		if help_target.DOT == 0:
@@ -635,7 +639,7 @@ func process():
 					fly_away.play("fly_back")
 					await fly_away.animation_finished
 					red_rush_damage = await handle_redirect(red_rush_target, red_rush_damage)
-					await red_rush_target.took_damage(red_rush_damage)
+					await red_rush_target.took_damage(red_rush_damage, "red rush")
 					await check_win()
 					if game_over:
 						break
@@ -676,16 +680,16 @@ func end_game():
 		display_text("Against your unstoppable might, the heroes have lost.")
 		await self.textbox_closed
 		if State.currentBattle >= 10:
-			display_text("The world will see a dark age under the rule of %s." %user_name)
-			await self.textbox_closed
-			display_text("The living will suffer, and the dead will rise.")
-			await self.textbox_closed
-			display_text("And that is...")
-			await self.textbox_closed
-			display_text("The End.")
-			await self.textbox_closed
+			#display_text("The world will see a dark age under the rule of %s." %user_name)
+			#await self.textbox_closed
+			#display_text("The living will suffer, and the dead will rise.")
+			#await self.textbox_closed
+			#display_text("And that is...")
+			#await self.textbox_closed
+			#display_text("The End.")
+			#await self.textbox_closed
 			await $PlayerWins.finished
-			start_fade_out("res://MainScenes/start_menu.tscn")
+			start_fade_out("res://MainScenes/lore.tscn")
 		else:
 			State.save_player_data()
 			await $PlayerWins.finished
@@ -761,19 +765,19 @@ func no_valid_target() -> bool:
 	return no_valid
 
 func _on_blood_siphon_pressed():
-	var LowDamageRange = 0.8
-	var HighDamageRange = 1.1
+	var LowDamageRange = 0.6
+	var HighDamageRange = 1.6
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
 	if await no_valid_target():
 		return
 	$TierSpellsPanel.hide()
 	if vampiric_frenzy_active:
-		LowDamageRange *= 1.5
-		HighDamageRange *= 1.5
+		LowDamageRange *= 1 + Boss_magic / 100
+		HighDamageRange *= 1 + Boss_magic / 100
 
 	var enemy_defending = false	
-	if target == null:
+	if target == null or target.dead:
 		await select_enemy()
 	else:
 		display_text("The %s senses the impending danger and prepares to counter!" % target.name)
@@ -791,7 +795,7 @@ func _on_blood_siphon_pressed():
 	var blood_siphon_damage = floor(Boss_damage * randf_range(LowDamageRange, HighDamageRange))
 	blood_siphon_damage = await handle_redirect(target, blood_siphon_damage) # Adjust the range based on desired spell power
 	$VL_BS_Sound.play()
-	await target.took_damage(blood_siphon_damage)
+	await target.took_damage(blood_siphon_damage, "blood siphon")
 
 	display_text("The %s cast Blood Siphon, you drain the life force of your enemy dealing %s damage." % [user_name, blood_siphon_damage])
 	await self.textbox_closed
@@ -824,8 +828,8 @@ func household_passive():
 	var LowDamageRange = 0.4
 	var HighDamageRange = 0.6
 	if vampiric_frenzy_active:
-		LowDamageRange *= 1.2
-		HighDamageRange *= 1.2
+		LowDamageRange *= 1 + Boss_magic / 100
+		HighDamageRange *= 1 + Boss_magic / 100
 
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
@@ -839,7 +843,7 @@ func household_passive():
 	# Select an enemy from available targets.
 	await select_enemy()  # This should now ensure there's at least one target available.
 
-	if target == null:
+	if target == null or target.dead:
 		display_text("Household passive activated, but no target was selected.")
 		await self.textbox_closed
 		return  # Exit if no target was selected after all.
@@ -887,15 +891,15 @@ func _on_red_rush_pressed():
 	display_text("Select a target for Red Rush.")
 	await select_enemy()
 
-	if target == null:
+	if target == null or target.dead:
 		display_text("No target was selected for Red Rush.")
 		await self.textbox_closed
 		return
 
-	red_rush_damage = floor(Boss_damage * randf_range(0.8, 1.4))
+	red_rush_damage = floor(Boss_damage * randf_range(1.25, 1.75))
 	
 	if vampiric_frenzy_active:
-		red_rush_damage *= 1.5
+		red_rush_damage *= 1 + Boss_magic / 100
 	if is_defending == true:
 		red_rush_damage *= 0.5
 	
@@ -906,6 +910,7 @@ func _on_red_rush_pressed():
 	await self.textbox_closed
 
 	$RedRushSound1.play()
+	$DemonLord/EffectAnimation.play("red rush")
 	fly_away.play("fly_away")
 
 	red_rush_cd = 3
@@ -951,6 +956,7 @@ func _on_vampiric_frenzy_pressed():
 		return
 	$TierSpellsPanel.hide()
 	activate_vampiric_frenzy()
+	$DemonLord/EffectAnimation.play("vampiric frenzy")
 	$VL_VF_Sound.play()
 	display_text("Vampiric Frenzy activated! Vampire Lord abilities will now heal you for 100% of the damage you deal and have a chance 50% to charm the enemy.")
 	await self.textbox_closed
@@ -964,9 +970,13 @@ func activate_vampiric_frenzy():
 
 func apply_noble_charm(target):
 	if "noble_charm" not in target.debuffs:
+		target.get_node("EffectAnimation").play("noble charm")
 		target.debuffs["noble_charm"] = [3, 0]  # Lasts for 3 turns/actions
 
 func end_of_turn():
+	if dread_forge_cd > 0:
+		dread_forge_cd -= 1
+
 	if shattering_strike_cd > 0:
 		shattering_strike_cd -= 1
 	if counter_cd > 0:
@@ -1007,7 +1017,7 @@ func _on_fireball_pressed():
 	$TierSpellsPanel.hide()
 
 	var enemy_defending = false
-	if target == null:
+	if target == null or target.dead:
 		await select_enemy()
 	else:
 		display_text("You conjure a mighty fireball and hurl it at %s!" % target.name)
@@ -1015,17 +1025,17 @@ func _on_fireball_pressed():
 		enemy_defending = true
 	$FireballSound.play()
 	# Calculate fireball damage within a medium range
-	var fireball_damage = floor(Boss_damage * randf_range(0.7, 1.0))
+	var fireball_damage = floor(Boss_damage * randf_range(0.8, 1.8))
 	
 	if vampiric_frenzy_active:
-		fireball_damage *= 1.2
+		fireball_damage *= 1 + Boss_magic / 100
 	if is_defending == true:
 		fireball_damage *= 0.5
 	if enemy_defending == true:
 		fireball_damage *= 0.75
 	
 	fireball_damage = await handle_redirect(target, fireball_damage) # Adjust the range based on desired spell power
-	await target.took_damage(fireball_damage)
+	await target.took_damage(fireball_damage, "fireball")
 
 	display_text("The fireball hits the %s, dealing %d damage." % [target.name, fireball_damage])
 	await self.textbox_closed
@@ -1033,9 +1043,9 @@ func _on_fireball_pressed():
 	await take_lifesteal(fireball_damage)
 
 	# Apply Scorched Earth debuff
-	var dot_damage = floor(Boss_damage * 0.15) # Damage over time effect
-	target.DOT += dot_damage # Set the DOT value on the enemy
-	target.apply_debuff("Scorched Earth", 2, dot_damage) # Apply debuff for 3 turns
+	var scorched_earth_dmg = randi_range(4, 6)
+	target.DOT += scorched_earth_dmg # Set the DOT value on the enemy
+	target.apply_debuff("Scorched Earth", 2, scorched_earth_dmg) # Apply debuff for 3 turns
 
 	display_text("The ground beneath %s scorches, igniting them with a lingering flame!" % target.name)
 	await self.textbox_closed
@@ -1053,12 +1063,20 @@ func select_multiple_targets(max_targets : int) -> Array:
 	var selected_targets = []
 	var available_targets = get_available_targets()
 	var num_targets_to_select = min(available_targets.size(), max_targets)
-
+	if target != null and !target.dead:
+		selected_targets.append(target)
+		num_targets_to_select -= 1
+		display_text("The %s rushed in to defend their allies!" % target.name)
+		await self.textbox_closed
+		target = null
 	for i in range(num_targets_to_select):
 		await select_enemy()
 		if target != null:
+			while target in selected_targets:
+				display_text("You should select another target.")
+				await self.textbox_closed
+				await select_enemy()
 			selected_targets.append(target)
-			available_targets.erase(target)  # Ensure the same target cannot be selected again
 			target = null  # Reset target for next selection
 		else:
 			display_text("No target was selected.")
@@ -1095,17 +1113,20 @@ func _on_fire_rain_pressed():
 	for target in targets:
 		var fire_rain_damage = floor(Boss_damage * randf_range(0.5, 0.8)) # Adjust damage range as desired
 		if vampiric_frenzy_active:
-			fire_rain_damage *= 1.2
+			fire_rain_damage *= 1 + Boss_magic / 100
 		if is_defending == true:
 			fire_rain_damage *= 0.5
 		fire_rain_damage = await handle_redirect(target, fire_rain_damage)
 		$FireRainSound.play()
-		var is_dead = await target.took_damage(fire_rain_damage) # Assume took_damage can return a death boolean
-		target.DOT += floor(Boss_damage * 0.15) # Apply one stack of DOT
-		target.apply_debuff("Scorched Earth", 2, Boss_damage * 0.15) # Apply debuff for 3 turns
+		var is_dead = await target.took_damage(fire_rain_damage, "firerain") # Assume took_damage can return a death boolean
+		var scorched_earth_dmg = randi_range(4, 6)
+		target.DOT += scorched_earth_dmg # Apply one stack of DOT
+		target.apply_debuff("Scorched Earth", 2, scorched_earth_dmg) # Apply debuff for 3 turns
 
 		display_text("Fire rains down upon %s, dealing %d damage and scorching the earth!" % [target.name, fire_rain_damage])
 		await self.textbox_closed
+		
+		await take_lifesteal(fire_rain_damage)
 
 		if is_dead:
 			dead_enemies.append(target) # Collect dead enemies for later removal
@@ -1132,23 +1153,29 @@ func _on_meteor_pressed():
 		return
 	$TierSpellsPanel.hide()
 	# Use the new function to select up to 3 targets
-	var targets = await select_multiple_targets(3)
+	#var targets = await select_multiple_targets(3)
+	var targets = get_available_targets()
+	targets.shuffle()
+	if len(targets) > 3:
+		targets = targets.slice(0, 3)
 	var dead_enemies = [] # To track enemies that are killed by this spell
 
 	# Apply Meteor effects to the selected targets
 	for target in targets:
 		var meteor_damage = floor(Boss_damage * randf_range(0.8, 1.2))
 		if vampiric_frenzy_active:
-			meteor_damage *= 1.2
+			meteor_damage *= 1 + Boss_magic / 100
 		if is_defending == true:
 			meteor_damage *= 0.5
 		meteor_damage = await handle_redirect(target, meteor_damage) # Assume this adjusts damage as needed
 		$MeteorSound.play()
-		var is_dead = await target.took_damage(meteor_damage) # Assume took_damage returns a boolean for death
+		var is_dead = await target.took_damage(meteor_damage, "meteor") # Assume took_damage returns a boolean for death
 		target.apply_debuff("Scorched Earth", 2, 0) # Apply debuff
 
 		display_text("A meteor strikes %s, dealing %d damage and scorching the earth!" % [target.name, meteor_damage])
 		await self.textbox_closed
+		
+		await take_lifesteal(meteor_damage)
 
 		if is_dead:
 			dead_enemies.append(target) # Add dead target to the list for later removal
@@ -1179,15 +1206,17 @@ func _on_hell_on_earth_pressed():
 
 	for target in targets:
 		$HellOnEarthSound.play()
+		$DemonLord/HellOnEarth.play("default")
 		var hell_on_earth_dmg = floor(Boss_damage * randf_range(0.3, 0.5)) # Adjust range as desired
 		if vampiric_frenzy_active:
-			hell_on_earth_dmg *= 1.2
+			hell_on_earth_dmg *= 1 + Boss_magic / 100
 		if is_defending == true:
 			hell_on_earth_dmg *= 0.5
 		hell_on_earth_dmg = await handle_redirect(target, hell_on_earth_dmg)
 		var is_dead = await target.took_damage(hell_on_earth_dmg) # Assume took_damage returns a boolean indicating if the target died
-		target.DOT += floor(Boss_damage * 0.25) # Apply one stack of DOT immediately
-		target.apply_debuff("Scorched Earth", 4, Boss_damage * 0.25)
+		var scorched_earth_dmg = randi_range(5, 8)
+		target.DOT += scorched_earth_dmg # Apply one stack of DOT immediately
+		target.apply_debuff("Scorched Earth", 4, scorched_earth_dmg)
 		if is_dead:
 			dead_enemies.append(target)
 
@@ -1210,10 +1239,16 @@ func _on_defend_pressed():
 func _on_dread_forge_pressed():
 	$ActionsPanel.hide()
 	$SpellsPanel.hide()
+	if dread_forge_cd > 0:
+		display_text("Dreadforge Empowerment is still on cooldown for %d more turns." % [dread_forge_cd])
+		await self.textbox_closed
+		$SpellsPanel.show()
+		return
 	$SpellSound2.play()
 	display_text("You have become stronger!")
 	await self.textbox_closed
-	Boss_damage *= 1.25
+	Boss_damage *= 1 + Boss_magic / 100
+	dread_forge_cd = 2
 	emit_signal("action_taken")
 
 func _on_attack_pressed():
@@ -1222,7 +1257,7 @@ func _on_attack_pressed():
 		return
 	$SpellsPanel.hide()
 	var enemy_defending = false
-	if target == null:
+	if target == null or target.dead:
 		await select_enemy()
 	else:
 		display_text("The %s rushed in to defend their allies!" % target.name)
@@ -1232,7 +1267,7 @@ func _on_attack_pressed():
 	#var final_damage = State.damage
 	var final_damage = randf_range(0.5, 1.5) * Boss_damage
 	if vampiric_frenzy_active:
-		final_damage *= 1.2
+		final_damage *= 1 + Boss_magic / 100
 	if is_defending == true:
 		final_damage *= 0.5
 	if enemy_defending == true:
@@ -1276,15 +1311,15 @@ func _on_infernal_affliction_pressed():
 	if await no_valid_target():
 		return
 	$SpellsPanel.hide()
-	if target == null:
+	if target == null or target.dead:
 		await select_enemy()
 	else:
-		display_text("The %s rushed in to defend its allies!" % target.name)
+		display_text("The %s rushed in to defend their allies!" % target.name)
 		await self.textbox_closed
 	
 	var dotdamage = 0
 	if vampiric_frenzy_active:
-		dotdamage = floor(Boss_damage / 3) * 1.2
+		dotdamage = floor(Boss_damage / 3 * (1 + Boss_magic / 100))
 	else:
 		dotdamage += floor(Boss_damage / 3)
 	target.DOT += dotdamage
@@ -1310,16 +1345,16 @@ func _on_shattering_strike_pressed():
 		return
 	$TierSpellsPanel.hide()
 	var enemy_defending = false
-	if target == null:
+	if target == null or target.dead:
 		await select_enemy()
 	else:
 		display_text("The %s rushed in to defend their allies!" % target.name)
 		await self.textbox_closed
 		enemy_defending = true
 
-	var final_damage = randf_range(0.5, 1.0) * Boss_damage
+	var final_damage = randf_range(0.6, 1.6) * Boss_damage
 	if vampiric_frenzy_active:
-		final_damage *= 1.2
+		final_damage *= 1 + Boss_magic / 100
 	if is_defending == true:
 		final_damage *= 0.5
 	if enemy_defending == true:
@@ -1332,7 +1367,7 @@ func _on_shattering_strike_pressed():
 		$dk_spell_1_metal.play()
 	else:
 		$dk_spell_1_thud.play()
-	await target.took_damage(final_damage)
+	await target.took_damage(final_damage, "shattering strike")
 
 	display_text("You delivered a Shattering Strike to %s!" % target.name)
 	await self.textbox_closed
@@ -1364,6 +1399,7 @@ func _on_counter_pressed():
 		await self.textbox_closed
 		return
 	$TierSpellsPanel.hide()
+	$DemonLord/EffectAnimation.play("counter cast")
 	$dk_spell_2_guard.play()
 	countering_turn += 1 + true_form
 	display_text("You deftly execute Counter, turning the next enemy's attack against them with twice the force!")
@@ -1389,24 +1425,24 @@ func _on_guillotine_pressed(recast = false):
 		await self.textbox_closed
 		enemy_defending = true
 
-	var final_damage = randf_range(0.5, 1.5) * Boss_damage
+	var final_damage = randf_range(0.8, 1.2) * Boss_damage
 	if vampiric_frenzy_active:
-		final_damage *= 1.2
+		final_damage *= 1 + Boss_magic / 100
 	if is_defending == true:
 		final_damage *= 0.5
 	if enemy_defending == true:
 		final_damage *= 0.75
 
-	if target.current_health <= guillotine_upperbound * target.health:
+	if target.current_health <= Boss_magic / 100 * target.health:
 		final_damage *= 2
-		display_text("The target's health dwindles below 25%, unleashing the full might of Guillotine.")
+		display_text("The target's health dwindles below %d%, unleashing the full might of Guillotine." % Boss_magic)
 		await self.textbox_closed
 	final_damage = floor(final_damage)
 
 	final_damage = await handle_redirect(target, final_damage)
 
 	$SpellSound1.play() # TODO: add sound
-	await target.took_damage(final_damage)
+	await target.took_damage(final_damage, "guillotine")
 
 	display_text("You dealt %d damage to the %s!" % [final_damage, target.name])
 	await self.textbox_closed
@@ -1439,15 +1475,15 @@ func _on_true_form_pressed():
 		await self.textbox_closed
 		return
 	$TierSpellsPanel.hide()
+	$DemonLord/EffectAnimation.play("true form")
 	$SpellSound2.play() # TODO: Add sound
 	display_text("You embraced your True Form.")
 	await self.textbox_closed
 	Boss_damage *= ceil(Boss_damage * 1.5)
 	Boss_speed = ceil(Boss_speed / 1.5)
 	Boss_magic *= ceil(Boss_magic * 1.5)
-	Boss_lifesteal += 0.2
+	Boss_lifesteal += Boss_magic / 100
 	true_form += 1
-	guillotine_upperbound = 0.35
 	true_form_cd = 6
 	emit_signal("action_taken")
 
