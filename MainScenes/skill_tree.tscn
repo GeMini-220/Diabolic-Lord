@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://ycbqvltmppkh"]
+[gd_scene load_steps=53 format=3 uid="uid://ycbqvltmppkh"]
 
 [ext_resource type="Script" path="res://src/Skill_Tree.gd" id="1_culyc"]
 [ext_resource type="Texture2D" uid="uid://dr8jo5fx2ot2h" path="res://Image/skilltree/demonknight-hover/Counter.png" id="2_2uve7"]
@@ -51,6 +51,7 @@
 [ext_resource type="Texture2D" uid="uid://nbhcdvc7eoja" path="res://Image/skilltree/vampirelord/VampireFrenzy.png" id="49_kemt3"]
 [ext_resource type="Texture2D" uid="uid://76rl17fv0488" path="res://Image/skilltree/vampirelord-hover/VampireFrenzy.png" id="50_w6skq"]
 [ext_resource type="Texture2D" uid="uid://b4mokm2hg3sb5" path="res://Image/skilltree/vampirelord-locked/VampireFrenzy.png" id="51_ex0wa"]
+[ext_resource type="AudioStream" uid="uid://cke8pcu5qrdq" path="res://audio/SkillTree/Match_Fire.mp3" id="52_y2j4g"]
 
 [node name="Skill Tree" type="Control"]
 layout_mode = 3
@@ -578,6 +579,9 @@ texture_normal = ExtResource("13_rnodm")
 texture_pressed = ExtResource("10_7ockp")
 texture_hover = ExtResource("10_7ockp")
 texture_disabled = ExtResource("11_ltef1")
+
+[node name="Fire" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("52_y2j4g")
 
 [connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="Tree/PanelContainer/HBoxContainer/Tree Levels/Level 1/Damage" to="." method="_on_generic_pressed" binds= ["Damage", 1]]

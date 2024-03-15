@@ -94,7 +94,7 @@ func _ready():
 	set_health($PlayerPanel/ProgressBar, State.current_health, State.max_health)
 	State.currentBattle += 1
 	$DemonLord.play("idle")
-	$BGMusic.play()
+	$DemonLord/DemonTooltip.tooltip_text = "Name: %s\nDamage: %s\nSpeed: %s\nMagic: %s\nLifesteal: %s" % [user_name, Boss_damage, Boss_speed, Boss_magic, Boss_lifesteal]
 
 	randomize()
 	enemies = choose_random_enemies()
@@ -156,6 +156,7 @@ func update_tooltip():
 	$SpellsPanel/Spells/Attack.tooltip_text = "Basic attack, deals %s damage to one target." % floor(Boss_damage)
 	$SpellsPanel/Spells/dreadforge.tooltip_text = "Increase your damage by Magic% for the remainder of the battle."
 	$SpellsPanel/Spells/InfernalAffliction.tooltip_text = "Trap one target in a ring of fire, which deals %s damage on each of its turns." % floor(Boss_damage / 3)
+	$DemonLord/DemonTooltip.tooltip_text = "Name: %s\nDamage: %s\nSpeed: %s\nMagic: %s\nLifesteal: %s" % [user_name, Boss_damage, Boss_speed, Boss_magic, Boss_lifesteal]
 	var tier_spells_defs = {
 		"Fireball": "Hurl a fireball at a target, dealing medium damage on impact.",
 		"Fire\nRain": "Select 2 targets.\nThose enemies are applied 3 stacks of Scorched Earth.",
@@ -622,7 +623,7 @@ func process():
 			await self.textbox_closed
 
 			for turnLabel in $Timeline/TurnList/TurnLabels.get_children():
-				if turnLabel.text.get_slice(" ", 1) == character.name and not turnLabel.has_theme_color_override("font_color"):
+				if turnLabel.text.get_slice("] ", 1) == character.name and not turnLabel.has_theme_color_override("font_color"):
 					turnLabel.add_theme_color_override("font_color", Color.AQUA)
 					break
 				else:
@@ -661,7 +662,9 @@ func process():
 
 func end_game():
 	$PlayerPanel.visible = false
+	$BGMusic.stop()
 	if State.current_health == 0:
+		$PlayerLoses.play()
 		display_text("Against all odds, the heroes have won.")
 		await self.textbox_closed
 		display_text("The world will see a new age of peace and prosperity.")
@@ -670,8 +673,10 @@ func end_game():
 		await self.textbox_closed
 		display_text("For now.")
 		await self.textbox_closed
+		await $PlayerLoses.finished
 		start_fade_out("res://MainScenes/start_menu.tscn")
 	else:
+		$PlayerWins.play()
 		display_text("Against your unstoppable might, the heroes have lost.")
 		await self.textbox_closed
 		if State.currentBattle >= 10:
@@ -683,9 +688,11 @@ func end_game():
 			#await self.textbox_closed
 			#display_text("The End.")
 			#await self.textbox_closed
+			await $PlayerWins.finished
 			start_fade_out("res://MainScenes/lore.tscn")
 		else:
 			State.save_player_data()
+			await $PlayerWins.finished
 			start_fade_out("res://MainScenes/campfire.tscn")
 
 func display_text(text):
@@ -1523,5 +1530,5 @@ func _on_tier_pressed(extra_arg_0):
 		await self.textbox_closed
 
 
-func _on_bg_music_finished():
-	$BGMusic.play()
+#func _on_bg_music_finished():
+	#$BGMusic.play()
