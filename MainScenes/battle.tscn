@@ -1,4 +1,4 @@
-[gd_scene load_steps=198 format=3 uid="uid://cmm365jef52ho"]
+[gd_scene load_steps=200 format=3 uid="uid://cmm365jef52ho"]
 
 [ext_resource type="Script" path="res://src/battle.gd" id="1_xbk6v"]
 [ext_resource type="Texture2D" uid="uid://bti8snfww6gou" path="res://Image/Battle-V1.png" id="2_okyx3"]
@@ -1471,6 +1471,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 tooltip_text = "Placeholder"
+
 [node name="EffectAnimation" type="AnimatedSprite2D" parent="DemonLord"]
 sprite_frames = SubResource("SpriteFrames_a7wul")
 

@@ -147,8 +147,8 @@ theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxEmpty_5c30k")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_oxn2p")
-text = "Start
-New
+text = "Start 
+New 
 Game"
 
 [node name="load_game" type="Button" parent="."]
@@ -163,7 +163,7 @@ theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxEmpty_411go")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_jmgfj")
-text = "Load
+text = "Load 
 Game"
 
 [node name="quit_game" type="Button" parent="."]
@@ -178,7 +178,7 @@ theme_override_fonts/font = ExtResource("3_7t56n")
 theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ayfon")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_dd4pb")
-text = "Quit
+text = "Quit 
 Game"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
