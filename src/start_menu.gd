@@ -41,7 +41,8 @@ func _on_start_new_game_pressed():
 		$newGameConfirmationDialog.popup()  # Ask for confirmation if a save exists
 	else:
 		State.initialize_player_data()  # Initialize player data if no save file exists
-		username_edit.show()  # Show the cult name input
+		$UsernameWindow.show()  # Show the cult name input
+		username_edit.text = "Demon Lord"
 		username_confirm.grab_focus() 
 
 
